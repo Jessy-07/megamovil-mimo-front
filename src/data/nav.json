@@ -98,46 +98,161 @@
       "href": "https://megacable.com.mx/cis"
     },
     "socialsLabel": "Síguenos",
-    "columns": [
+    "sections": [
       {
         "title": "Ayuda",
         "links": [
           {
-            "label": "Ayuda",
-            "href": "/ayuda"
-          },
-          {
-            "label": "Cobertura Megamóvil",
-            "href": "#cobertura"
+            "label": "Preguntas frecuentes",
+            "href": "#faq"
           }
         ]
+      },
+      {
+        "title": "Cobertura Megamóvil",
+        "href": "https://cobertura.megacable.com.mx/megamovil/",
+        "isDirect": true
       },
       {
         "title": "Legales",
         "links": [
           {
-            "label": "Legales",
-            "href": "/legales"
+            "label": "Términos y Condiciones",
+            "href": "https://megamovil.mx/terminos-y-condiciones"
           },
           {
-            "label": "Código de prácticas comerciales",
-            "href": "/legales/codigo-practicas-comerciales"
+            "label": "Aviso de Privacidad",
+            "href": "https://megamovil.mx/pdf/Aviso_privacidad.pdf"
           },
           {
-            "label": "Contratos de adhesión prepago/pospago",
-            "href": "/legales/contratos-adhesion"
+            "label": "Aviso de Privacidad Visitante",
+            "href": "https://megamovil.mx/pdf/aviso_privacidad_visitantes.pdf"
           },
           {
-            "label": "Contrato de prestación de servicios",
-            "href": "/legales/contrato-servicios"
+            "label": "Lineamientos Neutralidad de la Red",
+            "href": "https://megamovil.mx/pdf/lineamientos_neutralidad_red.pdf"
           },
           {
-            "label": "Garantías",
-            "href": "/legales/garantias"
+            "label": "Política de Gestión de Tráfico y Administración de la Red",
+            "href": "https://megamovil.mx/pdf/politicas_gestion_trafico_y_admon.pdf"
           },
           {
-            "label": "CRT – Comisión Reguladora de Telecomunicaciones",
+            "label": "Ajuste de Tarifas Mega móvil",
+            "href": "https://megamovil.mx/pdf/ajustes_megamovil.pdf"
+          },
+          {
+            "label": "Derechos de Usuario",
+            "href": "https://megamovil.mx/pdf/carta_derechos_de_usuario.pdf"
+          },
+          {
+            "label": "Contacto con Autoridades en materia de seguridad",
+            "href": "https://www.megacable.com.mx/files/aviso_legal_de_uso_del_portal_01.pdf"
+          },
+          {
+            "label": "Código de ética en Comercio Electrónico",
+            "href": "https://www.megacable.com.mx/pdf/codigo_etica_comercio_electronico.pdf"
+          },
+          {
+            "label": "Código de ética Megacable",
+            "href": "https://www.megacable.com.mx/pdf/codigo_etica.pdf"
+          },
+          {
+            "label": "Penalidades",
+            "href": "https://megamovil.mx/penalidades"
+          }
+        ]
+      },
+      {
+        "title": "Código de Prácticas Comerciales",
+        "links": [
+          {
+            "label": "C.P.C. Telefonía Celular",
+            "href": "https://megamovil.mx/pdf/cod_practicas_com.pdf"
+          }
+        ]
+      },
+      {
+        "title": "Contratos de Adhesión Prepago",
+        "links": [
+          {
+            "label": "Myc Red",
+            "href": "https://megamovil.mx/pdf/prepago/MYC_RED,_S.A._DE_C.V.pdf"
+          },
+          {
+            "label": "Servicio y Equipo en Telefonía",
+            "href": "https://megamovil.mx/pdf/prepago/Servicio_y_Equipo_de_Telefonia_Internet_y_TV_S.A._de_C.V.pdf"
+          },
+          {
+            "label": "Mega Cable",
+            "href": "https://megamovil.mx/pdf/prepago/Mega_Cable,_S.A._de_C.V.pdf"
+          },
+          {
+            "label": "Telefonía por cable",
+            "href": "https://megamovil.mx/pdf/prepago/telefonia-cable_prepago.pdf"
+          }
+        ]
+      },
+      {
+        "title": "Contratos de Adhesión Pospago",
+        "links": [
+          {
+            "label": "Myc Red",
+            "href": "https://megamovil.mx/pdf/pospago/MYC_RED_-_INTERNET_Y_TELEFONIA_MOVIL.pdf"
+          },
+          {
+            "label": "Servicio y Equipo en Telefonía",
+            "href": "https://megamovil.mx/pdf/pospago/INTERNET_Y_TELEFONIA_MOVIL.pdf"
+          },
+          {
+            "label": "Telefonía por Cable",
+            "href": "https://megamovil.mx/pdf/pospago/TELEFONIA_X_CABLE-_INTERNET_Y_TELEFONIA_MOVIL.pdf"
+          },
+          {
+            "label": "Mega Cable",
+            "href": "https://megamovil.mx/pdf/pospago/MEGA_CABLE_-_INTERNET_Y_TELEFONIA_MOVIL.pdf"
+          }
+        ]
+      },
+      {
+        "title": "Contrato de Prestación de Servicios",
+        "links": [
+          {
+            "label": "Audio Contrato de Adhesión Telefonía Móvil Pospago",
+            "href": "https://www.megacable.com.mx/audios/Contrato_adhesion_movil_postpago.wav"
+          },
+          {
+            "label": "Audio Contrato de Adhesión Telefonía Móvil Prepago",
+            "href": "https://www.megacable.com.mx/audios/Contrato_adhesion_movil_prepago.mp3"
+          }
+        ]
+      },
+      {
+        "title": "Garantías",
+        "links": [
+          {
+            "label": "Samsung | Motorola | Huawei | Hisense | ZTE",
+            "href": "https://megamovil.mx/garantias"
+          }
+        ]
+      },
+      {
+        "title": "CRT - Comisión Reguladora de Telecomunicaciones",
+        "links": [
+          {
+            "label": "CRT",
             "href": "https://www.gob.mx/crt"
+          },
+          {
+            "label": "Buscador de Tarifas CRT Comisión Reguladora",
+            "href": "https://tarifas.ift.org.mx/ift_visor/"
+          },
+          {
+            "label": "Folio de Registro de Tarifas",
+            "href": "https://megamovil.mx/pdf/folios_de_registro_telefonia_movil.xlsx"
+          },
+          {
+            "label": "Formatos Simplificados",
+            "href": "https://megamovil.mx/formatos_simplificados"
           }
         ]
       }
@@ -145,7 +260,7 @@
     "legend": {
       "before": "Aplican restricciones. Consulta ",
       "link": "términos y condiciones aquí",
-      "href": "/legales",
+      "href": "https://megamovil.mx/terminos-y-condiciones",
       "after": ". Vigencia a mes calendario."
     }
   }

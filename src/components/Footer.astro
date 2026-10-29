@@ -7,85 +7,125 @@ import SocialIcon from './SocialIcon.astro';
 const { footer } = nav;
 ---
 
-<footer class="mt-12 bg-[#051124] text-white relative overflow-hidden pb-24 sm:pb-12 border-t-4 border-mega-orange">
-  <div class="container mx-auto px-4 pt-12 sm:px-6">
-    <div class="grid gap-8 md:grid-cols-[1.3fr_1fr_1.3fr]">
-      
-      <!-- Columna 1: Soporte, CIS y Redes Sociales -->
+<footer class="mt-14 bg-[#051124] text-white relative overflow-hidden pb-24 sm:pb-12 border-t-4 border-mega-orange">
+  <div class="container mx-auto px-4 pt-10 sm:px-6">
+    <!-- Fila Superior: Canales de Atención, CIS y Redes Sociales -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-white/10">
+      <!-- Teléfono de Soporte -->
       <div>
-        <div>
-          <p class="text-xs font-black uppercase tracking-wider text-slate-400">
-            {footer.supportLabel}
-          </p>
-          <a
-            href={site.support.href}
-            class="mt-1 inline-flex items-center gap-2 font-display text-2xl sm:text-3xl font-black text-white hover:text-mega-orange transition-colors"
-          >
-            <span class="grid h-8 w-8 place-items-center rounded-full bg-mega-orange text-white shadow-orange-sm">
-              <Icon name="phone" class="h-4 w-4" />
-            </span>
-            <span>{site.support.phone}</span>
-          </a>
+        <p class="text-xs font-black uppercase tracking-wider text-slate-400">
+          {footer.supportLabel}
+        </p>
+        <a
+          href={site.support.href}
+          class="mt-1 inline-flex items-center gap-2.5 font-display text-2xl sm:text-3xl font-black text-white hover:text-mega-orange transition-colors"
+        >
+          <span class="grid h-8 w-8 place-items-center rounded-full bg-mega-orange text-white shadow-orange-sm">
+            <Icon name="phone" class="h-4 w-4" />
+          </span>
+          <span>{site.support.phone}</span>
+        </a>
+      </div>
 
-          <div class="mt-3">
-            <a
-              id="cis"
-              href={footer.cis.href}
-              class="inline-flex items-center gap-2 text-sm font-extrabold text-slate-300 hover:text-mega-orange underline underline-offset-4 transition-colors"
-            >
-              <Icon name="map-pin" class="h-4 w-4 text-mega-orange" />
-              <span>{footer.cis.label}</span>
-            </a>
-          </div>
-        </div>
+      <!-- CIS Localizador -->
+      <div>
+        <a
+          id="cis"
+          href={footer.cis.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-full bg-white/10 hover:bg-white/15 px-4 py-2 text-xs sm:text-sm font-bold text-slate-200 hover:text-mega-orange transition-colors border border-white/10"
+        >
+          <Icon name="map-pin" class="h-4 w-4 text-mega-orange" />
+          <span>{footer.cis.label}</span>
+          <Icon name="external-link" class="h-3 w-3 text-slate-400" />
+        </a>
+      </div>
 
-        <!-- Redes Sociales -->
-        <ul class="mt-6 flex gap-2" aria-label={footer.socialsLabel}>
+      <!-- Redes Sociales -->
+      <div>
+        <p class="text-xs font-black uppercase tracking-wider text-slate-400 mb-2 md:text-right">
+          {footer.socialsLabel}
+        </p>
+        <ul class="flex gap-2" aria-label={footer.socialsLabel}>
           {
             site.socials.map((s) => (
               <li>
                 <a
                   href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={s.name}
-                  class="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition-all hover:bg-mega-orange hover:scale-110"
+                  class="grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white transition-all hover:bg-mega-orange hover:scale-110 border border-white/5"
                 >
-                  <SocialIcon slug={s.slug} class="h-5 w-5" />
+                  <SocialIcon slug={s.slug} class="h-4 w-4" />
                 </a>
               </li>
             ))
           }
         </ul>
       </div>
+    </div>
 
-      <!-- Columnas de Enlaces -->
-      {
-        footer.columns.map((col) => (
-          <nav aria-label={col.title}>
-            <h3 class="font-display text-xs font-black uppercase tracking-wider text-mega-orange">
-              {col.title}
-            </h3>
-            <ul class="mt-4 space-y-2.5">
-              {col.links.map((l) => (
-                <li>
-                  <a
-                    href={l.href}
-                    class="text-xs sm:text-sm font-bold text-slate-300 hover:text-white hover:underline transition-colors"
-                  >
-                    {l.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        ))
-      }
-
+    <!-- Sección de Enlaces y Acordeones Regulatorios / Legales -->
+    <div class="pt-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 items-start">
+        {
+          footer.sections.map((section) => (
+            section.isDirect ? (
+              <a
+                href={section.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center justify-between p-3.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-slate-200 hover:text-mega-orange transition-all duration-150 group"
+              >
+                <span class="font-display text-xs font-black uppercase tracking-wider leading-snug">
+                  {section.title}
+                </span>
+                <Icon name="external-link" class="h-3.5 w-3.5 text-slate-400 group-hover:text-mega-orange transition-colors shrink-0 ml-2" />
+              </a>
+            ) : (
+              <details class="group rounded-xl bg-white/[0.04] hover:bg-white/[0.07] border border-white/10 transition-all duration-150 overflow-hidden">
+                <summary class="flex items-center justify-between p-3.5 cursor-pointer list-none select-none text-slate-200 hover:text-mega-orange transition-colors [&::-webkit-details-marker]:hidden">
+                  <span class="font-display text-xs font-black uppercase tracking-wider leading-snug">
+                    {section.title}
+                  </span>
+                  <Icon name="chevron-down" class="h-3.5 w-3.5 text-slate-400 group-hover:text-mega-orange group-open:rotate-180 transition-transform duration-200 shrink-0 ml-2" />
+                </summary>
+                <ul class="px-3.5 pb-3 pt-1.5 space-y-1.5 border-t border-white/5 bg-black/25">
+                  {section.links?.map((link) => (
+                    <li>
+                      <a
+                        href={link.href}
+                        target={link.href.startsWith('http') || link.href.endsWith('.pdf') || link.href.endsWith('.mp3') || link.href.endsWith('.wav') || link.href.endsWith('.xlsx') ? '_blank' : undefined}
+                        rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                        class="block py-1 text-xs font-medium text-slate-300 hover:text-mega-orange hover:translate-x-1 transition-all duration-150"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            )
+          ))
+        }
+      </div>
     </div>
 
     <!-- Leyenda Legal Obligatoria -->
     <div class="mt-10 border-t border-white/10 pt-6 text-center sm:text-left">
       <p class="text-xs leading-relaxed text-slate-400">
-        Aplican restricciones. Consulta términos y condiciones <a href="/terminos" class="font-bold underline text-white hover:text-mega-orange">aquí</a>. Vigencia a mes calendario. Todos los derechos reservados © {new Date().getFullYear()} Mega móvil, Megacable México.
+        {footer.legend.before}
+        <a
+          href={footer.legend.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-bold underline text-white hover:text-mega-orange"
+        >
+          {footer.legend.link}
+        </a>
+        {footer.legend.after} Todos los derechos reservados © {new Date().getFullYear()} Mega móvil, Megacable México.
       </p>
     </div>
   </div>
