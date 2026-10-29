@@ -1,0 +1,207 @@
+---
+import nav from '../data/nav.json';
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+
+const { location, menu } = nav;
+
+const consultaItem = menu.find((m) => m.label === 'Consulta');
+const ayudaItem = menu.find((m) => m.label === 'Ayuda');
+---
+
+<header class="w-full bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs sticky top-0 z-40 transition-all duration-200">
+  <div class="container mx-auto flex items-center justify-between gap-4 px-4 py-2.5 sm:px-6">
+    <!-- Logo Mega móvil -->
+    <Logo variant="dark" />
+
+    <!-- Navegación Principal Desktop (Estilo blanco original) -->
+    <nav aria-label={nav.menuLabel} class="hidden lg:block">
+      <ul class="flex items-center gap-1 xl:gap-2">
+        <!-- 1. Menú desplegable Consulta -->
+        <li class="group relative">
+          <button
+            type="button"
+            class="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13.5px] font-bold tracking-wide text-slate-700 hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150 cursor-pointer"
+            aria-haspopup="true"
+          >
+            <span>Consulta</span>
+            <Icon name="chevron-down" class="h-3.5 w-3.5 opacity-70 group-hover:rotate-180 transition-transform duration-200" />
+          </button>
+          
+          <div class="invisible absolute left-0 top-full z-50 pt-2 opacity-0 -translate-y-1 transition-all duration-150 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-0">
+            <ul class="w-60 rounded-2xl bg-white p-2 text-mega-navy shadow-xl border border-slate-100 space-y-0.5">
+              {consultaItem?.children?.map((sub) => (
+                <li>
+                  <a
+                    href={sub.href}
+                    class="block rounded-xl px-3.5 py-2 text-xs font-bold text-slate-700 hover:bg-orange-50 hover:text-mega-orange transition-colors"
+                  >
+                    {sub.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </li>
+
+        <!-- 2. Cámbiate a Mega móvil -->
+        <li>
+          <a
+            href="#planes"
+            class="inline-flex items-center rounded-full px-3.5 py-1.5 text-[13.5px] font-bold tracking-wide text-slate-700 hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150"
+          >
+            Cámbiate a Mega móvil
+          </a>
+        </li>
+
+        <!-- 3. Promociones -->
+        <li>
+          <a
+            href="#promos"
+            class="inline-flex items-center rounded-full px-3.5 py-1.5 text-[13.5px] font-bold tracking-wide text-slate-700 hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150"
+          >
+            Promociones
+          </a>
+        </li>
+
+        <!-- 4. eSIM -->
+        <li>
+          <a
+            href="#esim"
+            class="inline-flex items-center rounded-full px-3.5 py-1.5 text-[13.5px] font-bold tracking-wide text-slate-700 hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150"
+          >
+            eSIM
+          </a>
+        </li>
+
+        <!-- 5. Menú desplegable Ayuda -->
+        <li class="group relative">
+          <button
+            type="button"
+            class="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13.5px] font-bold tracking-wide text-slate-700 hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150 cursor-pointer"
+            aria-haspopup="true"
+          >
+            <span>Ayuda</span>
+            <Icon name="chevron-down" class="h-3.5 w-3.5 opacity-70 group-hover:rotate-180 transition-transform duration-200" />
+          </button>
+          
+          <div class="invisible absolute left-0 top-full z-50 pt-2 opacity-0 -translate-y-1 transition-all duration-150 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-0">
+            <ul class="w-56 rounded-2xl bg-white p-2 text-mega-navy shadow-xl border border-slate-100 space-y-0.5">
+              {ayudaItem?.children?.map((sub) => (
+                <li>
+                  <a
+                    href={sub.href}
+                    class="block rounded-xl px-3.5 py-2 text-xs font-bold text-slate-700 hover:bg-orange-50 hover:text-mega-orange transition-colors"
+                  >
+                    {sub.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Acciones Derecha: Selector de Ciudad + Botón CTA Cámbiate Ya -->
+    <div class="flex items-center gap-2.5">
+      <!-- Selector de Ciudad -->
+      <div class="relative hidden md:block">
+        <label for="city-select" class="sr-only">{location.label}</label>
+        <Icon name="map-pin" class="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-mega-orange" />
+        <select
+          id="city-select"
+          class="appearance-none rounded-full bg-slate-100 border border-slate-200/90 py-1.5 pl-8 pr-7 font-display text-xs font-black uppercase text-mega-navy hover:bg-slate-200/60 transition cursor-pointer"
+        >
+          {location.options.map((city) => <option value={city} selected={city === location.current}>{city}</option>)}
+        </select>
+        <Icon name="chevron-down" class="pointer-events-none absolute right-2.5 top-1/2 h-3 w-3 -translate-y-1/2 text-slate-400" />
+      </div>
+
+      <!-- Botón CTA Protagonista en Naranja Mega móvil -->
+      <a
+        href="#planes"
+        class="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-mega-orange via-[#FF6614] to-mega-orange-dark px-4 sm:px-5 py-2 font-display text-xs font-black uppercase tracking-wider text-white shadow-orange-sm hover:shadow-orange-glow transition-all duration-150 hover:scale-105 active:scale-95"
+      >
+        <span>Cámbiate ya</span>
+        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+
+      <!-- Menú Móvil Hamburguesa -->
+      <details class="group/menu relative lg:hidden">
+        <summary class="grid h-9 w-9 cursor-pointer list-none place-items-center rounded-full bg-slate-100 hover:bg-slate-200/80 transition text-mega-navy [&::-webkit-details-marker]:hidden" aria-label={nav.menuLabel}>
+          <Icon name="menu" class="h-5 w-5" />
+        </summary>
+        
+        <div class="absolute right-0 top-full mt-2 w-72 rounded-2xl bg-white p-4 text-mega-navy shadow-2xl border border-slate-200/90 z-50 max-h-[85vh] overflow-y-auto">
+          <!-- Acordeón Móvil Consulta -->
+          <details class="group/sub mb-1.5 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden" open>
+            <summary class="flex items-center justify-between px-3.5 py-2.5 font-sans text-xs font-bold text-mega-navy cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+              <span class="flex items-center gap-2">
+                <span class="h-2 w-2 rounded-full bg-mega-orange"></span>
+                Consulta
+              </span>
+              <Icon name="chevron-down" class="h-3.5 w-3.5 text-slate-400 group-open/sub:rotate-180 transition-transform" />
+            </summary>
+            <ul class="px-2 pb-2 pt-1 space-y-0.5 bg-white border-t border-slate-100">
+              {consultaItem?.children?.map((sub) => (
+                <li>
+                  <a href={sub.href} class="block rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-700 hover:text-mega-orange hover:bg-orange-50 transition">
+                    {sub.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </details>
+
+          <!-- Enlaces Directos Móvil -->
+          <ul class="space-y-1 mb-1.5">
+            <li>
+              <a href="#planes" class="block rounded-xl px-3.5 py-2 text-xs font-bold text-mega-orange hover:bg-orange-50">
+                Cámbiate a Mega móvil
+              </a>
+            </li>
+            <li>
+              <a href="#promos" class="block rounded-xl px-3.5 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100">
+                Promociones
+              </a>
+            </li>
+            <li>
+              <a href="#esim" class="block rounded-xl px-3.5 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100">
+                eSIM
+              </a>
+            </li>
+          </ul>
+
+          <!-- Acordeón Móvil Ayuda -->
+          <details class="group/sub mb-3 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden">
+            <summary class="flex items-center justify-between px-3.5 py-2.5 font-sans text-xs font-bold text-mega-navy cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+              <span>Ayuda</span>
+              <Icon name="chevron-down" class="h-3.5 w-3.5 text-slate-400 group-open/sub:rotate-180 transition-transform" />
+            </summary>
+            <ul class="px-2 pb-2 pt-1 space-y-0.5 bg-white border-t border-slate-100">
+              {ayudaItem?.children?.map((sub) => (
+                <li>
+                  <a href={sub.href} class="block rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-700 hover:text-mega-orange hover:bg-orange-50 transition">
+                    {sub.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </details>
+
+          <!-- Ciudad en móvil -->
+          <div class="border-t border-slate-100 pt-3">
+            <label for="city-select-m" class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Tu ciudad</label>
+            <div class="flex items-center gap-2">
+              <Icon name="map-pin" class="h-4 w-4 text-mega-orange shrink-0" />
+              <select id="city-select-m" class="w-full rounded-xl bg-slate-100 px-3 py-2 font-display text-xs font-bold text-mega-navy">
+                {location.options.map((city) => <option value={city} selected={city === location.current}>{city}</option>)}
+              </select>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>

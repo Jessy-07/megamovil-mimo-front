@@ -1,0 +1,24 @@
+---
+import site from '../data/site.json';
+
+interface Props {
+  /** light: sobre naranja · dark: sobre blanco · navy: sobre azul oscuro. */
+  variant?: 'light' | 'dark' | 'navy';
+}
+const { variant = 'light' } = Astro.props;
+
+const colors = {
+  light: { mega: 'text-white', movil: 'text-mega-navy', tag: 'text-white/90' },
+  dark: { mega: 'text-mega-navy', movil: 'text-mega-orange', tag: 'text-slate-500' },
+  navy: { mega: 'text-white', movil: 'text-mega-orange', tag: 'text-white/80' },
+}[variant];
+---
+
+<a href="/" class="flex flex-col leading-none" aria-label={`${site.name} – inicio`}>
+  <span class:list={['text-2xl font-black tracking-tight', colors.mega]}>
+    Mega <span class={colors.movil}>móvil</span>
+  </span>
+  <span class:list={['mt-1 hidden text-[10px] font-extrabold uppercase tracking-wide sm:block', colors.tag]}>
+    {site.tagline}
+  </span>
+</a>

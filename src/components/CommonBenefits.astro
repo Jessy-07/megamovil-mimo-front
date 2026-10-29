@@ -1,0 +1,63 @@
+---
+import plans from '../data/plans.json';
+import SocialIcon from './SocialIcon.astro';
+
+const { socialApps } = plans;
+---
+
+<div class="my-3 text-center">
+  <!-- Título descriptivo que se adapta según la categoría de planes activa -->
+  <p
+    id="benefits-title"
+    class="font-display text-xs sm:text-sm font-black uppercase tracking-wider text-slate-500 mb-2.5"
+    data-family="Todos los planes familiares incluyen sin costo adicional:"
+    data-individual="Todos los planes individuales incluyen sin costo adicional:"
+  >
+    Todos los planes familiares incluyen sin costo adicional:
+  </p>
+
+  <!-- Etiquetas de beneficios comunes con tamaño equilibrado (text-[13px] y padding refinado) -->
+  <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5">
+    <!-- 1. Redes Sociales Ilimitadas: Se muestra en Familiar y se oculta en Individual -->
+    <div
+      id="benefits-social-pill"
+      class="inline-flex items-center gap-2 rounded-full border border-slate-200/90 bg-white px-3.5 sm:px-4 py-1 sm:py-1.5 text-[13px] font-bold text-slate-700 shadow-2xs transition-all duration-200"
+    >
+      <svg class="h-3.5 w-3.5 text-mega-orange shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+      <span>Redes sociales ilimitadas</span>
+      <div class="hidden sm:flex items-center gap-1.5 ml-1 border-l border-slate-200 pl-2">
+        {socialApps.map((app) => (
+          <span title={app.name} class="text-slate-400 hover:text-mega-orange transition">
+            <SocialIcon slug={app.slug} class="h-3 w-3" />
+          </span>
+        ))}
+      </div>
+    </div>
+
+    <!-- 2. Minutos y SMS -->
+    <div class="inline-flex items-center gap-1.5 rounded-full border border-slate-200/90 bg-white px-3.5 sm:px-4 py-1 sm:py-1.5 text-[13px] font-bold text-slate-700 shadow-2xs">
+      <svg class="h-3.5 w-3.5 text-mega-orange shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+      <span>Minutos y SMS a México, EE. UU. y Canadá</span>
+    </div>
+
+    <!-- 3. Cobertura -->
+    <div class="inline-flex items-center gap-1.5 rounded-full border border-slate-200/90 bg-white px-3.5 sm:px-4 py-1 sm:py-1.5 text-[13px] font-bold text-slate-700 shadow-2xs">
+      <svg class="h-3.5 w-3.5 text-mega-orange shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+      <span>Cobertura nacional 4.5G LTE</span>
+    </div>
+
+    <!-- 4. Portabilidad -->
+    <div class="inline-flex items-center gap-1.5 rounded-full border border-slate-200/90 bg-white px-3.5 sm:px-4 py-1 sm:py-1.5 text-[13px] font-bold text-slate-700 shadow-2xs">
+      <svg class="h-3.5 w-3.5 text-mega-orange shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+      <span>Portabilidad 100% gratis en 24h</span>
+    </div>
+  </div>
+</div>

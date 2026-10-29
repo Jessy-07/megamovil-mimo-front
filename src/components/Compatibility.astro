@@ -1,0 +1,167 @@
+---
+import ImeiChecker from "./ImeiChecker";
+---
+
+<section
+  id="compatibilidad"
+  aria-labelledby="compat-title"
+  class="px-4 py-8 sm:px-6 lg:px-8 sm:py-12"
+>
+  <div
+    class="container mx-auto overflow-hidden rounded-3xl bg-gradient-to-br from-mega-navy via-[#0A1E3D] to-mega-navy text-white shadow-2xl p-6 sm:p-10 lg:p-12 border border-white/10 relative"
+  >
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+      <!-- Columna 1 (Izquierda, 7 cols): Validador de Compatibilidad y CTA -->
+      <div class="lg:col-span-7 flex flex-col justify-center">
+        <h2
+          id="compat-title"
+          class="font-display text-2xl sm:text-3xl md:text-4xl font-black uppercase leading-tight tracking-tight text-white"
+        >
+          Consulta la compatibilidad de tu equipo
+        </h2>
+
+        <!-- Isla React ImeiChecker -->
+        <div class="mt-6">
+          <ImeiChecker
+            client:visible
+            label="Número IMEI de 15 dígitos"
+            placeholder="Ingresa los 15 dígitos de tu IMEI"
+            button="Validar aquí"
+            checking="Comprobando red..."
+            invalid="Ingresa un IMEI válido de 15 dígitos (solo números)"
+            success="¡Tu equipo es 100% compatible con Mega móvil!"
+          />
+        </div>
+
+        <!-- Enlace a planes compatibles -->
+        <div
+          class="mt-5 pt-4 border-t border-white/10 flex items-center gap-2 text-sm sm:text-base font-semibold text-slate-300"
+        >
+          <p>
+            Conoce nuestros planes compatibles con todos los equipos,{" "}
+            <a
+              href="#planes"
+              class="font-extrabold text-mega-orange hover:text-[#FF7020] underline underline-offset-4 transition cursor-pointer"
+            >
+              click aquí
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <!-- Columna 2 (Derecha, 5 cols): 3 opciones independientes para obtener el IMEI -->
+      <div class="lg:col-span-5">
+        <div
+          class="rounded-2xl bg-white/5 border border-white/10 p-5 sm:p-6 backdrop-blur-sm"
+        >
+          <h3
+            class="font-display text-base sm:text-lg md:text-xl font-black uppercase text-white tracking-wide"
+          >
+            ¿Cómo obtener el código IMEI de tu celular?
+          </h3>
+          <p class="mt-1 text-xs sm:text-sm font-semibold text-slate-300 mb-4">
+            Elige cualquiera de estas tres opciones:
+          </p>
+
+          <div class="space-y-3">
+            <!-- Opción: Marcación directa -->
+            <div
+              class="flex items-start gap-3.5 rounded-xl bg-white/10 p-3.5 border border-white/5 transition hover:bg-white/15"
+            >
+              <span
+                class="grid h-8 w-8 place-items-center rounded-xl bg-orange-500/20 text-mega-orange border border-orange-500/30 shrink-0"
+              >
+                <svg
+                  class="h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                >
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                  ></path>
+                </svg>
+              </span>
+              <div class="min-w-0">
+                <p
+                  class="font-display text-sm font-black uppercase text-white tracking-wide"
+                >
+                  Marca <span class="text-mega-orange">*#06#</span>
+                </p>
+                <p class="text-xs text-slate-300 mt-0.5 font-medium">
+                  desde tu celular
+                </p>
+              </div>
+            </div>
+
+            <!-- Opción: Ajustes del sistema -->
+            <div
+              class="flex items-start gap-3.5 rounded-xl bg-white/10 p-3.5 border border-white/5 transition hover:bg-white/15"
+            >
+              <span
+                class="grid h-8 w-8 place-items-center rounded-xl bg-blue-500/20 text-mega-blue-electric border border-blue-500/30 shrink-0"
+              >
+                <svg
+                  class="h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                >
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path
+                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+                  ></path>
+                </svg>
+              </span>
+              <div class="min-w-0">
+                <p
+                  class="font-display text-sm font-black uppercase text-white tracking-wide"
+                >
+                  Desde la configuración de tu equipo
+                </p>
+                <p class="text-xs text-slate-300 mt-0.5 font-medium">
+                  (Son entre 15 y 17 números)
+                </p>
+              </div>
+            </div>
+
+            <!-- Opción: Físico en caja o batería -->
+            <div
+              class="flex items-start gap-3.5 rounded-xl bg-white/10 p-3.5 border border-white/5 transition hover:bg-white/15"
+            >
+              <span
+                class="grid h-8 w-8 place-items-center rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shrink-0"
+              >
+                <svg
+                  class="h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                >
+                  <path
+                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+                  ></path>
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                  <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+              </span>
+              <div class="min-w-0">
+                <p
+                  class="font-display text-sm font-black uppercase text-white tracking-wide"
+                >
+                  Impreso en la etiqueta de la batería
+                </p>
+                <p class="text-xs text-slate-300 mt-0.5 font-medium">
+                  de tu dispositivo (o en la caja)
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

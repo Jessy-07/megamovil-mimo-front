@@ -1,0 +1,51 @@
+{
+  "carousel": {
+    "ariaLabel": "Promociones exclusivas Mega móvil",
+    "prev": "Promoción anterior",
+    "next": "Siguiente promoción",
+    "pause": "Pausar rotación",
+    "play": "Reanudar rotación",
+    "goTo": "Ir a la promoción"
+  },
+  "promos": [
+    {
+      "id": "promo-1",
+      "theme": "blue",
+      "validity": "VIGENCIA LIMITADA",
+      "title": "CÁMBIATE HOY Y NAVEGA SIN LÍMITES",
+      "claim": "Mimo no habla. Tu plan sí.",
+      "highlight": "30 GB + REDES SOCIALES ILIMITADAS",
+      "giantText": "30 GB",
+      "priceSticker": "Por solo $200 al mes",
+      "tabLabel": "30 GB por $200",
+      "cta": { "label": "¡LO QUIERO AHORA!", "href": "/contratar?plan=conectado-30gb" },
+      "mascot": { "pose": "price", "priceLabel": "$200", "priceNote": "al mes" }
+    },
+    {
+      "id": "promo-2",
+      "theme": "navy",
+      "validity": "PRECIO ESPECIAL",
+      "title": "EL PLAN MÁS BARATO DE MÉXICO",
+      "claim": "Sin letras chiquitas. Todo incluido.",
+      "highlight": "6 GB + LLAMADAS Y REDES ILIMITADAS",
+      "giantText": "6 GB",
+      "priceSticker": "Por solo $100 al mes",
+      "tabLabel": "6 GB por $100",
+      "cta": { "label": "¡LO QUIERO YA!", "href": "/contratar?plan=esencial-6gb" },
+      "mascot": { "pose": "price", "priceLabel": "$100", "priceNote": "al mes" }
+    },
+    {
+      "id": "promo-3",
+      "theme": "electric",
+      "validity": "FAMILIAR IMPERDIBLE",
+      "title": "CONECTA A TODA TU FAMILIA",
+      "claim": "Entre más líneas, menos pagas.",
+      "highlight": "4 LÍNEAS CON 48 GB EN TOTAL",
+      "giantText": "4 LÍNEAS",
+      "priceSticker": "Por solo $450 al mes",
+      "tabLabel": "4 Líneas por $450",
+      "cta": { "label": "¡LO QUIERO EN FAMILIA!", "href": "/contratar?plan=familiar-4-lineas" },
+      "mascot": { "pose": "price", "priceLabel": "$450", "priceNote": "4 líneas" }
+    }
+  ]
+}

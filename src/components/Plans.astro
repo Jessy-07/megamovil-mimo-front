@@ -1,0 +1,213 @@
+---
+import plans from "../data/plans.json";
+import CommonBenefits from "./CommonBenefits.astro";
+import PlanCard from "./PlanCard.astro";
+
+const { groups, ctaLabel, perMonth } = plans;
+
+// Carrusel scroll-snap en móvil con peek de la siguiente tarjeta, y grid 3 cols en desktop
+const track =
+  "no-scrollbar -mx-4 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto px-4 pb-4 sm:-mx-6 sm:px-6 md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0";
+const item = "w-[82%] sm:w-[50%] md:w-auto shrink-0 snap-center flex flex-col";
+---
+
+<section
+  id="planes"
+  aria-label="Planes Mega móvil"
+  class="px-4 pt-6 pb-12 sm:px-6 lg:pt-16 sm:pt-8 sm:pb-16"
+>
+  <div class="container mx-auto">
+    <!-- ENCABEZADO: Título y Switch de Categoría con Iconos -->
+    <div class="mb-6 flex flex-col items-center justify-center text-center">
+      <!-- Título H2 en mayúsculas -->
+      <h2
+        class="font-display text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight text-mega-navy mb-5 sm:mb-6"
+      >
+        ¿CUÁNTAS LÍNEAS NECESITAS?
+      </h2>
+
+      <!-- Switch de categoría con iconos y número de líneas: Ancho expandido y simétrico (50% / 50%) -->
+      <div
+        class="inline-flex w-full max-w-[480px] sm:max-w-[540px] rounded-full bg-white p-1.5 border border-slate-200/90 shadow-sm"
+        role="tablist"
+        aria-label="Selector de tipo de plan"
+      >
+        <!-- 1. Opción 2 o más líneas (Familiar) - Activo por defecto -->
+        <button
+          type="button"
+          id="btn-tab-family"
+          role="tab"
+          aria-selected="true"
+          aria-controls="panel-family"
+          class="tab-switch-btn flex-1 flex items-center justify-center gap-2.5 sm:gap-3 rounded-full px-3 sm:px-6 py-2.5 sm:py-3 transition-all duration-200 bg-gradient-to-r from-mega-orange to-[#FF7020] text-white shadow-orange-sm cursor-pointer select-none"
+        >
+          <svg
+            class="h-5 w-5 shrink-0"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+          >
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <div class="flex flex-col text-left leading-tight">
+            <span
+              class="font-display text-xs sm:text-sm font-black uppercase tracking-wider"
+            >
+              2 O MÁS LÍNEAS
+            </span>
+            <span class="text-[12px] sm:text-[12px] font-semibold opacity-90">
+              Planes familiares
+            </span>
+          </div>
+        </button>
+
+        <!-- 2. Opción 1 línea (Individual) -->
+        <button
+          type="button"
+          id="btn-tab-individual"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-individual"
+          class="tab-switch-btn flex-1 flex items-center justify-center gap-2.5 sm:gap-3 rounded-full px-3 sm:px-6 py-2.5 sm:py-3 transition-all duration-200 text-slate-600 hover:text-mega-orange cursor-pointer select-none"
+        >
+          <svg
+            class="h-5 w-5 shrink-0"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+          >
+            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <div class="flex flex-col text-left leading-tight">
+            <span
+              class="font-display text-xs sm:text-sm font-black uppercase tracking-wider"
+            >
+              1 LÍNEA
+            </span>
+            <span class="text-[12px] sm:text-[12px] font-semibold opacity-90">
+              Plan individual
+            </span>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Franja "Todos los planes incluyen" mostrada UNA SOLA VEZ antes de las tarjetas -->
+    <div class="mb-4">
+      <CommonBenefits />
+    </div>
+
+    <!-- PANEL 1: PLANES FAMILIARES (Activo por defecto) -->
+    <div
+      id="panel-family"
+      role="tabpanel"
+      aria-labelledby="btn-tab-family"
+      class="transition-opacity duration-300"
+    >
+      <ul class:list={[track, "pt-5"]}>
+        {
+          groups.family.plans.map((plan) => (
+            <li class={item}>
+              <PlanCard {plan} {ctaLabel} {perMonth} />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- PANEL 2: PLANES INDIVIDUALES (Oculto inicialmente) -->
+    <div
+      id="panel-individual"
+      role="tabpanel"
+      aria-labelledby="btn-tab-individual"
+      class="hidden transition-opacity duration-300"
+    >
+      <ul class:list={[track, "pt-5"]}>
+        {
+          groups.individual.plans.map((plan) => (
+            <li class={item}>
+              <PlanCard {plan} {ctaLabel} {perMonth} />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script>
+  const btnFamily = document.getElementById("btn-tab-family");
+  const btnIndividual = document.getElementById("btn-tab-individual");
+  const panelFamily = document.getElementById("panel-family");
+  const panelIndividual = document.getElementById("panel-individual");
+  const benefitsSocialPill = document.getElementById("benefits-social-pill");
+  const benefitsTitle = document.getElementById("benefits-title");
+
+  const activeClasses = [
+    "bg-gradient-to-r",
+    "from-mega-orange",
+    "to-[#FF7020]",
+    "text-white",
+    "shadow-orange-sm",
+  ];
+  const inactiveClasses = ["text-slate-600", "hover:text-mega-orange"];
+
+  function showFamily() {
+    panelFamily?.classList.remove("hidden");
+    panelIndividual?.classList.add("hidden");
+
+    btnFamily?.classList.add(...activeClasses);
+    btnFamily?.classList.remove(...inactiveClasses);
+    btnFamily?.setAttribute("aria-selected", "true");
+
+    btnIndividual?.classList.remove(...activeClasses);
+    btnIndividual?.classList.add(...inactiveClasses);
+    btnIndividual?.setAttribute("aria-selected", "false");
+
+    if (benefitsSocialPill) benefitsSocialPill.classList.remove("hidden");
+    if (benefitsTitle) {
+      benefitsTitle.textContent =
+        benefitsTitle.getAttribute("data-family") ||
+        "Todos los planes familiares incluyen sin costo adicional:";
+    }
+  }
+
+  function showIndividual() {
+    panelIndividual?.classList.remove("hidden");
+    panelFamily?.classList.add("hidden");
+
+    btnIndividual?.classList.add(...activeClasses);
+    btnIndividual?.classList.remove(...inactiveClasses);
+    btnIndividual?.setAttribute("aria-selected", "true");
+
+    btnFamily?.classList.remove(...activeClasses);
+    btnFamily?.classList.add(...inactiveClasses);
+    btnFamily?.setAttribute("aria-selected", "false");
+
+    if (benefitsSocialPill) benefitsSocialPill.classList.add("hidden");
+    if (benefitsTitle) {
+      benefitsTitle.textContent =
+        benefitsTitle.getAttribute("data-individual") ||
+        "Todos los planes individuales incluyen sin costo adicional:";
+    }
+  }
+
+  btnFamily?.addEventListener("click", showFamily);
+  btnIndividual?.addEventListener("click", showIndividual);
+
+  // Escuchar eventos globales para cambio de pestaña (desde el header)
+  window.addEventListener("select-plan-tab", (e) => {
+    const detail = (e as CustomEvent).detail;
+    if (detail === "individual") {
+      showIndividual();
+    } else {
+      showFamily();
+    }
+  });
+</script>

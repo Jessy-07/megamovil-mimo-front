@@ -1,0 +1,46 @@
+---
+import nav from '../data/nav.json';
+import Countdown from './Countdown';
+import Icon from './Icon.astro';
+
+const { topBar } = nav;
+---
+
+<aside id="topbar" aria-label="Aviso promocional" class="relative z-50 bg-gradient-to-r from-mega-orange via-[#FF6614] to-mega-orange text-white shadow-sm">
+  <div class="container mx-auto flex items-center justify-between gap-2 px-3 py-2 text-xs sm:text-sm">
+    <div class="flex flex-1 items-center justify-center gap-2 sm:gap-4 overflow-hidden">
+      <span class="hidden md:inline-flex items-center gap-1 rounded-full bg-white/20 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-white backdrop-blur">
+        ⚡ Promo Especial
+      </span>
+      <p class="truncate font-extrabold text-white text-center">
+        {topBar.message}
+      </p>
+      <div class="hidden sm:block shrink-0">
+        <Countdown client:idle target={topBar.countdownTarget} label={topBar.countdownLabel} />
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2 shrink-0">
+      <a
+        href={topBar.cta.href}
+        class="inline-flex items-center rounded-pill bg-white hover:bg-slate-100 text-mega-orange px-3.5 py-1 text-xs font-black uppercase shadow-sm transition hover:scale-105 active:scale-95"
+      >
+        {topBar.cta.label}
+      </a>
+      <button
+        type="button"
+        data-topbar-close
+        class="grid h-7 w-7 place-items-center rounded-full text-white/80 hover:bg-white/20 hover:text-white transition"
+        aria-label={topBar.closeLabel}
+      >
+        <Icon name="close" class="h-3.5 w-3.5" />
+      </button>
+    </div>
+  </div>
+</aside>
+
+<script>
+  document.querySelector('[data-topbar-close]')?.addEventListener('click', () => {
+    document.getElementById('topbar')?.remove();
+  });
+</script>
