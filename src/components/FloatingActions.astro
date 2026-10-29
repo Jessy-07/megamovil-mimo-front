@@ -1,34 +1,150 @@
 ---
-import plans from '../data/plans.json';
-import site from '../data/site.json';
-import Mimo from './Mimo.astro';
+import plans from "../data/plans.json";
+import site from "../data/site.json";
 
-const minPrice = Math.min(...Object.values(plans.groups).flatMap((g) => g.plans.map((p) => p.price)));
+const minPrice = Math.min(
+  ...Object.values(plans.groups).flatMap((g) => g.plans.map((p) => p.price)),
+);
 const { stickyBar } = site;
 ---
 
-<!-- WhatsApp: avatar circular con Mimo -->
+<!-- WhatsApp flotante con animación de Mimo saludando -->
 <a
   href={site.whatsapp.href}
   target="_blank"
   rel="noopener noreferrer"
   aria-label={site.whatsapp.label}
-  class="fixed bottom-20 right-4 z-50 grid h-14 w-14 place-items-center rounded-full bg-white shadow-card-hover ring-[3px] ring-[#25D366] transition hover:scale-105 sm:bottom-6 sm:right-6 sm:h-16 sm:w-16"
+  class="group fixed bottom-20 right-3.5 z-50 transition-transform duration-200 hover:-translate-y-1 active:translate-y-0 active:scale-95 sm:bottom-6 sm:right-6"
 >
-  <span class="grid h-full w-full place-items-center overflow-hidden rounded-full">
-    <Mimo pose="head" size="sm" decorative shadow={false} class="!h-11 translate-y-1 sm:!h-12" />
-  </span>
-  <span class="absolute -right-1 -top-1 grid h-6 w-6 place-items-center rounded-full bg-[#25D366] text-white">
-    <svg viewBox="0 0 24 24" fill="currentColor" class="h-3.5 w-3.5" aria-hidden="true"><path d="M12.03 0C5.4 0 .01 5.39.01 12.02c0 2.12.55 4.19 1.6 6.01L0 24l6.16-1.61a12 12 0 0 0 5.87 1.5c6.63 0 12.02-5.39 12.02-12.02S18.67 0 12.03 0zm5.5 14.36c-.3-.15-1.79-.88-2.06-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.96 1.18-.18.2-.35.23-.65.08-.3-.15-1.28-.47-2.43-1.5-.9-.8-1.5-1.79-1.68-2.09-.18-.3-.02-.47.13-.62.14-.14.3-.35.45-.53.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.68-1.64-.93-2.24-.24-.59-.49-.51-.68-.52h-.58c-.2 0-.53.08-.8.38-.28.3-1.06 1.03-1.06 2.52s1.08 2.92 1.23 3.12c.15.2 2.13 3.25 5.16 4.56 3.03 1.3 3.03.87 3.58.82.55-.05 1.79-.73 2.04-1.43.25-.7.25-1.31.18-1.43-.08-.13-.28-.2-.58-.35z"/></svg>
+  <!-- Tooltip en Hover: ¡Contrata aquí! -->
+  <div
+    class="pointer-events-none absolute right-full top-1/2 -translate-y-1/2 mr-3 opacity-0 translate-x-2 transition-all duration-200 ease-out group-hover:opacity-100 group-hover:translate-x-0 z-30"
+  >
+    <div
+      class="relative whitespace-nowrap rounded-full bg-[#0A1E3D] px-3.5 py-1.5 text-xs font-black text-white shadow-xl border border-white/10"
+    >
+      <span>¡Contrata aquí!</span>
+      <!-- Flecha indicadora apuntando hacia Mimo -->
+      <span
+        class="absolute left-full top-1/2 -translate-y-1/2 border-y-[5px] border-y-transparent border-l-[6px] border-l-[#0A1E3D]"
+      ></span>
+    </div>
+  </div>
+
+  <!-- Botón circular 4rem x 4rem con Video HD sin distorsión -->
+  <div
+    class="relative h-16 w-16 rounded-full bg-white ring-[2.5px] ring-[#25D366] shadow-[0_8px_20px_rgba(0,0,0,0.18)] transition-all duration-200 group-hover:shadow-[0_12px_28px_rgba(37,211,102,0.35)] group-hover:ring-[3px] overflow-hidden"
+    style="transform: translateZ(0); -webkit-backface-visibility: hidden; backface-visibility: hidden;"
+  >
+    <video
+      id="mimo-whatsapp-video"
+      autoplay
+      muted
+      playsinline
+      disablepictureinpicture
+      disableremoteplayback
+      class="h-full w-full object-cover pointer-events-none select-none"
+      style="transform: translateZ(0); -webkit-backface-visibility: hidden; backface-visibility: hidden;"
+    >
+      <source src="/assets/video/mimo-whatssap-saludo.mp4" type="video/mp4" />
+      <source src="/assets/video/mimo-whatssap-saludo.webm" type="video/webm" />
+    </video>
+  </div>
+
+  <!-- Badge WhatsApp en la esquina superior derecha con logo oficial Font Awesome -->
+  <span
+    class="absolute -right-2 -top-1 grid h-6 w-6 place-items-center rounded-full bg-[#25D366] text-white shadow-md ring-2 ring-white z-20 pointer-events-none transition-transform duration-200 group-hover:scale-110"
+  >
+    <svg
+      viewBox="0 0 448 512"
+      fill="currentColor"
+      class="h-3.5 w-3.5"
+      aria-hidden="true"
+    >
+      <path
+        d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"
+      ></path>
+    </svg>
   </span>
 </a>
 
 <!-- Barra inferior sticky (solo móvil) -->
-<div class="fixed inset-x-0 bottom-0 z-40 flex items-center justify-between gap-3 border-t border-mega-gray-dark/15 bg-white/95 px-4 py-2.5 shadow-[0_-8px_24px_-12px_rgb(7_21_46/0.3)] backdrop-blur sm:hidden">
+<div
+  class="fixed inset-x-0 bottom-0 z-40 flex items-center justify-between gap-3 border-t border-mega-gray-dark/15 bg-white/95 px-4 py-2.5 shadow-[0_-8px_24px_-12px_rgb(7_21_46/0.3)] backdrop-blur sm:hidden"
+>
   <p class="leading-none">
-    <span class="text-xs font-bold text-mega-gray-dark">{stickyBar.prefix}</span><br />
-    <span class="text-3xl font-black text-mega-navy">${minPrice}</span><span class="text-sm font-extrabold text-mega-gray-dark">{plans.perMonth}</span>
+    <span class="text-xs font-bold text-mega-gray-dark">{stickyBar.prefix}</span
+    ><br />
+    <span class="text-3xl font-black text-mega-navy">${minPrice}</span><span
+      class="text-sm font-extrabold text-mega-gray-dark">{plans.perMonth}</span
+    >
   </p>
-  <a href={stickyBar.cta.href} class="btn-primary !px-8 !py-3">{stickyBar.cta.label}</a>
+  <a href={stickyBar.cta.href} class="btn-primary !px-8 !py-3"
+    >{stickyBar.cta.label}</a
+  >
 </div>
 
+<script>
+  const video = document.getElementById("mimo-whatsapp-video");
+
+  if (video instanceof HTMLVideoElement) {
+    let playCount = 1;
+    const maxPlays = 2;
+    // Frame exacto con la mano arriba saludando y sonriendo fijamente
+    const freezeTime = 3.3;
+    let isFrozen = false;
+
+    const freezeOnGreeting = () => {
+      if (isFrozen) return;
+      isFrozen = true;
+      video.pause();
+      try {
+        video.currentTime = freezeTime;
+      } catch {
+        /* Ignorar errores de seek en buffers cerrados */
+      }
+    };
+
+    const checkProgress = () => {
+      if (isFrozen) return;
+      if (playCount >= maxPlays && video.currentTime >= freezeTime) {
+        freezeOnGreeting();
+        return;
+      }
+      if (!video.paused && !video.ended) {
+        requestAnimationFrame(checkProgress);
+      }
+    };
+
+    video.addEventListener("play", () => {
+      requestAnimationFrame(checkProgress);
+    });
+
+    video.addEventListener("timeupdate", () => {
+      if (playCount >= maxPlays && video.currentTime >= freezeTime) {
+        freezeOnGreeting();
+      }
+    });
+
+    video.addEventListener("ended", () => {
+      if (playCount < maxPlays) {
+        playCount++;
+        video.currentTime = 0;
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {});
+        }
+      } else {
+        freezeOnGreeting();
+      }
+    });
+
+    // Asegurar reproducción inicial de entrada
+    if (video.paused && !isFrozen) {
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {});
+      }
+    }
+  }
+</script>
