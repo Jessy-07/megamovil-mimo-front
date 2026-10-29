@@ -2,7 +2,6 @@
 import nav from '../data/nav.json';
 import site from '../data/site.json';
 import Icon from './Icon.astro';
-import Logo from './Logo.astro';
 import SocialIcon from './SocialIcon.astro';
 
 const { footer } = nav;
@@ -12,10 +11,9 @@ const { footer } = nav;
   <div class="container mx-auto px-4 pt-12 sm:px-6">
     <div class="grid gap-8 md:grid-cols-[1.3fr_1fr_1.3fr]">
       
-      <!-- Columna 1: Logo, Soporte y CIS -->
+      <!-- Columna 1: Soporte, CIS y Redes Sociales -->
       <div>
-        <Logo variant="navy" />
-        <div class="mt-5">
+        <div>
           <p class="text-xs font-black uppercase tracking-wider text-slate-400">
             {footer.supportLabel}
           </p>
