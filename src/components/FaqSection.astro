@@ -1,0 +1,36 @@
+---
+import faq from "../data/faq.json";
+import Faq from "./Faq";
+---
+
+<section
+  id="faq"
+  aria-labelledby="faq-title"
+  class="px-4 py-12 sm:px-6 lg:px-8 sm:py-16"
+>
+  <div class="container mx-auto">
+    <div class="text-center mb-8">
+      <h2
+        id="faq-title"
+        class="font-display text-3xl sm:text-4xl font-black uppercase tracking-tight text-mega-navy"
+      >
+        {faq.title}
+      </h2>
+      <p
+        class="font-sans text-sm sm:text-base font-semibold text-slate-500 mt-1.5"
+      >
+        Todo lo que necesitas saber antes de contratar tu línea Mega móvil.
+      </p>
+    </div>
+
+    <!-- Acordeón plano sin contenedor ni fondo blanco -->
+    <Faq
+      client:visible
+      items={faq.items.map(({ id, question, answer }) => ({
+        id,
+        question,
+        answer,
+      }))}
+    />
+  </div>
+</section>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mimovil.megacable.com.mx/sitemap-index.xml

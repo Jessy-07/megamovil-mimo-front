@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Mimo from '../components/Mimo.astro';
+import Logo from '../components/Logo.astro';
+import site from '../data/site.json';
+
+const { notFound } = site;
+---
+
+<Layout title={`${notFound.title} | ${site.name}`} noindex>
+  <main id="contenido" class="grid min-h-screen place-items-center bg-mega-gray px-4 py-10 text-center">
+    <div class="flex flex-col items-center gap-4">
+      <Logo variant="dark" />
+      <Mimo pose="sad" size="lg" float />
+      <h1 class="text-4xl font-black text-mega-blue md:text-5xl">404</h1>
+      <p class="text-xl font-extrabold">{notFound.title}</p>
+      <p class="max-w-md text-mega-gray-dark">{notFound.text}</p>
+      <a href={notFound.cta.href} class="btn-primary">{notFound.cta.label}</a>
+    </div>
+  </main>
+</Layout>
+

@@ -1,0 +1,94 @@
+---
+import Layout from '../layouts/Layout.astro';
+import TopBar from '../components/TopBar.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Plans from '../components/Plans.astro';
+import Compatibility from '../components/Compatibility.astro';
+import FaqSection from '../components/FaqSection.astro';
+import Footer from '../components/Footer.astro';
+import FloatingActions from '../components/FloatingActions.astro';
+import site from '../data/site.json';
+import plans from '../data/plans.json';
+import faq from '../data/faq.json';
+
+const origin = Astro.site ? Astro.site.href : 'https://megamovil.megacable.com.mx';
+const allPlans = Object.values(plans.groups).flatMap((g) => g.plans);
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: site.name,
+    parentOrganization: { '@type': 'Organization', name: site.company },
+    url: origin,
+    slogan: site.tagline,
+    sameAs: site.socials.map((s) => s.href),
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: '+52 33 9690 0000',
+      contactType: 'customer support',
+      areaServed: 'MX',
+      availableLanguage: 'es',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: site.name,
+    url: origin,
+    inLanguage: 'es-MX',
+  },
+  ...allPlans.map((p) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: `${p.name} – ${p.highlight.value} ${p.highlight.unit}`,
+    description: p.detail,
+    brand: { '@type': 'Brand', name: site.name },
+    offers: {
+      '@type': 'Offer',
+      price: p.price,
+      priceCurrency: 'MXN',
+      availability: 'https://schema.org/InStock',
+      url: new URL(`/contratar?plan=${p.slug}`, origin).href,
+    },
+  })),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.items.map((q) => ({
+      '@type': 'Question',
+      name: q.question,
+      acceptedAnswer: { '@type': 'Answer', text: q.answer },
+    })),
+  },
+];
+---
+
+<Layout {jsonLd}>
+  <!-- ENCABEZADO UNIFICADO STICKY: Promo especial de urgencia + Menú siempre visibles al hacer scroll -->
+  <div id="sticky-header-container" class="sticky top-0 z-50 w-full">
+    <TopBar />
+    <Header />
+  </div>
+
+  <main id="contenido">
+    <!-- 3. HERO PROMOCIONAL con Mimo 3D, Sticker de Precio HTML, GB Gigante y Rayas -->
+    <Hero />
+
+    <!-- 5. PLANES (Selector rápido + Franja Beneficios Pillofon + Familiares primero + Individuales) -->
+    <Plans />
+
+    <!-- 7. COMPATIBILIDAD DE TU EQUIPO (Azul marino + Validador IMEI React + Pasos y Requisitos) -->
+    <Compatibility />
+
+    <!-- 9. FAQ (5 preguntas en acordeón compacto con FAQPage JSON-LD) -->
+    <FaqSection />
+  </main>
+
+  <!-- 11. FOOTER (Oscuro con borde de rayas, soporte y legales) -->
+  <Footer />
+
+  <!-- 12. FLOTANTES (WhatsApp avatar Mimo + barra sticky CTA móvil) -->
+  <FloatingActions />
+</Layout>

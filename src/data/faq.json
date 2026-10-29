@@ -1,0 +1,36 @@
+{
+  "_note": "Respuestas placeholder pendientes de validación por Legal/Operaciones antes de publicar (needsReview).",
+  "title": "Preguntas frecuentes",
+  "items": [
+    {
+      "id": "faq-numero",
+      "question": "¿Puedo conservar mi número?",
+      "answer": "Sí. Solicita tu NIP de portabilidad marcando *051 desde tu línea actual, elígelo al contratar y conservarás tu número sin costo. El cambio se completa en un máximo de 24 horas hábiles.",
+      "needsReview": true
+    },
+    {
+      "id": "faq-esim",
+      "question": "¿Qué es una eSIM?",
+      "answer": "Es un chip digital integrado en tu celular. Recibes un código QR, lo escaneas y activas tu línea Mega móvil en minutos, sin esperar ni cambiar de chip físico.",
+      "needsReview": true
+    },
+    {
+      "id": "faq-recarga",
+      "question": "¿Cómo recargo?",
+      "answer": "Puedes recargar en línea, desde la app de Mega móvil o en cualquier Centro de Atención (CIS) de Megacable. Tu saldo se abona al instante.",
+      "needsReview": true
+    },
+    {
+      "id": "faq-cobertura",
+      "question": "¿Qué cobertura tiene?",
+      "answer": "Cobertura nacional y, sin costo adicional, navegación y llamadas en Estados Unidos y Canadá. Consulta la cobertura exacta de tu zona en el mapa de cobertura.",
+      "needsReview": true
+    },
+    {
+      "id": "faq-equipos",
+      "question": "¿Qué equipos son compatibles?",
+      "answer": "Cualquier celular liberado compatible con nuestra red. Valida el IMEI de tu equipo (marca *#06#) en la sección de compatibilidad de esta página.",
+      "needsReview": true
+    }
+  ]
+}

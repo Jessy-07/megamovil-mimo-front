@@ -1,0 +1,212 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design tokens */
+:root {
+  --mega-orange: 255 89 0;
+  --mega-orange-light: 255 122 36;
+  --mega-orange-dark: 217 64 0;
+  --mega-blue: 0 75 147;
+  --mega-blue-electric: 0 102 204;
+  --mega-navy: 6 22 48;
+  --mega-gray: 246 248 252;
+  --mega-gray-dark: 74 85 104;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6.75rem;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    @apply bg-[#F8FAFC] font-sans text-mega-navy selection:bg-mega-orange selection:text-white;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    letter-spacing: -0.02em;
+  }
+  :focus-visible {
+    outline: 3px solid rgb(var(--mega-orange));
+    outline-offset: 3px;
+    border-radius: 8px;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  }
+
+  /* Sombras y brillos con el naranja característico de Mega móvil */
+  .shadow-orange-glow {
+    box-shadow: 0 10px 25px -4px rgba(255, 89, 0, 0.38);
+  }
+  .shadow-orange-sm {
+    box-shadow: 0 4px 14px 0 rgba(255, 89, 0, 0.3);
+  }
+  .shadow-card-clean {
+    box-shadow: 0 8px 30px rgba(6, 22, 48, 0.07);
+  }
+  .shadow-card-hover {
+    box-shadow: 0 14px 35px rgba(255, 89, 0, 0.16), 0 4px 12px rgba(6, 22, 48, 0.06);
+  }
+
+  .text-stroke-white {
+    -webkit-text-stroke: 2px white;
+    color: transparent;
+  }
+}
+
+@layer components {
+  /* Botón CTA protagonista en Naranja Mega móvil */
+  .btn-primary {
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    @apply inline-flex items-center justify-center gap-2 rounded-pill bg-gradient-to-r from-mega-orange via-[#FF6614] to-mega-orange-dark px-8 py-3.5 text-base sm:text-lg font-black uppercase tracking-wider text-white shadow-orange-glow transition-all duration-200 hover:-translate-y-0.5 hover:shadow-orange-glow hover:brightness-105 active:translate-y-0 active:scale-95;
+  }
+
+  .btn-secondary {
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    @apply inline-flex items-center justify-center gap-2 rounded-pill bg-white px-7 py-3 text-base font-black uppercase tracking-wider text-mega-orange shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-50 hover:shadow-lg active:translate-y-0 active:scale-95;
+  }
+
+  .section-title {
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    @apply text-3xl font-black uppercase tracking-tight text-mega-navy sm:text-4xl lg:text-5xl;
+  }
+
+  .section-sub {
+    @apply mt-2 font-sans text-base font-semibold text-slate-600 sm:text-lg;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* MIMO (Mascota 3D estilizada)                                               */
+/* -------------------------------------------------------------------------- */
+@layer components {
+  .mimo {
+    position: relative;
+    display: inline-block;
+    flex-shrink: 0;
+    height: var(--mimo-h);
+  }
+  .mimo--sm { --mimo-h: 85px; }
+  .mimo--md { --mimo-h: 140px; }
+  .mimo--lg { --mimo-h: 240px; }
+
+  @media (min-width: 640px) {
+    .mimo--md { --mimo-h: 175px; }
+    .mimo--lg { --mimo-h: 330px; }
+  }
+  @media (min-width: 1024px) {
+    .mimo--lg { --mimo-h: 410px; }
+  }
+
+  .mimo__body {
+    position: absolute;
+    inset: 0;
+  }
+
+  .mimo__img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 14px 22px rgba(6, 22, 48, 0.3));
+  }
+
+  .mimo__shadow {
+    position: absolute;
+    left: 14%;
+    right: 14%;
+    bottom: -3%;
+    height: 6%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(6, 22, 48, 0.4), transparent 70%);
+  }
+
+  /* Cartel con precio HTML sostenido en manos de Mimo */
+  .mimo-sign {
+    position: absolute;
+    z-index: 2;
+    left: var(--sign-left, 24%);
+    top: var(--sign-top, 48%);
+    width: var(--sign-w, 52%);
+    height: var(--sign-h, 24%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1;
+    transform: rotate(-4deg);
+    background: white;
+    border: 3px solid #FF5900;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(255, 89, 0, 0.3);
+    padding: 4px;
+  }
+
+  .mimo-sign__price {
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-weight: 900;
+    font-size: calc(var(--mimo-h) * 0.115);
+    color: #FF5900;
+    letter-spacing: -0.03em;
+  }
+
+  .mimo-sign__note {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    margin-top: 2px;
+    font-weight: 800;
+    font-size: max(9px, calc(var(--mimo-h) * 0.032));
+    color: rgb(var(--mega-navy));
+    text-transform: uppercase;
+  }
+}
+
+/* Microinteracciones suaves */
+@keyframes mimo-float {
+  0%, 100% { transform: translateY(-6px); }
+  50% { transform: translateY(6px); }
+}
+
+@keyframes mimo-wave {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(3deg); }
+}
+
+@keyframes plan-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 89, 0, 0.6);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(255, 89, 0, 0);
+    transform: scale(1.02);
+  }
+}
+
+.mimo-float { animation: mimo-float 4.5s ease-in-out infinite; }
+.mimo-wave { transform-origin: 50% 100%; animation: mimo-wave 3.5s ease-in-out infinite; }
+.plan-highlight-pulse { animation: plan-pulse 1.2s ease-in-out 3; border-color: rgb(var(--mega-orange)) !important; }
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .mimo-float,
+  .mimo-wave,
+  .plan-highlight-pulse,
+  .animate-bounce,
+  .animate-pulse { animation: none !important; }
+  * { transition-duration: 0.01ms !important; }
+}

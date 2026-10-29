@@ -1,0 +1,78 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+export type MimoPose = 'price' | 'point' | 'box' | 'phone' | 'peek' | 'head' | 'sad';
+
+interface Props {
+  pose: MimoPose;
+  size?: 'sm' | 'md' | 'lg';
+  /** Imagen ornamental: alt vacío. */
+  decorative?: boolean;
+  alt?: string;
+  /** Imagen LCP: carga eager + fetchpriority high. */
+  priority?: boolean;
+  /** Flotación suave (solo CSS). */
+  float?: boolean;
+  /** Saludo ligero (solo CSS). */
+  wave?: boolean;
+  shadow?: boolean;
+  class?: string;
+}
+
+const defaultAlt: Record<MimoPose, string> = {
+  price: 'Mimo, la mascota de Mega móvil, sostiene un cartel',
+  point: 'Mimo señala hacia el campo',
+  box: 'Mimo con una caja invisible',
+  phone: 'Mimo con un celular en la mano',
+  peek: 'Mimo asomándose',
+  head: 'Mimo, la mascota de Mega móvil',
+  sad: 'Mimo con cara triste',
+};
+
+// Nombres literales para que Tailwind detecte las clases.
+const sizeClass = { sm: 'mimo--sm', md: 'mimo--md', lg: 'mimo--lg' };
+
+const {
+  pose,
+  size = 'md',
+  decorative = false,
+  alt,
+  priority = false,
+  float = false,
+  wave = false,
+  shadow = size !== 'sm',
+  class: className = '',
+} = Astro.props;
+
+// Acepta webp (arte final), png o svg (placeholders) con el mismo nombre de archivo.
+const files = import.meta.glob<{ default: ImageMetadata }>('../assets/mimo/mimo-*.{webp,png,svg}', { eager: true });
+const ext = ['webp', 'png', 'svg'].find((e) => files[`../assets/mimo/mimo-${pose}.${e}`]);
+const meta = ext ? files[`../assets/mimo/mimo-${pose}.${ext}`].default : undefined;
+---
+
+<span
+  class:list={['mimo', sizeClass[size], className]}
+  style={`aspect-ratio:${meta ? `${meta.width}/${meta.height}` : '3/4'}`}
+>
+  {shadow && <span class="mimo__shadow" aria-hidden="true" />}
+  <span class:list={['mimo__body', float && 'mimo-float', wave && 'mimo-wave']}>
+    {
+      meta ? (
+        <Image
+          src={meta}
+          alt={decorative ? '' : (alt ?? defaultAlt[pose])}
+          width={Math.min(meta.width, 640)}
+          format={meta.format === 'svg' ? undefined : 'webp'}
+          loading={priority ? 'eager' : 'lazy'}
+          fetchpriority={priority ? 'high' : 'auto'}
+          decoding={priority ? 'sync' : 'async'}
+          class="mimo__img"
+        />
+      ) : (
+        <span class="mimo__placeholder" aria-hidden="true" />
+      )
+    }
+    <slot />
+  </span>
+</span>

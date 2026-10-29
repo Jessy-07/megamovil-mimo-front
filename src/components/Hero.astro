@@ -1,0 +1,224 @@
+---
+const slides = [
+  {
+    id: "colaborador-50gb",
+    slug: "banner-1",
+    alt: "Mega móvil - Tu Plan Colaborador: 50 Gigas conservando tu número por solo $260 al mes",
+    href: "#planes",
+    tabLabel: "Plan Colaborador",
+  },
+  {
+    id: "vincula-tu-linea",
+    slug: "banner-2",
+    alt: "Si tu número termina en 5 tu línea será suspendida si no la registras a más tardar el 31 de octubre - megamovil.mx/vinculatulinea",
+    href: "https://megamovil.mx/vinculatulinea/",
+    external: true,
+    tabLabel: "Vincula tu línea",
+  },
+];
+---
+
+<section id="promos" aria-label="Promociones exclusivas Mega móvil" class="px-3 pt-3 sm:px-6 lg:px-8 xl:px-10">
+  <div class="mx-auto w-full max-w-[1720px] overflow-hidden rounded-hero shadow-2xl relative bg-black/5 aspect-[16/10] sm:aspect-[1920/550] max-h-[550px]">
+    
+    <div class="relative w-full h-full" role="region" aria-roledescription="carrusel" aria-label="Banners promocionales Mega móvil">
+      <!-- Track de slides con scroll-snap nativo y proporción exacta 1920x550 para tablet, laptop y desktop -->
+      <div
+        id="promo-track"
+        class="no-scrollbar flex snap-x snap-mandatory overflow-x-auto scroll-smooth w-full h-full items-stretch"
+        aria-live="off"
+      >
+        {
+          slides.map((slide, i) => (
+            <div
+              data-slide
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`${i + 1} / ${slides.length}`}
+              class="relative w-full h-full shrink-0 snap-center overflow-hidden"
+            >
+              <a
+                href={slide.href}
+                target={slide.external ? '_blank' : undefined}
+                rel={slide.external ? 'noopener noreferrer' : undefined}
+                class="block w-full h-full focus:outline-none"
+                aria-label={slide.alt}
+              >
+                <picture class="block w-full h-full">
+                  <!-- Móvil (< 640px): imagen propia exclusiva para móviles -->
+                  <source
+                    media="(max-width: 639px)"
+                    type="image/webp"
+                    srcset={`/img/${slide.slug}-mobile.webp`}
+                  />
+                  <source
+                    media="(max-width: 639px)"
+                    type="image/jpeg"
+                    srcset={`/img/${slide.slug}-mobile.jpg`}
+                  />
+
+                  <!-- Tablet, Laptops y Pantallas Grandes (>= 640px): Banner estándar 1920x550 completo sin recortes -->
+                  <source
+                    media="(min-width: 640px)"
+                    type="image/webp"
+                    srcset={`/img/${slide.slug}-desktop.webp 1920w, /img/${slide.slug}-4k.webp 3840w`}
+                    sizes="(max-width: 1920px) 100vw, 1920px"
+                  />
+                  <source
+                    media="(min-width: 640px)"
+                    type="image/jpeg"
+                    srcset={`/img/${slide.slug}-desktop.jpg 1920w, /img/${slide.slug}-4k.jpg 3840w`}
+                    sizes="(max-width: 1920px) 100vw, 1920px"
+                  />
+
+                  <img
+                    src={`/img/${slide.slug}-desktop.jpg`}
+                    alt={slide.alt}
+                    width="1920"
+                    height="550"
+                    loading={i === 0 ? "eager" : "lazy"}
+                    fetchpriority={i === 0 ? "high" : "auto"}
+                    decoding="async"
+                    class="block w-full h-full object-cover object-center select-none"
+                  />
+                </picture>
+              </a>
+            </div>
+          ))
+        }
+      </div>
+
+      {/* Barra de controles: Flechas, Dots y Play/Pausa en la esquina inferior derecha */}
+      <div class="absolute bottom-2 right-2 sm:bottom-4 sm:right-6 z-20 flex items-center gap-1.5 sm:gap-2 bg-black/50 backdrop-blur-md px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full border border-white/20 shadow-lg scale-90 sm:scale-100 origin-bottom-right">
+        <button
+          type="button"
+          data-promo-prev
+          aria-label="Banner anterior"
+          class="grid h-7 w-7 place-items-center rounded-full text-white/90 hover:text-white hover:bg-white/20 transition cursor-pointer"
+        >
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+
+        <!-- Dots -->
+        <div class="flex items-center gap-1.5 px-1">
+          {
+            slides.map((_, i) => (
+              <button
+                type="button"
+                data-promo-dot={i}
+                aria-label={`Ir al banner ${i + 1}`}
+                class:list={[
+                  "h-2.5 rounded-full transition-all duration-200 cursor-pointer",
+                  i === 0 ? "w-7 bg-mega-orange shadow-sm" : "w-2.5 bg-white/50 hover:bg-white/80"
+                ]}
+              />
+            ))
+          }
+        </div>
+
+        <button
+          type="button"
+          data-promo-next
+          aria-label="Siguiente banner"
+          class="grid h-7 w-7 place-items-center rounded-full text-white/90 hover:text-white hover:bg-white/20 transition cursor-pointer"
+        >
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+
+        <button
+          type="button"
+          data-promo-toggle
+          aria-label="Pausar rotación"
+          class="grid h-7 w-7 place-items-center rounded-full text-white/90 hover:text-white hover:bg-white/20 transition cursor-pointer ml-1"
+        >
+          <svg data-icon-pause class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          <svg data-icon-play class="h-3.5 w-3.5 hidden" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const track = document.getElementById('promo-track') as HTMLDivElement | null;
+  const dots = document.querySelectorAll<HTMLButtonElement>('[data-promo-dot]');
+  const prevBtn = document.querySelector('[data-promo-prev]');
+  const nextBtn = document.querySelector('[data-promo-next]');
+  const toggleBtn = document.querySelector('[data-promo-toggle]');
+  const iconPause = document.querySelector('[data-icon-pause]');
+  const iconPlay = document.querySelector('[data-icon-play]');
+
+  if (track && dots.length > 0) {
+    let currentIndex = 0;
+    const count = dots.length;
+    let isPaused = false;
+    let isHovered = false;
+    let intervalId: number | null = null;
+
+    function updateUI(idx: number) {
+      currentIndex = idx;
+      dots.forEach((dot, i) => {
+        if (i === idx) {
+          dot.className = "h-2.5 rounded-full transition-all duration-200 cursor-pointer w-7 bg-mega-orange shadow-sm";
+        } else {
+          dot.className = "h-2.5 rounded-full transition-all duration-200 cursor-pointer w-2.5 bg-white/50 hover:bg-white/80";
+        }
+      });
+    }
+
+    function goTo(idx: number) {
+      if (!track) return;
+      const target = (idx + count) % count;
+      track.scrollTo({ left: target * track.clientWidth, behavior: 'smooth' });
+      updateUI(target);
+    }
+
+    track.addEventListener('scroll', () => {
+      if (!track) return;
+      const newIdx = Math.round(track.scrollLeft / track.clientWidth);
+      if (newIdx !== currentIndex) {
+        updateUI(newIdx);
+      }
+    });
+
+    prevBtn?.addEventListener('click', () => goTo(currentIndex - 1));
+    nextBtn?.addEventListener('click', () => goTo(currentIndex + 1));
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => goTo(i));
+    });
+
+    function startAutoplay() {
+      stopAutoplay();
+      intervalId = window.setInterval(() => {
+        if (!isPaused && !isHovered) {
+          goTo(currentIndex + 1);
+        }
+      }, 6000);
+    }
+
+    function stopAutoplay() {
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+    }
+
+    track.addEventListener('mouseenter', () => { isHovered = true; });
+    track.addEventListener('mouseleave', () => { isHovered = false; });
+
+    toggleBtn?.addEventListener('click', () => {
+      isPaused = !isPaused;
+      if (isPaused) {
+        iconPause?.classList.add('hidden');
+        iconPlay?.classList.remove('hidden');
+      } else {
+        iconPlay?.classList.add('hidden');
+        iconPause?.classList.remove('hidden');
+      }
+    });
+
+    startAutoplay();
+  }
+</script>

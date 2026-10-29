@@ -1,0 +1,152 @@
+{
+  "topBar": {
+    "message": "¡Promo de lanzamiento! 30 GB + redes ilimitadas por $200",
+    "cta": {
+      "label": "¡Lo quiero!",
+      "href": "#planes"
+    },
+    "countdownTarget": "2026-11-30T23:59:59-06:00",
+    "countdownLabel": "Termina en",
+    "closeLabel": "Cerrar aviso promocional"
+  },
+  "location": {
+    "label": "Tu ciudad",
+    "current": "Chetumal",
+    "options": [
+      "Chetumal",
+      "Guadalajara",
+      "Puebla",
+      "Querétaro",
+      "León",
+      "Mérida",
+      "Hermosillo"
+    ]
+  },
+  "menuLabel": "Menú principal",
+  "menu": [
+    {
+      "label": "Consulta",
+      "children": [
+        {
+          "label": "Planes",
+          "href": "#planes"
+        },
+        {
+          "label": "Planes Internacionales",
+          "href": "#planes"
+        },
+        {
+          "label": "Recargas",
+          "href": "#recargas"
+        },
+        {
+          "label": "Compatibilidad",
+          "href": "#compatibilidad"
+        },
+        {
+          "label": "Beneficios",
+          "href": "#planes"
+        },
+        {
+          "label": "Cobertura",
+          "href": "https://megamovil.megacable.com.mx/cobertura"
+        },
+        {
+          "label": "Vincula tu línea",
+          "href": "https://registro.megamovil.mx/vinculatulinea/"
+        }
+      ]
+    },
+    {
+      "label": "Cámbiate a Mega móvil",
+      "href": "#planes"
+    },
+    {
+      "label": "Promociones",
+      "href": "#promos"
+    },
+    {
+      "label": "eSIM",
+      "href": "#esim"
+    },
+    {
+      "label": "Ayuda",
+      "children": [
+        {
+          "label": "Vincula tu línea",
+          "href": "https://registro.megamovil.mx/vinculatulinea/"
+        },
+        {
+          "label": "Líneas vinculadas",
+          "href": "https://consultavinculacion.megamovil.mx/"
+        },
+        {
+          "label": "Preguntas frecuentes",
+          "href": "#faq"
+        },
+        {
+          "label": "Soporte",
+          "href": "tel:3396900000"
+        }
+      ]
+    }
+  ],
+  "footer": {
+    "supportLabel": "Consultas y Soporte Técnico",
+    "cis": {
+      "label": "Localiza tu CIS más cercano",
+      "href": "https://megacable.com.mx/cis"
+    },
+    "socialsLabel": "Síguenos",
+    "columns": [
+      {
+        "title": "Ayuda",
+        "links": [
+          {
+            "label": "Ayuda",
+            "href": "/ayuda"
+          },
+          {
+            "label": "Cobertura Megamóvil",
+            "href": "#cobertura"
+          }
+        ]
+      },
+      {
+        "title": "Legales",
+        "links": [
+          {
+            "label": "Legales",
+            "href": "/legales"
+          },
+          {
+            "label": "Código de prácticas comerciales",
+            "href": "/legales/codigo-practicas-comerciales"
+          },
+          {
+            "label": "Contratos de adhesión prepago/pospago",
+            "href": "/legales/contratos-adhesion"
+          },
+          {
+            "label": "Contrato de prestación de servicios",
+            "href": "/legales/contrato-servicios"
+          },
+          {
+            "label": "Garantías",
+            "href": "/legales/garantias"
+          },
+          {
+            "label": "CRT – Comisión Reguladora de Telecomunicaciones",
+            "href": "https://www.gob.mx/crt"
+          }
+        ]
+      }
+    ],
+    "legend": {
+      "before": "Aplican restricciones. Consulta ",
+      "link": "términos y condiciones aquí",
+      "href": "/legales",
+      "after": ". Vigencia a mes calendario."
+    }
+  }
+}
