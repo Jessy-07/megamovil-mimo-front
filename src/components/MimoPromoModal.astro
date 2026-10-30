@@ -1,0 +1,498 @@
+---
+import SocialIcon from './SocialIcon.astro';
+
+// Promo destacada configurada (Plan 30 GB x $200)
+const promo = {
+  badge: "OFERTA EXCLUSIVA WEB",
+  title: "30 GB + REDES ILIMITADAS",
+  tagline: "Mimo no habla. Tu plan sí.",
+  gigas: "30",
+  unit: "GB",
+  price: "200",
+  period: "/mes",
+  originalPrice: "$250",
+  savings: "Ahorras $50 al mes",
+  slug: "conectado-30gb",
+  features: [
+    "Redes sociales ilimitadas incluidas",
+    "Llamadas y SMS ilimitados (MX, EE.UU. y CAN)",
+    "Sin plazos forzosos ni letras chiquitas",
+    "Conserva tu mismo número gratis"
+  ],
+  socialApps: ["whatsapp", "facebook", "instagram", "x", "messenger"],
+  ctaHref: "/contratar?plan=conectado-30gb",
+  whatsappHref: "https://api.whatsapp.com/send?phone=523396900000&text=Hola!%20Vi%20la%20promo%20del%20Mimo%20de%2030GB%20por%20$200%20y%20quiero%20contratarla"
+};
+---
+
+<!-- CONTENEDOR MODAL DE BIENVENIDA CON EL MIMO -->
+<div
+  id="mimo-modal-overlay"
+  class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 opacity-0 pointer-events-none transition-opacity duration-300"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="mimo-modal-title"
+>
+  <!-- Telón de fondo con blur elegante -->
+  <div
+    id="mimo-modal-backdrop"
+    class="absolute inset-0 bg-slate-950/70 backdrop-blur-md transition-opacity duration-300"
+  ></div>
+
+  <!-- ESCENARIO DEL MIMO (FASE 1 Y 2: TOQUES DE CRISTAL Y CAJA INVISIBLE) -->
+  <div id="mimo-stage" class="relative z-10 flex flex-col items-center justify-center pointer-events-none">
+    
+    <!-- Onda expansiva en el cristal (Glass Tap Ripple) -->
+    <div id="glass-ripple-left" class="ripple-wave absolute top-1/3 left-1/4 -translate-x-1/2 -translate-y-1/2 opacity-0 pointer-events-none"></div>
+    <div id="glass-ripple-right" class="ripple-wave absolute top-1/3 right-1/4 translate-x-1/2 -translate-y-1/2 opacity-0 pointer-events-none"></div>
+    
+    <!-- Efecto de partículas de cristal -->
+    <div id="glass-sparkles" class="absolute inset-0 flex items-center justify-center opacity-0 pointer-events-none">
+      <span class="sparkle s-1">✨</span>
+      <span class="sparkle s-2">⚡</span>
+      <span class="sparkle s-3">✨</span>
+    </div>
+
+    <!-- Bocadillo / Globo de diálogo silencioso del mimo -->
+    <div
+      id="mimo-speech-bubble"
+      class="mb-3 transform translate-y-3 opacity-0 transition-all duration-300 rounded-2xl bg-white px-5 py-2 text-center shadow-2xl border-2 border-mega-orange"
+    >
+      <span class="font-display text-sm sm:text-base font-black tracking-tight text-mega-navy flex items-center gap-2">
+        <span class="text-xl">🤫</span>
+        <span id="mimo-speech-text">¡Pssst! Mira lo que tengo aquí...</span>
+      </span>
+      <!-- Flechita del globo -->
+      <div class="mx-auto -mb-3 h-3 w-3 rotate-45 border-b-2 border-r-2 border-mega-orange bg-white"></div>
+    </div>
+
+    <!-- Personaje Mimo 3D Animado -->
+    <div class="relative w-56 sm:w-72 h-[340px] sm:h-[420px] flex items-end justify-center">
+      
+      <!-- Pose 1: Tocando el cristal invisible / Saludando -->
+      <img
+        id="mimo-actor-wave"
+        src="/assets/mimo/mimo-wave.webp"
+        alt="Mimo saludando y tocando la pantalla"
+        width="195"
+        height="500"
+        class="h-full w-auto object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.5)] transition-transform duration-300 mimo-tap-anim"
+      />
+
+      <!-- Pose 2: Moldeando la caja invisible / Mostrando la sorpresa -->
+      <img
+        id="mimo-actor-presenting"
+        src="/assets/mimo/mimo-presenting.webp"
+        alt="Mimo señalando la promoción sorpresa"
+        width="218"
+        height="496"
+        class="hidden h-full w-auto object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.5)]"
+      />
+
+      <!-- Caja Invisible Geométrica Holográfica (se va iluminando) -->
+      <div
+        id="invisible-box"
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 sm:w-44 sm:h-44 rounded-3xl border-2 border-dashed border-mega-orange/0 opacity-0 pointer-events-none transition-all duration-500"
+      >
+        <div class="absolute inset-0 rounded-3xl bg-gradient-to-tr from-mega-orange/20 to-blue-500/20 blur-xl"></div>
+        <div class="absolute inset-0 flex items-center justify-center font-display text-2xl font-black text-white/90">
+          🎁
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TARJETA DE PROMOCIÓN REVELADA (FASE 3: SALE DE LA CAJA) -->
+  <div
+    id="mimo-promo-card"
+    class="relative z-20 hidden w-full max-w-lg transform scale-90 opacity-0 transition-all duration-500 ease-out"
+  >
+    <!-- Botón Cerrar X (Siempre accesible) -->
+    <button
+      id="mimo-close-btn"
+      type="button"
+      aria-label="Cerrar promoción"
+      class="absolute -top-3.5 -right-3.5 z-30 grid h-10 w-10 place-items-center rounded-full bg-white text-slate-700 shadow-2xl ring-2 ring-slate-100 hover:bg-slate-100 hover:text-mega-orange hover:scale-110 active:scale-95 transition-all cursor-pointer"
+    >
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <!-- Mini Mimo asomado arriba a la izquierda de la tarjeta -->
+    <div class="absolute -top-16 left-6 z-20 flex items-end gap-2 pointer-events-none">
+      <img
+        src="/assets/mimo/mimo-presenting.webp"
+        alt="Mimo recomendando la promoción"
+        width="110"
+        height="250"
+        class="h-20 w-auto object-contain filter drop-shadow-md"
+      />
+      <span class="rounded-full bg-mega-navy text-white text-[11px] font-black px-3 py-1 shadow-md border border-white/20 whitespace-nowrap animate-bounce">
+        ¡Aprobado por Mimo! ✨
+      </span>
+    </div>
+
+    <!-- Contenido Principal de la Tarjeta -->
+    <article class="overflow-hidden rounded-3xl bg-white shadow-2xl border-4 border-mega-orange/90 ring-4 ring-black/10">
+      
+      <!-- Franja Superior Promocional -->
+      <div class="bg-gradient-to-r from-mega-navy via-[#0C2B59] to-mega-navy px-6 pt-5 pb-4 text-center text-white relative">
+        <span class="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-mega-orange to-[#FF7020] px-4 py-1 text-xs font-black uppercase tracking-wider text-white shadow-md">
+          <svg class="h-3 w-3 fill-current text-white shrink-0" viewBox="0 0 24 24">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+          </svg>
+          {promo.badge}
+        </span>
+        <h2 id="mimo-modal-title" class="mt-2 font-display text-xl sm:text-2xl font-black uppercase tracking-tight leading-tight">
+          {promo.title}
+        </h2>
+        <p class="text-xs sm:text-sm text-orange-200 font-semibold tracking-wide">
+          «{promo.tagline}»
+        </p>
+      </div>
+
+      <!-- Cuerpo Comercial: Gigas + Precio + Beneficios -->
+      <div class="p-6">
+        
+        <!-- Bloque Gigas y Precio -->
+        <div class="rounded-2xl bg-gradient-to-b from-orange-50/70 to-slate-50 p-4 border border-orange-100 flex items-center justify-between gap-4">
+          
+          <!-- GB Gigante -->
+          <div class="flex items-baseline gap-1">
+            <span class="font-display text-5xl sm:text-6xl font-black tracking-tight text-mega-navy leading-none">
+              {promo.gigas}
+            </span>
+            <div class="flex flex-col">
+              <span class="font-display text-xl font-black text-mega-orange leading-none">{promo.unit}</span>
+              <span class="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">Navegación</span>
+            </div>
+          </div>
+
+          <!-- Divisor vertical -->
+          <div class="h-12 w-px bg-slate-200"></div>
+
+          <!-- Precio -->
+          <div class="text-right">
+            <div class="flex items-center justify-end gap-1.5">
+              <span class="text-xs font-bold text-slate-400 line-through">{promo.originalPrice}</span>
+              <span class="text-[10px] font-black uppercase rounded bg-green-100 text-green-700 px-1.5 py-0.5">
+                {promo.savings}
+              </span>
+            </div>
+            <div class="flex items-baseline justify-end gap-0.5 text-mega-navy">
+              <span class="font-display text-xl font-black text-slate-600">$</span>
+              <span class="font-display text-4xl sm:text-5xl font-black tracking-tight leading-none text-mega-navy">
+                {promo.price}
+              </span>
+              <span class="font-sans text-xs font-bold text-slate-500">{promo.period}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Redes Sociales Incluidas -->
+        <div class="mt-4 flex items-center justify-between rounded-xl bg-slate-50 px-3.5 py-2.5 border border-slate-100">
+          <span class="text-xs font-bold text-slate-600">Redes sociales incluidas:</span>
+          <div class="flex items-center gap-1.5">
+            {promo.socialApps.map((slug) => (
+              <span
+                class="grid h-6 w-6 place-items-center rounded-full bg-white text-slate-700 shadow-2xs border border-slate-200"
+                title={slug.toUpperCase()}
+              >
+                <SocialIcon slug={slug} class="h-3.5 w-3.5" />
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <!-- Lista de Beneficios con Checkmarks -->
+        <ul class="mt-4 space-y-2 text-xs sm:text-sm font-semibold text-slate-700">
+          {promo.features.map((item) => (
+            <li class="flex items-center gap-2">
+              <span class="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-green-500 text-white">
+                <svg class="h-2.5 w-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+
+        <!-- BOTONES DE ACCIÓN (CONVERSIÓN DIRECTA) -->
+        <div class="mt-6 flex flex-col gap-2.5">
+          <!-- Botón Primario Naranja Gigante -->
+          <a
+            id="mimo-cta-primary"
+            href={promo.ctaHref}
+            class="group relative inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-mega-orange via-[#FF6614] to-mega-orange-dark py-4 px-6 font-display text-base sm:text-lg font-black uppercase tracking-wider text-white shadow-orange-glow transition-all duration-200 hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0 active:scale-95"
+          >
+            <span>¡QUIERO ESTA PROMOCIÓN!</span>
+            <svg class="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </a>
+
+          <!-- Botón WhatsApp Rápido -->
+          <a
+            id="mimo-cta-whatsapp"
+            href={promo.whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 py-2.5 px-4 text-xs font-bold transition-colors"
+          >
+            <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>Contratar al instante por WhatsApp con asesor</span>
+          </a>
+
+          <!-- Botón Cerrar y ver todos los planes -->
+          <button
+            id="mimo-cta-dismiss"
+            type="button"
+            class="mt-1 text-center text-xs font-bold text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
+          >
+            Ver todos los demás planes
+          </button>
+        </div>
+
+      </div>
+
+    </article>
+  </div>
+</div>
+
+<!-- BOTÓN FLOTANTE PERMANENTE PARA REABRIR LA PROMO DEL MIMO -->
+<button
+  id="mimo-promo-fab"
+  type="button"
+  aria-label="Ver promoción de Mimo"
+  class="fixed bottom-20 left-3.5 sm:bottom-6 sm:left-6 z-40 group flex items-center gap-2.5 rounded-full bg-white/95 px-3 py-2 shadow-2xl border-2 border-mega-orange backdrop-blur-md transition-all duration-300 hover:scale-105 hover:shadow-orange-glow active:scale-95 cursor-pointer"
+>
+  <div class="relative h-9 w-9 rounded-full bg-slate-100 overflow-hidden ring-2 ring-mega-orange/40 shrink-0">
+    <img
+      src="/assets/mimo/mimo-wave.webp"
+      alt="Mascota Mimo"
+      width="40"
+      height="40"
+      class="h-full w-full object-cover object-top"
+    />
+  </div>
+  <div class="text-left pr-1.5 hidden xs:block sm:block">
+    <p class="text-[9px] font-black uppercase text-mega-orange tracking-widest leading-none">Mimo tiene una</p>
+    <p class="font-display text-xs font-black text-mega-navy leading-tight">Super Promo 🎁</p>
+  </div>
+</button>
+
+<style>
+  /* Animación de golpes en el cristal invisible */
+  @keyframes mimoTap {
+    0%, 100% {
+      transform: scale(1) translateY(0);
+    }
+    20% {
+      transform: scale(1.05) translateY(-8px) translateZ(20px);
+    }
+    28% {
+      transform: scale(1.03) translateY(-4px);
+    }
+    40% {
+      transform: scale(1.06) translateY(-10px);
+    }
+    48% {
+      transform: scale(1.02) translateY(-2px);
+    }
+  }
+
+  .mimo-tap-anim {
+    animation: mimoTap 2.4s ease-in-out infinite;
+    transform-origin: bottom center;
+  }
+
+  /* Ondas circulares en el cristal */
+  .ripple-wave {
+    width: 20px;
+    height: 20px;
+    border-radius: 9999px;
+    border: 3px solid rgba(255, 122, 36, 0.9);
+    box-shadow: 0 0 25px rgba(255, 89, 0, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.8);
+    transition: all 0.6s cubic-bezier(0.1, 0.8, 0.3, 1);
+  }
+
+  .ripple-wave.active {
+    width: 220px;
+    height: 220px;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.8);
+  }
+
+  /* Partículas y destellos */
+  .sparkle {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: sparkleFloat 1.2s ease-out forwards;
+  }
+  .s-1 { top: -20px; left: -30px; animation-delay: 0.1s; }
+  .s-2 { top: 40px; right: -40px; animation-delay: 0.25s; font-size: 2rem; }
+  .s-3 { bottom: -10px; left: 40px; animation-delay: 0.4s; }
+
+  @keyframes sparkleFloat {
+    0% { transform: scale(0.2) rotate(0deg); opacity: 0; }
+    50% { transform: scale(1.3) rotate(45deg); opacity: 1; }
+    100% { transform: scale(1) translateY(-25px) rotate(90deg); opacity: 0; }
+  }
+
+  /* Caja holográfica */
+  .box-glow {
+    border-color: rgba(255, 89, 0, 0.9) !important;
+    opacity: 1 !important;
+    box-shadow: 0 0 40px rgba(255, 89, 0, 0.5), inset 0 0 20px rgba(255, 122, 36, 0.4);
+    animation: boxPulse 0.8s ease-in-out infinite alternate;
+  }
+
+  @keyframes boxPulse {
+    from { transform: translate(-50%, -50%) scale(0.95); }
+    to { transform: translate(-50%, -50%) scale(1.08); }
+  }
+</style>
+
+<script>
+  // CONTROLADOR DE LA EXPERIENCIA DEL MIMO EN CRISTAL INVISIBLE
+  const overlay = document.getElementById('mimo-modal-overlay');
+  const stage = document.getElementById('mimo-stage');
+  const card = document.getElementById('mimo-promo-card');
+  const rippleLeft = document.getElementById('glass-ripple-left');
+  const rippleRight = document.getElementById('glass-ripple-right');
+  const actorWave = document.getElementById('mimo-actor-wave');
+  const actorPresenting = document.getElementById('mimo-actor-presenting');
+  const speechBubble = document.getElementById('mimo-speech-bubble');
+  const speechText = document.getElementById('mimo-speech-text');
+  const invisibleBox = document.getElementById('invisible-box');
+  const glassSparkles = document.getElementById('glass-sparkles');
+  const closeBtn = document.getElementById('mimo-close-btn');
+  const dismissBtn = document.getElementById('mimo-cta-dismiss');
+  const fab = document.getElementById('mimo-promo-fab');
+  const backdrop = document.getElementById('mimo-modal-backdrop');
+
+  let isPlaying = false;
+  let hasClosed = false;
+
+  const showOverlay = () => {
+    if (!overlay) return;
+    overlay.classList.remove('opacity-0', 'pointer-events-none');
+    overlay.classList.add('opacity-100', 'pointer-events-auto');
+  };
+
+  const hideOverlay = () => {
+    if (!overlay) return;
+    overlay.classList.remove('opacity-100', 'pointer-events-auto');
+    overlay.classList.add('opacity-0', 'pointer-events-none');
+  };
+
+  // SECUENCIA COMPLETA DEL MIMO (Opción A: Cristal Invisible -> Caja Mágica -> Promo)
+  const playMimoSequence = (fastMode = false) => {
+    if (isPlaying) return;
+    isPlaying = true;
+    showOverlay();
+
+    // Reset de estados
+    if (stage) stage.classList.remove('hidden');
+    if (card) {
+      card.classList.add('hidden', 'opacity-0', 'scale-90');
+      card.classList.remove('opacity-100', 'scale-100');
+    }
+    if (actorWave) actorWave.classList.remove('hidden');
+    if (actorPresenting) actorPresenting.classList.add('hidden');
+    if (invisibleBox) invisibleBox.classList.remove('box-glow');
+    if (speechBubble) speechBubble.classList.add('opacity-0', 'translate-y-3');
+
+    const t1 = fastMode ? 200 : 500;
+    const t2 = fastMode ? 800 : 1300;
+    const t3 = fastMode ? 1400 : 2200;
+
+    // 1. Paso 1: Mimo toca el cristal (tap-tap con ondas de choque)
+    setTimeout(() => {
+      if (speechBubble && speechText) {
+        speechText.textContent = '¡Toc, toc! 🤫 ¿Hay alguien ahí?';
+        speechBubble.classList.remove('opacity-0', 'translate-y-3');
+      }
+      if (rippleLeft) rippleLeft.classList.add('active');
+      setTimeout(() => {
+        if (rippleRight) rippleRight.classList.add('active');
+      }, 250);
+    }, t1);
+
+    // 2. Paso 2: Moldea la caja invisible holográfica con sus manos
+    setTimeout(() => {
+      if (actorWave) actorWave.classList.add('hidden');
+      if (actorPresenting) actorPresenting.classList.remove('hidden');
+      if (speechText) speechText.textContent = '¡Mira lo que preparé para ti!';
+      if (invisibleBox) invisibleBox.classList.add('box-glow');
+      if (glassSparkles) glassSparkles.classList.remove('opacity-0');
+    }, t2);
+
+    // 3. Paso 3: ¡PUM! La caja estalla y revela la tarjeta de promoción
+    setTimeout(() => {
+      if (stage) stage.classList.add('hidden');
+      if (card) {
+        card.classList.remove('hidden');
+        // Pequeño timeout para animación CSS fluida
+        requestAnimationFrame(() => {
+          card.classList.remove('opacity-0', 'scale-90');
+          card.classList.add('opacity-100', 'scale-100');
+        });
+      }
+      isPlaying = false;
+    }, t3);
+  };
+
+  const closeModal = () => {
+    hideOverlay();
+    hasClosed = true;
+    try {
+      sessionStorage.setItem('mimo_promo_seen', 'true');
+    } catch {
+      // Ignorar errores en navegadores con storage bloqueado
+    }
+  };
+
+  // Eventos de cierre
+  closeBtn?.addEventListener('click', closeModal);
+  dismissBtn?.addEventListener('click', () => {
+    closeModal();
+    // Scroll suave a planes si el usuario decide ver todos
+    const planesSection = document.getElementById('planes');
+    if (planesSection) {
+      planesSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+
+  backdrop?.addEventListener('click', closeModal);
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay && !overlay.classList.contains('pointer-events-none')) {
+      closeModal();
+    }
+  });
+
+  // Botón flotante para reabrir cuando el usuario guste
+  fab?.addEventListener('click', () => {
+    playMimoSequence(true); // Modo rápido al reabrir
+  });
+
+  // Auto-lanzamiento al cargar la página si no se ha visto en la sesión
+  window.addEventListener('DOMContentLoaded', () => {
+    let seen = false;
+    try {
+      seen = sessionStorage.getItem('mimo_promo_seen') === 'true';
+    } catch {
+      seen = false;
+    }
+
+    if (!seen) {
+      // Esperar 900ms para que la página cargue visualmente primero
+      setTimeout(() => {
+        playMimoSequence(false);
+      }, 900);
+    }
+  });
+</script>
