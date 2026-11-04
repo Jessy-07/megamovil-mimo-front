@@ -1,0 +1,354 @@
+---
+import Layout from "../layouts/Layout.astro";
+import TopBar from "../components/TopBar.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import FloatingActions from "../components/FloatingActions.astro";
+import PageHero from "../components/PageHero.astro";
+import SalesBanner from "../components/SalesBanner.astro";
+import Icon from "../components/Icon.astro";
+// Iconos lucide renderizados en el servidor: llegan como SVG estático, sin JavaScript.
+import { CheckCircle2, Cpu, Download, Info, MousePointerClick, Pause, Phone, Play, QrCode, Repeat, Settings, ShieldCheck, Smartphone, Wifi } from "lucide-react";
+import esim from "../data/esim.json";
+import { brandHtml } from "../utils/brand";
+import { faqPageSchema } from "../utils/faqSchema";
+import { BRAND_LOGOS } from "../utils/brandLogos";
+import FaqAccordion from "../components/FaqAccordion";
+import faqFull from "../data/faq-full.json";
+// REFERENCIA: reemplazar por Mimo sosteniendo un celular con un chip virtual / eSIM (PNG transparente, ~500×500).
+import mimoEsim from "../assets/img/general/mimo-esim.png";
+import guideAndroid from "../assets/pdf/guia-de-activacion-esim-android.pdf?url";
+import guideIos from "../assets/pdf/guia-de-activacion-esim-ios.pdf?url";
+
+const origin = Astro.site ? Astro.site.href : "https://megamovil.megacable.com.mx";
+const pageUrl = new URL("/esim", origin).href;
+
+const benefitIcons = { cpu: Cpu, download: Download, repeat: Repeat, shield: ShieldCheck };
+const stepIcons = { pointer: MousePointerClick, wifi: Wifi, settings: Settings, qr: QrCode, check: CheckCircle2 };
+const guideFiles = { android: guideAndroid, ios: guideIos };
+
+// Logo oficial de cada sistema (fuente única: utils/brandLogos) sobre su color de marca: se identifica al instante.
+const platformLogos = {
+  android: { tile: "bg-[#3DDC84] text-[#073042]", path: BRAND_LOGOS.android.path },
+  ios: { tile: "bg-black text-white", path: BRAND_LOGOS.apple.path },
+};
+
+const { hero, what, benefits, compatibility: compat, activation, salesBanner } = esim;
+
+// Preguntas exclusivas de eSIM: misma fuente que /preguntas-frecuentes (categoría "esim").
+const esimFaq = faqFull.items.filter((q) => q.category === "esim");
+const esimCategory = faqFull.categories.filter((c) => c.id === "esim");
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: esim.seo.title,
+    description: esim.seo.description,
+    url: pageUrl,
+    inLanguage: "es-MX",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: origin },
+      { "@type": "ListItem", position: 2, name: "eSIM", item: pageUrl },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: activation.title,
+    step: activation.steps.map((s, i) => ({ "@type": "HowToStep", position: i + 1, name: s.title, text: s.text })),
+  },
+  faqPageSchema(esimFaq),
+];
+---
+
+<Layout title={esim.seo.title} description={esim.seo.description} {jsonLd}>
+  <!-- ENCABEZADO UNIFICADO STICKY -->
+  <div id="sticky-header-container" class="sticky top-0 z-50 w-full">
+    <TopBar />
+    <Header />
+  </div>
+
+  <main id="contenido" class="bg-slate-50/60 pb-16">
+    <!-- 1. HERO (página de producto: lleva CTA de venta) -->
+    <PageHero
+      id="esim-title"
+      crumb="eSIM"
+      titleBefore={hero.titleBefore}
+      titleHighlight={hero.titleHighlight}
+      subtitle={hero.subtitle}
+      image={mimoEsim}
+      imageAlt="Mimo, la mascota de Mega móvil, te presenta la eSIM"
+    >
+      <Fragment slot="actions">
+        <a href={hero.primaryCta.href} class="btn-primary !text-sm sm:!text-base">
+          {hero.primaryCta.label}
+          <Icon name="arrow-right" class="h-4 w-4" />
+        </a>
+        <a
+          href={hero.secondaryCta.href}
+          class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/25 bg-white/10 px-6 py-3 font-display text-sm font-black uppercase tracking-wider text-white hover:bg-white hover:text-mega-navy"
+        >
+          <Smartphone className="h-4 w-4" aria-hidden="true" />
+          {hero.secondaryCta.label}
+        </a>
+      </Fragment>
+    </PageHero>
+
+    <div class="container relative z-10 mx-auto -mt-12 px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-5xl space-y-6 sm:space-y-8">
+        <!-- 2. QUÉ ES + BENEFICIOS (tarjeta sobrepuesta al hero) -->
+        <section aria-labelledby="esim-que-es" class="grid grid-cols-1 gap-6 rounded-3xl bg-white p-6 sm:p-10 shadow-card-clean lg:grid-cols-5 lg:items-center lg:gap-10">
+          <div class="lg:col-span-2">
+            <span class="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-mega-orange to-mega-orange-dark text-white shadow-orange-sm">
+              <Cpu className="h-6 w-6" aria-hidden="true" />
+            </span>
+            <h2 id="esim-que-es" class="mt-4 font-display text-2xl sm:text-3xl font-black uppercase tracking-tight text-mega-navy" set:html={brandHtml(what.title)} />
+            <p class="mt-2 text-sm sm:text-base font-medium leading-relaxed text-slate-600">{what.text}</p>
+          </div>
+          <ul class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:col-span-3">
+            {
+              benefits.map((b) => {
+                const BIcon = benefitIcons[b.icon as keyof typeof benefitIcons];
+                return (
+                  <li class="flex items-start gap-3 rounded-2xl bg-slate-50 p-4">
+                    <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-orange-50 text-mega-orange">
+                      <BIcon className="h-5 w-5" aria-hidden="true" />
+                    </span>
+                    <span>
+                      <span class="block font-display text-base font-black text-mega-navy">{b.title}</span>
+                      <span class="block text-sm font-medium text-slate-500">{b.text}</span>
+                    </span>
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </section>
+
+        <!-- 3. COMPATIBILIDAD (bloque navy, como en el Home) con el video del EID -->
+        <section
+          id="compatibilidad"
+          aria-labelledby="esim-compat"
+          class="scroll-mt-36 relative overflow-hidden rounded-3xl bg-gradient-to-br from-mega-navy via-[#0A1E3D] to-[#0D2854] p-6 sm:p-10 text-white"
+        >
+          <div class="absolute -left-24 -bottom-24 h-72 w-72 rounded-full bg-mega-orange/15 blur-3xl pointer-events-none" aria-hidden="true"></div>
+          <div class="relative z-10 grid grid-cols-1 items-center gap-8 md:grid-cols-5">
+            <div class="md:col-span-3">
+              <p class="text-xs font-black uppercase tracking-widest text-mega-orange">{compat.eyebrow}</p>
+              <h2 id="esim-compat" class="mt-2 font-display text-2xl sm:text-4xl font-black uppercase leading-tight">{compat.title}</h2>
+              <p class="mt-3 text-sm sm:text-base font-semibold text-slate-300">{compat.text}</p>
+
+              <ol class="mt-6 space-y-3">
+                {
+                  compat.steps.map((step, i) => (
+                    <li class="flex items-center gap-3">
+                      <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-mega-orange font-display text-sm font-black">{i + 1}</span>
+                      <span class="font-display text-base font-black">{step}</span>
+                    </li>
+                  ))
+                }
+              </ol>
+
+              <a href={compat.cta.href} class="btn-primary mt-7 !text-sm sm:!text-base">
+                <Phone className="h-4 w-4" aria-hidden="true" />
+                {compat.cta.label}
+              </a>
+
+              <p class="mt-5 flex items-start gap-2 text-xs sm:text-sm font-semibold text-slate-400">
+                <Info className="mt-0.5 h-4 w-4 shrink-0 text-mega-orange" aria-hidden="true" />
+                {compat.fallback}
+              </p>
+            </div>
+
+            <!-- Video (antes GIF de 5 MB; ahora MP4/WebM de ~0.1 MB, con pausa accesible) -->
+            <div class="md:col-span-2">
+              <div class="relative mx-auto w-full max-w-[240px]">
+                <!-- El video ya es el celular (recortado a su contorno): sin marco extra -->
+                <div class="overflow-hidden rounded-[2.4rem] shadow-2xl">
+                  <video
+                    id="esim-eid-video"
+                    class="block aspect-[480/996] w-full object-cover"
+                    poster={compat.video.poster}
+                    muted
+                    loop
+                    playsinline
+                    preload="metadata"
+                    aria-label={compat.video.label}
+                    disablepictureinpicture
+                  >
+                    <source src={compat.video.webm} type="video/webm" />
+                    <source src={compat.video.mp4} type="video/mp4" />
+                  </video>
+                </div>
+                <button
+                  type="button"
+                  id="esim-eid-toggle"
+                  aria-label="Reproducir video"
+                  class="absolute -bottom-3 -right-3 grid h-12 w-12 place-items-center rounded-full bg-mega-orange text-white shadow-orange-sm ring-4 ring-mega-navy hover:bg-mega-orange-dark cursor-pointer"
+                >
+                  <Play data-icon-play className="ml-0.5 h-5 w-5 fill-current" aria-hidden="true" />
+                  <Pause data-icon-pause className="hidden h-5 w-5 fill-current" aria-hidden="true" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. ACTIVACIÓN EN 5 PASOS + GUÍAS PDF -->
+        <section id="activacion" aria-labelledby="esim-activa" class="scroll-mt-36 rounded-3xl bg-white p-6 sm:p-10 shadow-card-clean">
+          <div class="text-center">
+            <h2 id="esim-activa" class="font-display text-2xl sm:text-3xl font-black uppercase tracking-tight text-mega-navy" set:html={brandHtml(activation.title)} />
+            <p class="mt-2 text-sm sm:text-base font-medium text-slate-500">{activation.subtitle}</p>
+          </div>
+
+          <ol class="relative mt-8 grid grid-cols-1 gap-4 md:grid-cols-5 md:gap-3">
+            <!-- Línea que une los pasos (solo escritorio) -->
+            <span class="absolute left-[10%] right-[10%] top-7 hidden h-0.5 bg-slate-200 md:block" aria-hidden="true"></span>
+            {
+              activation.steps.map((s, i) => {
+                const SIcon = stepIcons[s.icon as keyof typeof stepIcons];
+                const last = i === activation.steps.length - 1;
+                return (
+                  <li class="relative flex items-center gap-4 md:flex-col md:text-center">
+                    <span
+                      class:list={[
+                        "relative z-10 grid h-14 w-14 shrink-0 place-items-center rounded-full ring-4 ring-white",
+                        last ? "bg-gradient-to-br from-mega-orange to-mega-orange-dark text-white shadow-orange-sm" : "bg-orange-50 text-mega-orange",
+                      ]}
+                    >
+                      <SIcon className="h-6 w-6" aria-hidden="true" />
+                      <span class="absolute -right-1 -top-1 grid h-6 w-6 place-items-center rounded-full bg-mega-navy font-display text-[11px] font-black text-white ring-2 ring-white">
+                        {i + 1}
+                      </span>
+                    </span>
+                    <span>
+                      <span class="block font-display text-sm sm:text-base font-black leading-tight text-mega-navy">{s.title}</span>
+                      <span class="mt-0.5 block text-xs sm:text-sm font-medium text-slate-500">{s.text}</span>
+                    </span>
+                  </li>
+                );
+              })
+            }
+          </ol>
+
+          <!-- Guías descargables -->
+          <div class="mt-10 rounded-2xl bg-slate-50 p-5 sm:p-6">
+            <p class="font-display text-base sm:text-lg font-black text-mega-navy">{activation.guidesTitle}</p>
+            <ul class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {
+                activation.guides.map((g) => {
+                  const logo = platformLogos[g.platform as keyof typeof platformLogos];
+                  return (
+                    <li>
+                      <a
+                        href={guideFiles[g.file as keyof typeof guideFiles]}
+                        download
+                        data-guide-platform={g.platform}
+                        aria-label={`Descargar ${g.label} para ${g.os} (${g.size})`}
+                        class="group relative flex h-full items-center gap-4 rounded-2xl border-2 border-transparent bg-white p-4 sm:p-5 shadow-card-clean hover:border-mega-orange data-[recommended]:border-mega-orange"
+                      >
+                        <!-- Logo del sistema operativo con su color de marca: se reconoce de un vistazo -->
+                        <span class:list={["grid h-14 w-14 shrink-0 place-items-center rounded-2xl", logo.tile]}>
+                          <svg viewBox="0 0 24 24" fill="currentColor" class="h-7 w-7" aria-hidden="true"><path d={logo.path} /></svg>
+                        </span>
+                        <span class="min-w-0 flex-1">
+                          <span data-recommended-badge class="mb-1 hidden w-fit items-center rounded-full bg-mega-orange px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-white">
+                            Para tu celular
+                          </span>
+                          <span class="block font-display text-lg sm:text-xl font-black leading-tight text-mega-navy">{g.os}</span>
+                          <span class="block text-xs sm:text-sm font-semibold text-slate-500">
+                            {g.label} · {g.size}
+                          </span>
+                        </span>
+                        <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-orange-50 text-mega-orange group-hover:bg-mega-orange group-hover:text-white" aria-hidden="true">
+                          <Download className="h-5 w-5" />
+                        </span>
+                      </a>
+                    </li>
+                  );
+                })
+              }
+            </ul>
+          </div>
+        </section>
+
+        <!-- 5. PREGUNTAS FRECUENTES EXCLUSIVAS DE eSIM
+             Sin CTA dentro de las respuestas: marcar *#06#, activar y elegir plan ya están en esta página. -->
+        <section id="preguntas" aria-labelledby="esim-faq-title" class="scroll-mt-36">
+          <h2 id="esim-faq-title" class="mb-5 text-center font-display text-2xl sm:text-3xl font-black uppercase tracking-tight text-mega-navy">
+            Preguntas frecuentes sobre <span class="normal-case">eSIM</span>
+          </h2>
+          <FaqAccordion client:visible variant="simple" hideCtas categories={esimCategory} items={esimFaq} />
+        </section>
+      </div>
+    </div>
+
+    <!-- 6. BANNER COMERCIAL -->
+    <SalesBanner title={salesBanner.title} text={salesBanner.text} ctaLabel={salesBanner.ctaLabel} />
+  </main>
+
+  <!-- FOOTER -->
+  <Footer />
+
+  <!-- BOTONES FLOTANTES -->
+  <FloatingActions />
+</Layout>
+
+<script>
+  // Guías: si el visitante entra desde un Android o un iPhone, se marca su guía ("Para tu celular").
+  // En computadora no se marca ninguna. Solo mejora la experiencia; sin JS ambas guías siguen visibles.
+  const ua = navigator.userAgent;
+  const isIos = /iPhone|iPad|iPod/i.test(ua) || (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1);
+  const platform = isIos ? "ios" : /Android/i.test(ua) ? "android" : null;
+  if (platform) {
+    const card = document.querySelector<HTMLElement>(`[data-guide-platform="${platform}"]`);
+    if (card) {
+      card.setAttribute("data-recommended", "");
+      const badge = card.querySelector("[data-recommended-badge]");
+      badge?.classList.remove("hidden");
+      badge?.classList.add("flex");
+    }
+  }
+
+  // Video del EID: se reproduce en bucle solo si el usuario no pidió reducir movimiento,
+  // y siempre se puede pausar (requisito de accesibilidad para contenido en movimiento > 5 s).
+  const video = document.getElementById("esim-eid-video");
+  const toggle = document.getElementById("esim-eid-toggle");
+
+  if (video instanceof HTMLVideoElement && toggle) {
+    const iconPlay = toggle.querySelector("[data-icon-play]");
+    const iconPause = toggle.querySelector("[data-icon-pause]");
+
+    const sync = () => {
+      const playing = !video.paused;
+      iconPlay?.classList.toggle("hidden", playing);
+      iconPause?.classList.toggle("hidden", !playing);
+      toggle.setAttribute("aria-label", playing ? "Pausar video" : "Reproducir video");
+    };
+
+    video.addEventListener("play", sync);
+    video.addEventListener("pause", sync);
+    toggle.addEventListener("click", () => (video.paused ? video.play().catch(() => {}) : video.pause()));
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduceMotion) {
+      // Empieza a reproducirse cuando el bloque entra en pantalla (no gasta datos antes).
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            video.play().catch(() => {});
+            io.disconnect();
+          }
+        },
+        { threshold: 0.4 },
+      );
+      io.observe(video);
+    }
+    sync();
+  }
+</script>

@@ -1,0 +1,30 @@
+{
+  "seo": {
+    "title": "Planes Mega móvil | Familiares e individuales desde $100 al mes",
+    "description": "Compara los planes pospago de Mega móvil: familiares de 2 a 4 líneas e individuales de 6 GB, 30 GB o ilimitados. Minutos y SMS a México, EE.UU. y Canadá."
+  },
+  "hero": {
+    "titleBefore": "Elige tu ",
+    "titleHighlight": "plan",
+    "subtitle": "Planes pospago sin letras chiquitas, con minutos y SMS a México, EE.UU. y Canadá."
+  },
+  "plans": {
+    "whatsappText": "Hola, quiero contratar el plan {plan}."
+  },
+  "help": [
+    {
+      "icon": "whatsapp",
+      "title": "¿No sabes cuál elegir?",
+      "text": "Te recomendamos el plan ideal por WhatsApp.",
+      "label": "Ayúdame a elegir",
+      "whatsappText": "Hola, ¿me ayudan a elegir mi plan Mega móvil?"
+    },
+    {
+      "icon": "repeat",
+      "title": "¿Vienes de otra compañía?",
+      "text": "Cámbiate y conserva tu número, gratis.",
+      "label": "Cómo cambiarme",
+      "href": "/cambiate-a-megamovil"
+    }
+  ]
+}

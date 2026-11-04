@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import site from '../data/site.json';
+import CallMeModal from '../components/CallMeModal.astro';
 
 interface Props {
   title?: string;
@@ -58,5 +59,7 @@ const googleFonts = 'https://fonts.googleapis.com/css2?family=Bricolage+Grotesqu
       Saltar al contenido
     </a>
     <slot />
+    <!-- Modal "¡Llámame!" del callcenter (botones ¡Lo quiero! de los planes) + script de Convertia -->
+    <CallMeModal />
   </body>
 </html>

@@ -1,0 +1,257 @@
+---
+/**
+ * "¡Llámame!" — modal del callcenter para los botones "¡Lo quiero!" de los planes (y "¡La quiero!" de promociones).
+ *
+ * Cómo se conecta (igual que el sitio actual):
+ * - El script de Convertia / inConcert (site.json → callcenter.scriptUrl) busca al cargar la página los <form> con un campo
+ *   de teléfono y los conecta a su "Click to Call": valida 10 dígitos, envía el número y muestra su aviso "¡¡Te llamaremos en breve!!".
+ * - Por eso este formulario vive en el HTML desde el inicio (no se crea con React) y conserva los MISMOS ids del sitio actual:
+ *   form #f-llamame-home2 · input #telefono1 (name="phone", data-ic-form-field="phone") · hidden #f-llamame-interes (name="interes")
+ *   · botón #f-llamame-home2_0. Convertia reporta formId/buttonId: cambiarlos rompería los reportes del callcenter.
+ * - Cada botón que abre el modal lleva data-callme, data-callme-label (lo que ve el usuario) y data-callme-interest
+ *   (lo que recibe el asesor en "interes").
+ * - Enlace de campaña: cualquier URL con #llamame abre el modal.
+ * - Si Convertia no cargó (bloqueador, sin red, dominio no autorizado), no se pierde la venta: se ofrece WhatsApp con el
+ *   plan y el número ya escritos.
+ */
+import site from "../data/site.json";
+
+const { callcenter } = site;
+---
+
+<dialog
+  id="callme-dialog"
+  data-wa={site.whatsapp.href}
+  aria-labelledby="callme-title"
+  class="m-auto w-[calc(100%-2rem)] max-w-lg rounded-3xl bg-white p-0 text-mega-navy shadow-2xl backdrop:bg-mega-navy/60 backdrop:backdrop-blur-sm"
+>
+  <div class="relative p-6 sm:p-8">
+    <button
+      type="button"
+      data-callme-close
+      aria-label="Cerrar"
+      class="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full bg-slate-100 text-slate-600 hover:bg-mega-orange hover:text-white cursor-pointer"
+    >
+      <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+    </button>
+
+    <!-- Paso 1: pedir el número -->
+    <div data-callme-step="form">
+      <span class="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-mega-orange to-mega-orange-dark text-white shadow-orange-sm">
+        <svg viewBox="0 0 24 24" class="h-7 w-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"></path>
+        </svg>
+      </span>
+      <h2 id="callme-title" class="mt-4 font-display text-2xl sm:text-3xl font-black uppercase leading-tight tracking-tight">{callcenter.title}</h2>
+      <p class="mt-1 text-sm sm:text-base font-medium text-slate-600">{callcenter.text}</p>
+
+      <p class="mt-4 inline-flex max-w-full items-center gap-2 rounded-full bg-orange-50 px-4 py-2 text-sm font-bold text-mega-navy" data-callme-plan-wrap style="display:none">
+        <svg viewBox="0 0 24 24" class="h-4 w-4 shrink-0 text-mega-orange" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
+        <span class="truncate" data-callme-plan></span>
+      </p>
+
+      <!-- IDs y nombres IGUALES al sitio actual (Convertia los usa para reportar) -->
+      <form role="form" id="f-llamame-home2" class="mt-5" novalidate>
+        <input type="hidden" id="f-llamame-interes" name="interes" value="" />
+        <label for="telefono1" class="mb-1.5 block text-sm font-black">{callcenter.label}</label>
+        <div class="flex flex-col gap-2.5 sm:flex-row">
+          <input
+            type="tel"
+            id="telefono1"
+            name="phone"
+            data-ic-form-field="phone"
+            class="telefono h-14 min-w-0 flex-1 rounded-full border-2 border-slate-200 bg-slate-50 px-5 text-lg font-bold tracking-wider text-mega-navy placeholder:font-medium placeholder:tracking-normal placeholder:text-slate-400 focus:border-mega-orange focus:bg-white focus:outline-none"
+            placeholder={callcenter.placeholder}
+            inputmode="numeric"
+            autocomplete="tel-national"
+            maxlength="14"
+            required
+            aria-describedby="callme-error callme-hours"
+          />
+          <button type="submit" id="f-llamame-home2_0" class="btn-llamar btn-primary h-14 shrink-0">{callcenter.button}</button>
+        </div>
+        <p id="callme-error" class="mt-2 min-h-[1.25rem] text-sm font-bold text-red-700" role="alert"></p>
+      </form>
+
+      <p id="callme-hours" class="text-xs sm:text-sm font-semibold text-slate-500">{callcenter.hours}</p>
+
+      <div class="mt-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-slate-100 pt-4 text-xs sm:text-sm font-semibold text-slate-500">
+        <a href={site.whatsapp.href} target="_blank" rel="noopener noreferrer" data-callme-whatsapp class="inline-flex items-center gap-1.5 font-black text-[#1DA851] hover:underline underline-offset-4">
+          {callcenter.whatsappLabel}
+        </a>
+        <span>
+          Aplican términos y condiciones,
+          <a href={callcenter.termsHref} target="_blank" rel="noopener noreferrer" class="font-black text-mega-orange hover:underline underline-offset-4">aquí</a>
+        </span>
+      </div>
+    </div>
+
+    <!-- Si el callcenter no está disponible: WhatsApp con todo ya escrito -->
+    <div data-callme-step="fallback" hidden>
+      <h2 class="font-display text-2xl font-black uppercase leading-tight tracking-tight">{callcenter.fallbackTitle}</h2>
+      <p class="mt-2 text-sm sm:text-base font-medium text-slate-600">{callcenter.fallbackText}</p>
+      <a
+        href={site.whatsapp.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-callme-fallback-link
+        class="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-4 font-display text-base font-black uppercase tracking-wider text-white hover:bg-[#20ba5a]"
+      >
+        {callcenter.fallbackButton}
+      </a>
+    </div>
+  </div>
+</dialog>
+
+<!--
+  Carga del callcenter DESPUÉS de que la página terminó de cargar (no frena la página):
+  jQuery → Bootstrap JS (copia de Convertia) → script de Convertia.
+  Por qué jQuery y Bootstrap: si la página no los trae, Convertia intenta bajar "static/libs/5.min.js", que no existe (404),
+  y el Click to Call nunca se activa. El sitio actual funciona porque ya carga ambos. Solo JS: no se carga CSS de Bootstrap.
+-->
+{
+  callcenter.enabled && (
+    <script is:inline define:vars={{ libs: callcenter.libs, main: callcenter.scriptUrl }}>
+      (function () {
+        var load = function (src, cb) {
+          var s = document.createElement("script");
+          s.src = src;
+          s.onload = cb;
+          s.onerror = cb;
+          document.body.appendChild(s);
+        };
+        var start = function () {
+          var chain = libs.slice();
+          if (window.jQuery && window.jQuery.fn && window.jQuery.fn.modal) chain = [];
+          else if (window.jQuery) chain = chain.slice(1);
+          (function next() {
+            if (chain.length) load(chain.shift(), next);
+            else load(main);
+          })();
+        };
+        var idle = function () {
+          (window.requestIdleCallback || function (f) { setTimeout(f, 300); })(start);
+        };
+        if (document.readyState === "complete") idle();
+        else window.addEventListener("load", idle, { once: true });
+      })();
+    </script>
+  )
+}
+
+<script>
+  const dialog = document.getElementById("callme-dialog") as HTMLDialogElement | null;
+  const form = document.getElementById("f-llamame-home2") as HTMLFormElement | null;
+  const phone = document.getElementById("telefono1") as HTMLInputElement | null;
+  const interest = document.getElementById("f-llamame-interes") as HTMLInputElement | null;
+  const error = document.getElementById("callme-error");
+  const planText = dialog?.querySelector<HTMLElement>("[data-callme-plan]");
+  const planWrap = dialog?.querySelector<HTMLElement>("[data-callme-plan-wrap]");
+  const stepForm = dialog?.querySelector<HTMLElement>('[data-callme-step="form"]');
+  const stepFallback = dialog?.querySelector<HTMLElement>('[data-callme-step="fallback"]');
+  const waLink = dialog?.querySelector<HTMLAnchorElement>("[data-callme-whatsapp]");
+  const waFallback = dialog?.querySelector<HTMLAnchorElement>("[data-callme-fallback-link]");
+  const WA = dialog?.dataset.wa ?? "https://wa.me/523396900001";
+  let currentLabel = "";
+  const submitBtn = document.getElementById("f-llamame-home2_0") as HTMLButtonElement | null;
+  const submitText = submitBtn?.textContent ?? "";
+  const resetButton = () => {
+    if (!submitBtn) return;
+    submitBtn.disabled = false;
+    submitBtn.textContent = submitText;
+  };
+
+  const digits = () => (phone?.value ?? "").replace(/\D/g, "");
+  const waText = (withPhone: boolean) =>
+    `Hola, quiero contratar ${currentLabel ? `el plan ${currentLabel}` : "un plan Mega móvil"}.${withPhone && digits() ? ` Mi número es ${digits()}.` : ""}`;
+
+  const open = (label: string, interestValue: string) => {
+    if (!dialog || !phone || !interest) return false;
+    currentLabel = label;
+    interest.value = interestValue;
+    if (planText && planWrap) {
+      planText.textContent = label;
+      planWrap.style.display = label ? "" : "none";
+    }
+    if (waLink) waLink.href = `${WA}?text=${encodeURIComponent(waText(false))}`;
+    if (stepForm) stepForm.hidden = false;
+    if (stepFallback) stepFallback.hidden = true;
+    if (error) error.textContent = "";
+    phone.removeAttribute("aria-invalid");
+    dialog.showModal();
+    document.documentElement.style.overflow = "hidden";
+    phone.focus();
+    return true;
+  };
+  const close = () => dialog?.close();
+  dialog?.addEventListener("close", () => (document.documentElement.style.overflow = ""));
+  dialog?.querySelector("[data-callme-close]")?.addEventListener("click", close);
+  // Clic en el fondo oscuro cierra.
+  dialog?.addEventListener("click", (e) => {
+    if (e.target === dialog) close();
+  });
+
+  // Cualquier botón con data-callme abre el modal (su href queda como respaldo sin JavaScript: WhatsApp).
+  document.addEventListener("click", (e) => {
+    const trigger = (e.target as HTMLElement).closest<HTMLElement>("[data-callme]");
+    if (!trigger) return;
+    if (open(trigger.dataset.callmeLabel ?? "", trigger.dataset.callmeInterest ?? "")) e.preventDefault();
+  });
+
+  // Enlace directo para campañas: cualquier página + #llamame abre el modal (sin plan elegido).
+  if (location.hash === "#llamame") open("", "Enlace #llamame - " + location.pathname);
+
+  // Máscara (000) 000-0000, la misma del sitio actual.
+  phone?.addEventListener("input", () => {
+    const d = digits().slice(0, 10);
+    phone.value = d.length > 6 ? `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}` : d.length > 3 ? `(${d.slice(0, 3)}) ${d.slice(3)}` : d;
+    if (error?.textContent) {
+      error.textContent = "";
+      phone.removeAttribute("aria-invalid");
+    }
+  });
+
+  // Se valida ANTES que Convertia (fase de captura en document). Si es válido, se cierra el modal para que se vea el aviso de
+  // Convertia ("¡¡Te llamaremos en breve!!") y el envío sigue su curso. Si Convertia no conectó el formulario, WhatsApp.
+  document.addEventListener(
+    "submit",
+    (e) => {
+      if (e.target !== form) return;
+      if (digits().length !== 10) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        if (error) error.textContent = "Escribe tu número a 10 dígitos.";
+        phone?.setAttribute("aria-invalid", "true");
+        phone?.focus();
+        return;
+      }
+      if (!form.hasAttribute("data-ic-form")) {
+        // Convertia todavía no conecta el formulario (sigue cargando): se espera hasta 6 s y se reintenta con el mismo botón
+        // (Convertia reporta su id). Si nunca conecta (bloqueador, sin red, dominio no autorizado): WhatsApp con todo escrito.
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Enviando…";
+        }
+        const started = Date.now();
+        const wait = window.setInterval(() => {
+          if (form?.hasAttribute("data-ic-form")) {
+            window.clearInterval(wait);
+            resetButton();
+            submitBtn?.click();
+          } else if (Date.now() - started > 6000) {
+            window.clearInterval(wait);
+            resetButton();
+            if (waFallback) waFallback.href = `${WA}?text=${encodeURIComponent(waText(true))}`;
+            if (stepForm) stepForm.hidden = true;
+            if (stepFallback) stepFallback.hidden = false;
+          }
+        }, 250);
+        return;
+      }
+      close();
+    },
+    true,
+  );
+</script>

@@ -1,0 +1,132 @@
+---
+/**
+ * Cobertura. En el sitio anterior era un bloque del Home (home#d-home-cobertura) y el mapa vive en
+ * https://cobertura.megacable.com.mx/megamovil/ (no se puede incrustar: X-Frame-Options DENY), así que
+ * se usa SU capa de cobertura (WMTS de geomega.com.mx) en un mapa propio: CoverageMap.tsx. Textos de los 3 puntos: los del sitio anterior.
+ * Un solo camino: consultar el mapa → elegir plan.
+ */
+import Layout from "../layouts/Layout.astro";
+import TopBar from "../components/TopBar.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import FloatingActions from "../components/FloatingActions.astro";
+import PageHero from "../components/PageHero.astro";
+import Plans from "../components/Plans.astro";
+import Icon from "../components/Icon.astro";
+import { Map, Phone, PlaneTakeoff, Rocket } from "lucide-react";
+import CoverageMap from "../components/CoverageMap";
+import data from "../data/cobertura.json";
+import { planSummary, whatsappUrl } from "../utils/whatsapp";
+// REFERENCIA: reemplazar por Mimo señalando un mapa / con una antena de señal. PNG transparente, ~500×500.
+import mimoCobertura from "../assets/img/general/mimo-cobertura.png";
+
+const origin = Astro.site ? Astro.site.href : "https://megamovil.megacable.com.mx";
+const pageUrl = new URL("/cobertura", origin).href;
+
+const { hero, map, items, roaming, plans: plansCopy } = data;
+const icons = { map: Map, phone: Phone, rocket: Rocket };
+const planWhatsapp = (plan: Parameters<typeof planSummary>[0]) => whatsappUrl(plansCopy.whatsappText.replace("{plan}", planSummary(plan)));
+
+const jsonLd = [
+  { "@context": "https://schema.org", "@type": "WebPage", name: data.seo.title, description: data.seo.description, url: pageUrl, inLanguage: "es-MX" },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: origin },
+      { "@type": "ListItem", position: 2, name: "Cobertura", item: pageUrl },
+    ],
+  },
+];
+---
+
+<Layout title={data.seo.title} description={data.seo.description} {jsonLd}>
+  <!-- ENCABEZADO UNIFICADO STICKY -->
+  <div id="sticky-header-container" class="sticky top-0 z-50 w-full">
+    <TopBar />
+    <Header />
+  </div>
+
+  <main id="contenido" class="bg-slate-50/60 pb-16">
+    <!-- 1. HERO -->
+    <PageHero
+      id="cobertura-title"
+      crumb="Cobertura"
+      titleBefore={hero.titleBefore}
+      titleHighlight={hero.titleHighlight}
+      titleAfter={hero.titleAfter}
+      subtitle={hero.subtitle}
+      image={mimoCobertura}
+      imageAlt="Mimo, la mascota de Mega móvil, te muestra la cobertura"
+    />
+
+    <!-- 2. TARJETA SOBREPUESTA: primero la acción (abrir el mapa), después los 3 puntos -->
+    <div class="container relative z-10 mx-auto -mt-12 px-4 sm:px-6 lg:px-8">
+      <section aria-labelledby="map-title" class="mx-auto max-w-5xl rounded-3xl bg-white p-5 sm:p-8 lg:p-10 shadow-card-clean">
+        <!-- Mapa de cobertura: capa oficial de Megacable en un mapa propio (el mapa oficial no se puede incrustar) -->
+        <div class="text-center">
+          <h2 id="map-title" class="font-display text-2xl sm:text-3xl font-black uppercase tracking-tight text-mega-navy">{map.title}</h2>
+          <p class="mt-1 text-sm sm:text-base font-medium text-slate-600">{map.text}</p>
+        </div>
+        <div class="mt-5">
+          <CoverageMap
+            client:visible
+            coverageTilesUrl={map.coverageTilesUrl}
+            searchPlaceholder={map.searchPlaceholder}
+            legend={map.legend}
+            legendNote={map.legendNote}
+            foundMessage={map.foundMessage}
+            ctaLabel={map.ctaLabel}
+            ctaHref={map.ctaHref}
+          />
+        </div>
+        <p class="mt-3 text-center text-xs sm:text-sm font-semibold text-slate-500">
+          {map.officialText}
+          <a href={map.href} target="_blank" rel="noopener noreferrer" class="ml-1 inline-flex items-center gap-1 font-black text-mega-orange hover:underline underline-offset-4">
+            {map.officialLabel}
+            <Icon name="external-link" class="h-3.5 w-3.5" />
+          </a>
+        </p>
+
+        <!-- Los 3 puntos del sitio anterior -->
+        <ul class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          {
+            items.map((item) => {
+              const ItemIcon = icons[item.icon as keyof typeof icons];
+              return (
+                <li class="flex flex-col items-center rounded-3xl border-2 border-slate-100 bg-slate-50/70 p-5 text-center">
+                  <span class="grid h-14 w-14 place-items-center rounded-full bg-mega-navy text-white">
+                    <ItemIcon className="h-7 w-7" aria-hidden="true" />
+                  </span>
+                  <h3 class="mt-3 font-display text-lg font-black leading-tight text-mega-navy">{item.title}</h3>
+                  {item.badge && (
+                    <span class="mt-2 rounded-full bg-orange-50 px-3 py-1 font-display text-sm font-black text-mega-orange">{item.badge}</span>
+                  )}
+                </li>
+              );
+            })
+          }
+        </ul>
+
+        <!-- Venta cruzada: para el resto del mundo, paquetes de roaming -->
+        <p class="mt-8 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 border-t border-slate-100 pt-5 text-sm font-semibold text-slate-500">
+          <PlaneTakeoff className="h-4 w-4 text-mega-orange" aria-hidden="true" />
+          {roaming.text}
+          <a href={roaming.href} class="inline-flex items-center gap-1 font-black text-mega-orange hover:underline underline-offset-4">
+            {roaming.label}
+            <Icon name="arrow-right" class="h-4 w-4" />
+          </a>
+        </p>
+      </section>
+    </div>
+
+    <!-- 3. PLANES: mismos del Home; el botón abre WhatsApp con el plan ya escrito -->
+    <Plans title={plansCopy.title} ctaHrefFor={planWhatsapp} />
+  </main>
+
+  <!-- FOOTER -->
+  <Footer />
+
+  <!-- BOTONES FLOTANTES -->
+  <FloatingActions />
+</Layout>

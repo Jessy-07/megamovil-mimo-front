@@ -1,5 +1,5 @@
 import { useId, useState, type FormEvent } from 'react';
-import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
+import { AlertCircle, ArrowRight, CheckCircle2, Loader2 } from 'lucide-react';
 
 interface Props {
   label: string;
@@ -10,19 +10,22 @@ interface Props {
   success: string;
   linkLabel?: string;
   linkHref?: string;
+  /** Acción que aparece al validar (p. ej. "Elige tu plan"): el siguiente paso de la venta. */
+  successCtaLabel?: string;
+  successCtaHref?: string;
 }
 
 type Status = 'idle' | 'checking' | 'ok' | 'error';
 
-/** Solo UI: valida formato (15 dígitos) y simula el resultado. */
-export default function ImeiChecker({ label, placeholder, button, checking, invalid, success, linkLabel, linkHref }: Props) {
+/** Solo UI: valida formato (15 a 17 dígitos: IMEI o IMEISV) y simula el resultado. */
+export default function ImeiChecker({ label, placeholder, button, checking, invalid, success, linkLabel, linkHref, successCtaLabel, successCtaHref }: Props) {
   const id = useId();
   const [imei, setImei] = useState('');
   const [status, setStatus] = useState<Status>('idle');
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!/^\d{15}$/.test(imei)) return setStatus('error');
+    if (!/^\d{15,17}$/.test(imei)) return setStatus('error');
     setStatus('checking');
     window.setTimeout(() => setStatus('ok'), 700);
   };
@@ -38,12 +41,12 @@ export default function ImeiChecker({ label, placeholder, button, checking, inva
           value={imei}
           inputMode="numeric"
           autoComplete="off"
-          maxLength={15}
+          maxLength={17}
           placeholder={placeholder}
           aria-invalid={status === 'error'}
           aria-describedby={`${id}-msg`}
           onChange={(e) => {
-            setImei(e.target.value.replace(/\D/g, '').slice(0, 15));
+            setImei(e.target.value.replace(/\D/g, '').slice(0, 17));
             if (status !== 'idle') setStatus('idle');
           }}
           className="h-14 flex-1 rounded-pill border-2 border-mega-blue/20 bg-white px-6 text-lg font-bold tracking-widest text-mega-navy placeholder:font-semibold placeholder:tracking-normal placeholder:text-mega-gray-dark/70 focus:border-mega-blue focus:outline-none"
@@ -69,6 +72,12 @@ export default function ImeiChecker({ label, placeholder, button, checking, inva
           <p className="flex items-center gap-2 text-emerald-700">
             <CheckCircle2 className="h-5 w-5 shrink-0" aria-hidden="true" /> {success}
           </p>
+        )}
+        {status === 'ok' && successCtaLabel && successCtaHref && (
+          <a href={successCtaHref} className="btn-primary mt-4">
+            {successCtaLabel}
+            <ArrowRight className="h-5 w-5" aria-hidden="true" />
+          </a>
         )}
       </div>
 

@@ -29,11 +29,11 @@
       "children": [
         {
           "label": "Planes",
-          "href": "#planes"
+          "href": "/planes"
         },
         {
           "label": "Planes Internacionales",
-          "href": "#planes"
+          "href": "/roaming-internacional"
         },
         {
           "label": "Recargas",
@@ -41,52 +41,55 @@
         },
         {
           "label": "Compatibilidad",
-          "href": "#compatibilidad"
+          "href": "/compatibilidad"
         },
         {
           "label": "Beneficios",
-          "href": "#planes"
+          "href": "/beneficios"
         },
         {
           "label": "Cobertura",
-          "href": "https://megamovil.megacable.com.mx/cobertura"
+          "href": "/cobertura"
         },
         {
           "label": "Vincula tu línea",
-          "href": "https://registro.megamovil.mx/vinculatulinea/"
+          "href": "https://registro.megamovil.mx/vinculatulinea/",
+          "target": "_blank"
         }
       ]
     },
     {
       "label": "Cámbiate a Mega móvil",
-      "href": "#planes"
+      "href": "/cambiate-a-megamovil"
     },
     {
       "label": "Promociones",
-      "href": "#promos"
+      "href": "/promociones"
     },
     {
       "label": "eSIM",
-      "href": "#esim"
+      "href": "/esim"
     },
     {
       "label": "Ayuda",
       "children": [
         {
           "label": "Vincula tu línea",
-          "href": "https://registro.megamovil.mx/vinculatulinea/"
+          "href": "https://registro.megamovil.mx/vinculatulinea/",
+          "target": "_blank"
         },
         {
           "label": "Líneas vinculadas",
-          "href": "https://consultavinculacion.megamovil.mx/"
+          "href": "https://consultavinculacion.megamovil.mx/",
+          "target": "_blank"
         },
         {
           "label": "Preguntas frecuentes",
-          "href": "#faq"
+          "href": "/preguntas-frecuentes"
         },
         {
           "label": "Soporte",
-          "href": "tel:3396900000"
+          "href": "/soporte"
         }
       ]
     }
@@ -104,7 +107,11 @@
         "links": [
           {
             "label": "Preguntas frecuentes",
-            "href": "#faq"
+            "href": "/preguntas-frecuentes"
+          },
+          {
+            "label": "Soporte",
+            "href": "/soporte"
           }
         ]
       },

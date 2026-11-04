@@ -210,3 +210,13 @@
   .animate-pulse { animation: none !important; }
   * { transition-duration: 0.01ms !important; }
 }
+
+/* Mapa de cobertura: mapa base en gris para que resalte la capa azul de cobertura (CoverageMap.tsx). */
+.leaflet-basemap-gray {
+  filter: grayscale(1) brightness(1.04) contrast(0.92);
+}
+
+/* Capa de cobertura redibujada con relleno suave + contorno (filtro SVG #mm-coverage-filter en CoverageMap.tsx). */
+.leaflet-coverage {
+  filter: url(#mm-coverage-filter);
+}

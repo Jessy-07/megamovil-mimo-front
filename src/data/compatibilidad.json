@@ -1,0 +1,64 @@
+{
+  "seo": {
+    "title": "Compatibilidad de tu celular con Mega móvil | Valida tu IMEI",
+    "description": "Escribe el IMEI de tu celular y descubre si es compatible con Mega móvil. Obtén tu IMEI marcando *#06#, desde la configuración de tu equipo o en la etiqueta de la batería."
+  },
+  "hero": {
+    "titleBefore": "¿Tu celular es ",
+    "titleHighlight": "compatible",
+    "titleAfter": "?",
+    "subtitle": "Valida tu IMEI y descubre si tu equipo funciona con Mega móvil."
+  },
+  "checker": {
+    "title": "Consulta la compatibilidad de tu equipo",
+    "label": "Número IMEI de tu equipo",
+    "placeholder": "Ingresa tu IMEI",
+    "button": "Validar aquí",
+    "checking": "Validando…",
+    "invalid": "Ingresa un IMEI válido de 15 a 17 dígitos (solo números)",
+    "success": "¡Tu equipo es 100% compatible con Mega móvil!",
+    "successCtaLabel": "Elige tu plan",
+    "successCtaHref": "#planes"
+  },
+  "howTo": {
+    "title": "¿Cómo obtener el código IMEI de tu celular?",
+    "subtitle": "Existen tres opciones para obtener el IMEI",
+    "options": [
+      {
+        "icon": "dial",
+        "before": "",
+        "strong": "Marca *#06#",
+        "text": "desde tu celular",
+        "note": "",
+        "paths": [],
+        "action": { "label": "Marcar *#06#", "href": "tel:*%2306%23" }
+      },
+      {
+        "icon": "settings",
+        "before": "Desde la ",
+        "strong": "configuración",
+        "text": "de tu equipo",
+        "note": "(Son entre 15 y 17 números)",
+        "paths": [
+          { "os": "android", "path": "Configuración › Acerca del teléfono" },
+          { "os": "ios", "path": "Configuración › General › Información" }
+        ],
+        "action": null
+      },
+      {
+        "icon": "tag",
+        "before": "",
+        "strong": "Impreso en la etiqueta",
+        "text": "de la batería de tu dispositivo",
+        "note": "(O en la caja)",
+        "paths": [],
+        "action": null
+      }
+    ]
+  },
+  "esim": { "text": "¿Quieres usar eSIM?", "label": "Revisa si tu equipo la acepta", "href": "/esim#compatibilidad" },
+  "plans": {
+    "title": "Elige tu plan",
+    "whatsappText": "Hola, quiero contratar el plan {plan}."
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "seo": {
+    "title": "Cámbiate a Mega móvil y conserva tu número | Portabilidad gratis",
+    "description": "Cámbiate a Mega móvil en 3 pasos sin perder tu número: pide tu NIP al 051, envíanoslo por WhatsApp y en 24 a 48 horas tu línea está lista. Portabilidad gratuita."
+  },
+  "hero": {
+    "titleBefore": "Cámbiate en ",
+    "titleHighlight": "3 pasos",
+    "titleAfter": " sin perder tu número",
+    "subtitle": "Te llevas tu mismo número de cualquier compañía.",
+    "highlights": ["Gratis", "Conservas tu número", "Listo en 24 a 48 h"]
+  },
+  "steps": [
+    {
+      "title": "Pide tu NIP",
+      "text": "Desde tu línea actual, envía un SMS con la palabra NIP al 051.",
+      "action": { "type": "sms", "label": "Enviar SMS al 051", "href": "sms:051?body=NIP" }
+    },
+    {
+      "title": "Mándanos tu NIP",
+      "text": "Envíanos por WhatsApp tu NIP y el número que quieres conservar. Te ayudamos a elegir tu plan.",
+      "action": {
+        "type": "whatsapp",
+        "label": "Enviar por WhatsApp",
+        "text": "Hola, quiero cambiarme a Mega móvil conservando mi número.\nNúmero a conservar: \nNIP: "
+      }
+    },
+    {
+      "title": "¡Listo en 24 a 48 h!",
+      "text": "Cuando tu línea anterior se quede sin señal, inserta tu chip Mega móvil.",
+      "action": { "type": "link", "label": "¿Tienes eSIM? Actívala aquí", "href": "/esim#activacion" }
+    }
+  ],
+  "compatibility": { "text": "¿No sabes si tu celular es compatible?", "label": "Valídalo aquí", "href": "/compatibilidad" },
+  "plans": {
+    "title": "¿Ya sabes qué plan quieres?",
+    "ctaLabel": "Cámbiate con este plan",
+    "whatsappText": "Hola, quiero cambiarme a Mega móvil conservando mi número. Me interesa el plan {plan}."
+  }
+}

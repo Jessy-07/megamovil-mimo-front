@@ -1,11 +1,14 @@
 ---
 import plans from "../data/plans.json";
 import site from "../data/site.json";
+import { resolveAnchor } from "../utils/links";
 
 const minPrice = Math.min(
   ...Object.values(plans.groups).flatMap((g) => g.plans.map((p) => p.price)),
 );
 const { stickyBar } = site;
+// #planes → /planes fuera del Home (ver utils/links.ts).
+const stickyHref = resolveAnchor(stickyBar.cta.href, Astro.url.pathname);
 ---
 
 <!-- WhatsApp flotante con animación de Mimo saludando -->
@@ -79,7 +82,7 @@ const { stickyBar } = site;
       class="text-sm font-extrabold text-mega-gray-dark">{plans.perMonth}</span
     >
   </p>
-  <a href={stickyBar.cta.href} class="btn-primary !px-8 !py-3"
+  <a href={stickyHref} class="btn-primary !px-8 !py-3"
     >{stickyBar.cta.label}</a
   >
 </div>

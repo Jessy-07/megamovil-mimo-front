@@ -1,5 +1,6 @@
 ---
 import SocialIcon from './SocialIcon.astro';
+import { planSummary, whatsappUrl } from '../utils/whatsapp';
 
 interface Plan {
   slug: string;
@@ -26,9 +27,16 @@ interface Props {
   plan: Plan;
   ctaLabel: string;
   perMonth: string;
+  /**
+   * Respaldo del botón si no hay JavaScript (por defecto WhatsApp con el plan escrito).
+   * Con JavaScript, el botón abre el modal "¡Llámame!" del callcenter (CallMeModal, atributos data-callme).
+   */
+  ctaHref?: string;
 }
 
-const { plan, ctaLabel, perMonth } = Astro.props;
+const summary = planSummary(Astro.props.plan);
+const { plan, ctaLabel, perMonth, ctaHref = whatsappUrl(`Hola, quiero contratar el plan ${summary}.`) } = Astro.props;
+const ctaExternal = ctaHref.startsWith('http');
 const isFamily = Boolean(plan.lines && plan.lines > 1);
 const isUnlimited = plan.gigas === 'ILIMITADO' || plan.highlight.value === '∞';
 ---
@@ -147,7 +155,12 @@ const isUnlimited = plan.gigas === 'ILIMITADO' || plan.highlight.value === '∞'
 
         <!-- Botón Naranja Protagonista ¡Lo quiero! -->
         <a
-          href={`/contratar?plan=${plan.slug}`}
+          href={ctaHref}
+          data-callme
+          data-callme-label={summary}
+          data-callme-interest={`${summary} - ${plan.slug}`}
+          target={ctaExternal ? '_blank' : undefined}
+          rel={ctaExternal ? 'noopener noreferrer' : undefined}
           class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-mega-orange via-[#FF6614] to-mega-orange-dark py-3.5 px-4 font-display text-base font-black uppercase tracking-wider text-white shadow-orange-glow transition-all duration-200 hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0 active:scale-95"
         >
           <span>{ctaLabel}</span>

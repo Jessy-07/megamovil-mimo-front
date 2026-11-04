@@ -1,0 +1,614 @@
+{
+  "title": "Preguntas Frecuentes",
+  "subtitle": "Encuentra respuestas claras y rápidas sobre tu servicio, cobertura, recargas, SIM y portabilidad con Mega móvil.",
+  "categories": [
+    {
+      "id": "todas",
+      "label": "Todas"
+    },
+    {
+      "id": "soporte",
+      "label": "Soporte"
+    },
+    {
+      "id": "planes",
+      "label": "Planes y recargas"
+    },
+    {
+      "id": "sim",
+      "label": "SIM y portabilidad"
+    },
+    {
+      "id": "esim",
+      "label": "eSIM"
+    },
+    {
+      "id": "roaming",
+      "label": "Roaming"
+    },
+    {
+      "id": "cobertura",
+      "label": "Cobertura"
+    }
+  ],
+  "items": [
+    {
+      "id": "faq-1",
+      "number": 1,
+      "category": "soporte",
+      "question": "1.- Si tengo problemas con mi servicio, ¿qué hago?",
+      "answer": "Puedes ponerte en contacto con nuestro equipo de atención a clientes nacional o internacional a través de cualquiera de los siguientes canales oficiales:",
+      "hasCustomCards": true,
+      "contactGroups": [
+        {
+          "title": "Contacto Nacional",
+          "channels": [
+            {
+              "label": "Desde tu línea Mega móvil:",
+              "value": "*1234",
+              "href": "tel:*1234"
+            },
+            {
+              "label": "Llamada nacional (México):",
+              "value": "33 9690 0000",
+              "href": "tel:3396900000"
+            },
+            {
+              "label": "WhatsApp oficial:",
+              "value": "33 9690 0001",
+              "href": "https://wa.me/523396900001"
+            },
+            {
+              "label": "Atención presencial:",
+              "value": "Lunes a Sábado en tu CIS más cercano",
+              "href": "https://megacable.com.mx/cis",
+              "external": true
+            },
+            {
+              "label": "Correo electrónico:",
+              "value": "atencionclientes@megacable.com.mx",
+              "href": "mailto:atencionclientes@megacable.com.mx"
+            }
+          ]
+        },
+        {
+          "title": "Contacto Internacional",
+          "channels": [
+            {
+              "label": "WhatsApp oficial:",
+              "value": "33 9690 0001",
+              "href": "https://wa.me/523396900001"
+            },
+            {
+              "label": "Correo electrónico:",
+              "value": "atencionclientes@megacable.com.mx",
+              "href": "mailto:atencionclientes@megacable.com.mx"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faq-2",
+      "number": 2,
+      "category": "planes",
+      "question": "2.- ¿Cuáles son los planes o recargas que puedo adquirir con Mega móvil?",
+      "answer": "Puedes adquirir nuestros planes pospago y paquetes de recargas con datos, llamadas, SMS y redes sociales incluidas.",
+      "cta": {
+        "type": "venta",
+        "label": "Ver planes",
+        "href": "/planes"
+      }
+    },
+    {
+      "id": "faq-3",
+      "number": 3,
+      "category": "cobertura",
+      "question": "3.- ¿Cuál es la cobertura Mega móvil?",
+      "answer": "Con Mega móvil cuentas con red 4.5G LTE para navegar a máxima velocidad, llamar y enviar SMS en todo México, Estados Unidos y Canadá sin cargos adicionales de roaming internacional. Puedes consultar el mapa de cobertura detallado en <a href='https://cobertura.megacable.com.mx/megamovil/' target='_blank' rel='noopener noreferrer' class='font-bold text-mega-orange hover:underline'>Cobertura Mega móvil</a>.",
+      "cta": {
+        "type": "venta",
+        "label": "Ver planes con cobertura nacional",
+        "href": "/planes"
+      }
+    },
+    {
+      "id": "faq-4",
+      "number": 4,
+      "category": "sim",
+      "question": "4.- ¿Dónde puedo adquirir mi SIM Mega móvil?",
+      "answer": "Adquiere tu tarjeta SIM acudiendo a tu <a href='https://megacable.com.mx/cis' target='_blank' rel='noopener noreferrer' class='font-bold text-mega-orange hover:underline'>CIS más cercano aquí</a> o solicítala vía telefónica marcando al <a href='tel:3396900000' class='font-bold text-mega-orange hover:underline'>33 9690 0000</a>."
+    },
+    {
+      "id": "faq-5",
+      "number": 5,
+      "category": "sim",
+      "question": "5.- ¿Cuál es el costo de la tarjeta SIM?",
+      "answer": "La tarjeta SIM física o eSIM está <strong>incluida sin costo adicional</strong> en la contratación de todos nuestros planes pospago.",
+      "cta": {
+        "type": "venta",
+        "label": "Elegir mi plan",
+        "href": "/planes"
+      }
+    },
+    {
+      "id": "faq-6",
+      "number": 6,
+      "category": "sim",
+      "question": "6.- ¿Cómo activar mi SIM Mega móvil en mi teléfono celular?",
+      "answer": "Solo inserta la tarjeta SIM en tu equipo liberado y reinicia tu celular para conectarte a la red automáticamente. Si tienes una eSIM, escanea el código QR que recibiste al contratar y activa el perfil en los ajustes de tu teléfono. Si necesitas ayuda, comunícate al <a href='tel:*1234' class='font-bold text-mega-orange hover:underline'>*1234</a>.",
+      "cta": {
+        "type": "accion",
+        "label": "Ver guía paso a paso",
+        "href": "/soporte#activacion"
+      }
+    },
+    {
+      "id": "faq-7",
+      "number": 7,
+      "category": "sim",
+      "question": "7.- ¿Puedo conservar mi número?",
+      "answer": "<strong>Sí, puedes conservar tu número.</strong> La Portabilidad numérica es un derecho gratuito que como consumidor te permite elegir la compañía telefónica que consideres más conveniente, sin perder o cambiar tu número telefónico actual. El trámite se completa en un máximo de 24 horas hábiles una vez solicitado tu NIP de portabilidad (marcando *051 desde tu línea actual).",
+      "cta": {
+        "type": "venta",
+        "label": "Cámbiate y conserva tu número",
+        "href": "/planes"
+      }
+    },
+    {
+      "id": "faq-8",
+      "number": 8,
+      "category": "planes",
+      "question": "8.- ¿Dónde puedo realizar recargas?",
+      "answer": "Ponemos a tu disposición diferentes canales ágiles y seguros para realizar tus recargas:",
+      "hasRecargaGrid": true,
+      "recargaChannels": [
+        {
+          "title": "Marca desde tu línea",
+          "detail": "*1234 o #1234",
+          "desc": "Recarga directa desde tu teléfono Mega móvil",
+          "actionLabel": "Marcar *1234",
+          "href": "tel:*1234"
+        },
+        {
+          "title": "Atención Telefónica",
+          "detail": "33 9690 0000",
+          "desc": "Llama para recargar con tarjeta de crédito o débito",
+          "actionLabel": "Llamar",
+          "href": "tel:3396900000"
+        },
+        {
+          "title": "Centros CIS Megacable",
+          "detail": "Cualquier CIS",
+          "desc": "Paga en ventanilla en efectivo o tarjeta",
+          "actionLabel": "Ver sucursales",
+          "href": "https://megacable.com.mx/cis",
+          "external": true
+        },
+        {
+          "title": "Tiendas de Conveniencia",
+          "detail": "OXXO y autorizados",
+          "desc": "En miles de tiendas OXXO en todo el país",
+          "actionLabel": "Encuentra tu OXXO",
+          "href": "https://www.oxxo.com",
+          "external": true
+        }
+      ]
+    },
+    {
+      "id": "faq-9",
+      "number": 9,
+      "category": "planes",
+      "question": "9.- ¿Cómo puedo consultar mi saldo?",
+      "answer": "Puedes consultar tu saldo disponible y consumo de datos de forma inmediata enviando un mensaje SMS gratuito con la palabra <strong>SALDO</strong> al número <strong>52142</strong>.",
+      "cta": {
+        "type": "accion",
+        "label": "Enviar SMS ahora",
+        "href": "sms:52142?body=SALDO"
+      }
+    },
+    {
+      "id": "faq-10",
+      "number": 10,
+      "category": "soporte",
+      "question": "10.- ¿Cómo puedo consultar mi buzón de voz?",
+      "answer": "Para revisar tu buzón de voz, marca al <strong>*86</strong> desde tu celular con línea Mega móvil. El sistema te solicitará una contraseña, la cual por defecto son los <strong>últimos 4 dígitos de tu número telefónico Mega móvil seguido del signo numeral (#)</strong>.",
+      "cta": {
+        "type": "accion",
+        "label": "Marcar *86",
+        "href": "tel:*86"
+      }
+    },
+    {
+      "id": "faq-11",
+      "number": 11,
+      "category": "planes",
+      "question": "11.- ¿Dónde consulto el monto de pago en mi plan mensual?",
+      "answer": "El monto a pagar de tu plan mensual se ve reflejado de forma desglosada y transparente directamente en tu estado de cuenta y contrato MEGA habitual."
+    },
+    {
+      "id": "faq-12",
+      "number": 12,
+      "category": "planes",
+      "question": "12.- ¿Mis datos se acumulan para el siguiente mes?",
+      "answer": "Nuestros paquetes de datos son válidos por días naturales dentro de cada ciclo de facturación y no se acumulan para el siguiente periodo. Por favor, consulta las fechas de corte y vigencia de tu plan contratado."
+    },
+    {
+      "id": "faq-13",
+      "number": 13,
+      "category": "planes",
+      "question": "13.- ¿Puedo cambiar mi plan?",
+      "answer": "<strong>Sí.</strong> Puedes activar o cambiar al plan que desees en cualquier momento comunicándote con atención a clientes al <a href='tel:3396900000' class='font-bold text-mega-orange hover:underline'>33 9690 0000</a> o en tu sucursal CIS más cercana.",
+      "cta": {
+        "type": "venta",
+        "label": "Ver planes",
+        "href": "/planes"
+      }
+    },
+    {
+      "id": "faq-14",
+      "number": 14,
+      "category": "planes",
+      "question": "14.- ¿Puedo cancelar? ¿Cómo cancelo?",
+      "answer": "Puedes revisar nuestras políticas de cancelación en los <a href='https://megamovil.mx/terminos-y-condiciones' target='_blank' rel='noopener noreferrer' class='font-bold text-mega-orange hover:underline'>términos y condiciones</a>. Recuerda que Mega móvil no maneja contratos forzosos."
+    },
+    {
+      "id": "faq-15",
+      "number": 15,
+      "category": "soporte",
+      "question": "15.- ¿Qué pasa si se acaban mis datos?",
+      "answer": "Tanto en prepago como en pospago puedes realizar recargas de paquetes adicionales en cualquier momento, marcando a atención a clientes al <a href='tel:3396900000' class='font-bold text-mega-orange hover:underline'>33 9690 0000</a> o mediante nuestro WhatsApp oficial enviando un mensaje al <a href='https://wa.me/523396900001' target='_blank' rel='noopener noreferrer' class='font-bold text-mega-orange hover:underline'>33 9690 0001</a>.",
+      "cta": {
+        "type": "venta",
+        "label": "Mejorar mi plan",
+        "href": "/planes"
+      }
+    },
+    {
+      "id": "faq-16",
+      "number": 16,
+      "category": "soporte",
+      "question": "16.- ¿Cómo puedo bloquear mi equipo en caso de robo o extravío?",
+      "answer": "Te recomendamos comunicarte inmediatamente con nosotros marcando al <a href='tel:*1234' class='font-bold text-mega-orange hover:underline'>*1234</a> o al <a href='tel:3396900000' class='font-bold text-mega-orange hover:underline'>33 9690 0000</a>. Ten a la mano el <strong>nombre completo del titular</strong> de la línea, tu <strong>número de suscriptor</strong> MEGA, tu <strong>número telefónico a 10 dígitos</strong> y el <strong>número IMEI</strong> de tu dispositivo."
+    },
+    {
+      "id": "faq-17",
+      "number": 17,
+      "category": "sim",
+      "question": "17.- ¿Cómo puedo reemplazar mi tarjeta SIM Mega móvil?",
+      "answer": "Adquiere una nueva tarjeta SIM Mega móvil en tu CIS más cercano y antes de activarla comunícate con nosotros para solicitar la recuperación y traspaso de tu número. Recuerda tener a la mano el <strong>nombre completo del titular</strong> de la línea, tu <strong>número de suscriptor</strong> MEGA y tu <strong>número Mega móvil a 10 dígitos</strong>."
+    },
+    {
+      "id": "faq-18",
+      "number": 18,
+      "category": "planes",
+      "question": "18.- ¿Todas las redes sociales son ilimitadas en los planes?",
+      "answer": "Los planes incluyen redes sociales y aplicaciones principales conforme a la oferta comercial de cada paquete. Puedes consultar las Políticas de Uso Justo (PUJ) y especificaciones en nuestros <a href='https://megamovil.mx/terminos-y-condiciones' target='_blank' rel='noopener noreferrer' class='font-bold text-mega-orange hover:underline'>términos y condiciones</a>.",
+      "cta": {
+        "type": "venta",
+        "label": "Ver planes",
+        "href": "/planes"
+      }
+    },
+    {
+      "id": "faq-19",
+      "number": 19,
+      "category": "esim",
+      "question": "19.- ¿Cómo puedo saber si mi equipo es compatible?",
+      "answer": "Para saber si el celular es compatible con eSIM el cliente debe marcar al *#06#; si aparece un código EID, tu dispositivo es compatible con eSIM.",
+      "cta": {
+        "type": "accion",
+        "label": "Marcar *#06#",
+        "href": "tel:*%2306%23"
+      }
+    },
+    {
+      "id": "faq-20",
+      "number": 20,
+      "category": "esim",
+      "question": "20.- ¿Cuáles son los equipos compatibles de eSIM?",
+      "answer": "Estos son los equipos compatibles con eSIM. Busca tu modelo o elige la marca:",
+      "devices": [
+        {
+          "brand": "apple",
+          "name": "Apple",
+          "models": [
+            "iPhone 17 Pro Max",
+            "iPhone 17 Pro",
+            "iPhone 17 Air",
+            "iPhone 17",
+            "iPhone 16 Pro Max",
+            "iPhone 16 Pro",
+            "iPhone 16 Plus",
+            "iPhone 16",
+            "iPhone 15 Pro Max",
+            "iPhone 15 Pro",
+            "iPhone 15 Plus",
+            "iPhone 15",
+            "iPhone 14 Pro Max",
+            "iPhone 14 Pro",
+            "iPhone 14 Plus",
+            "iPhone 14",
+            "iPhone 13 Pro Max",
+            "iPhone 13 Pro",
+            "iPhone 13 Mini",
+            "iPhone 13",
+            "iPhone 12 Pro Max",
+            "iPhone 12 Pro",
+            "iPhone 12 Mini",
+            "iPhone 12"
+          ]
+        },
+        {
+          "brand": "samsung",
+          "name": "Samsung",
+          "models": [
+            "Galaxy Z Fold 4 (5G)",
+            "Galaxy Z Fold 3 (5G)",
+            "Galaxy Z Fold 2 (5G)",
+            "Galaxy Z Flip 4 (5G)",
+            "Galaxy Z Flip 3 (5G)",
+            "Galaxy S22+ (5G)",
+            "Galaxy S22 Ultra (5G)",
+            "Galaxy S22 (5G)",
+            "Galaxy S21+ (5G)",
+            "Galaxy S21 Ultra (5G)",
+            "Galaxy S21 (5G)",
+            "Galaxy S20+ (5G)",
+            "Galaxy S20 Ultra (5G)",
+            "Galaxy S20",
+            "Galaxy Note 20 Ultra (5G)",
+            "Galaxy Note 20 Ultra"
+          ]
+        },
+        {
+          "brand": "huawei",
+          "name": "Huawei",
+          "models": [
+            "Mate 40 Pro",
+            "P40",
+            "P40 Pro"
+          ]
+        },
+        {
+          "brand": "motorola",
+          "name": "Motorola",
+          "models": [
+            "Razr (2020) (5G)"
+          ]
+        }
+      ],
+      "devicesNote": "¿Tu modelo no aparece? Marca *#06#: si ves el código EID, tu celular es compatible."
+    },
+    {
+      "id": "faq-21",
+      "number": 21,
+      "category": "esim",
+      "question": "21.- ¿Qué diferencia tiene una eSIM con una SIM física?",
+      "answer": "Así se comparan:",
+      "comparison": {
+        "headers": [
+          "Característica",
+          "SIM física",
+          "eSIM"
+        ],
+        "rows": [
+          [
+            "Forma",
+            "Tarjeta plástica",
+            "Chip interno"
+          ],
+          [
+            "Instalación",
+            "Manual",
+            "Digital"
+          ],
+          [
+            "Cambio de operador",
+            "Requiere reemplazo físico",
+            "Desde ajustes del equipo"
+          ],
+          [
+            "Seguridad",
+            "Se puede perder o dañar",
+            "Integrada a tu dispositivo"
+          ],
+          [
+            "Compatibilidad",
+            "Universal",
+            "Solo equipos compatibles"
+          ]
+        ]
+      },
+      "cta": {
+        "type": "venta",
+        "label": "Elegir mi plan con eSIM",
+        "href": "/planes"
+      }
+    },
+    {
+      "id": "faq-22",
+      "number": 22,
+      "category": "esim",
+      "question": "22.- ¿Qué beneficios tiene la eSIM?",
+      "answer": "",
+      "bullets": [
+        "No necesitas una SIM física",
+        "Puedes tener más de una línea activa en el mismo equipo.",
+        "Es más segura, no se pierde ni se daña.",
+        "Ideal para viajes internacionales (puedes activar planes locales sin quitar tu línea principal).",
+        "Activación rápida y remota."
+      ],
+      "cta": {
+        "type": "accion",
+        "label": "Ver cómo activarla",
+        "href": "/esim#activacion"
+      }
+    },
+    {
+      "id": "faq-23",
+      "number": 23,
+      "category": "esim",
+      "question": "23.- ¿Puedo tener eSIM y SIM física al mismo tiempo?",
+      "answer": "Sí, muchos teléfonos permiten usar dual SIM: una eSIM y una SIM física al mismo tiempo, con diferentes líneas."
+    },
+    {
+      "id": "faq-24",
+      "number": 24,
+      "category": "roaming",
+      "question": "24.- ¿Qué incluye el plan adicional de roaming internacional?",
+      "answer": "Los planes adicionales de roaming incluirán una bolsa de datos específica para su uso en territorio internacional, la cual dependerá del paquete contratado."
+    },
+    {
+      "id": "faq-25",
+      "number": 25,
+      "category": "roaming",
+      "question": "25.- ¿Cuáles países son considerados Europa?",
+      "answer": "Albania, Alemania, Australia, Austria, Bangladés, Baréin, Bélgica, Belice, Bielorrusia, Bolivia, Bulgaria, Catar, China, Corea del Sur, Croacia, Dinamarca, Eslovaquia, Eslovenia, España, Estonia, Filipinas, Finlandia, Fiyi, Francia, Ghana, Grecia, Hong Kong, Hungría, Indonesia, Irlanda, Israel, Italia, Japón, Kuwait, Letonia, Liechtenstein, Lituania, Luxemburgo, Macao, Malasia, Malta, Montenegro, Noruega, Nueva Zelanda, Países Bajos, Polonia, Portugal, Reino Unido, República Checa, República de Macedonia, Rumanía, Rusia, Serbia, Singapur, Sri Lanka, Sudáfrica, Sudán, Suecia, Suiza, Tailandia, Taiwán, Ucrania",
+      "countries": [
+        "Albania",
+        "Alemania",
+        "Australia",
+        "Austria",
+        "Bangladés",
+        "Baréin",
+        "Bélgica",
+        "Belice",
+        "Bielorrusia",
+        "Bolivia",
+        "Bulgaria",
+        "Catar",
+        "China",
+        "Corea del Sur",
+        "Croacia",
+        "Dinamarca",
+        "Eslovaquia",
+        "Eslovenia",
+        "España",
+        "Estonia",
+        "Filipinas",
+        "Finlandia",
+        "Fiyi",
+        "Francia",
+        "Ghana",
+        "Grecia",
+        "Hong Kong",
+        "Hungría",
+        "Indonesia",
+        "Irlanda",
+        "Israel",
+        "Italia",
+        "Japón",
+        "Kuwait",
+        "Letonia",
+        "Liechtenstein",
+        "Lituania",
+        "Luxemburgo",
+        "Macao",
+        "Malasia",
+        "Malta",
+        "Montenegro",
+        "Noruega",
+        "Nueva Zelanda",
+        "Países Bajos",
+        "Polonia",
+        "Portugal",
+        "Reino Unido",
+        "República Checa",
+        "República de Macedonia",
+        "Rumanía",
+        "Rusia",
+        "Serbia",
+        "Singapur",
+        "Sri Lanka",
+        "Sudáfrica",
+        "Sudán",
+        "Suecia",
+        "Suiza",
+        "Tailandia",
+        "Taiwán",
+        "Ucrania"
+      ]
+    },
+    {
+      "id": "faq-26",
+      "number": 26,
+      "category": "roaming",
+      "question": "26.- ¿Cuáles países son considerados América?",
+      "answer": "Argentina, Brasil, Chile, Colombia, Costa Rica, Ecuador, El Salvador, Guatemala, Honduras, Nicaragua, Panamá, Paraguay, Perú, República Dominicana y Uruguay",
+      "countries": [
+        "Argentina",
+        "Brasil",
+        "Chile",
+        "Colombia",
+        "Costa Rica",
+        "Ecuador",
+        "El Salvador",
+        "Guatemala",
+        "Honduras",
+        "Nicaragua",
+        "Panamá",
+        "Paraguay",
+        "Perú",
+        "República Dominicana",
+        "Uruguay"
+      ]
+    },
+    {
+      "id": "faq-27",
+      "number": 27,
+      "category": "roaming",
+      "question": "27.- ¿Cuándo comienza a aplicarse el plan de roaming?",
+      "answer": "Una vez sea contratado el plan roaming será activado."
+    },
+    {
+      "id": "faq-28",
+      "number": 28,
+      "category": "roaming",
+      "question": "28.- ¿Cuánto tiempo dura el plan adicional?",
+      "answer": "30 días naturales."
+    },
+    {
+      "id": "faq-29",
+      "number": 29,
+      "category": "roaming",
+      "question": "29.- ¿El consumo en roaming afecta mi plan base?",
+      "answer": "No, este plan es adicional a tu plan base por lo que no afecta."
+    },
+    {
+      "id": "faq-30",
+      "number": 30,
+      "category": "roaming",
+      "question": "30.- ¿Qué pasa si se me terminan los GB o minutos incluidos?",
+      "answer": "Conéctate a una red wifi y comunícate por medio de Whatsapp para poder adquirir un nuevo paquete roaming nacional<br>WhatsApp: <a href='https://wa.me/523396900001' target='_blank' rel='noopener noreferrer' class='font-bold text-mega-orange hover:underline'>33 9690 0001</a>"
+    },
+    {
+      "id": "faq-31",
+      "number": 31,
+      "category": "roaming",
+      "question": "31.- ¿El plan adicional se renueva automáticamente?",
+      "answer": "No, en caso de necesitar 1 mes adicional tendrás que comunicarte con soporte al cliente para adquirir un paquete nuevo adicional."
+    },
+    {
+      "id": "faq-32",
+      "number": 32,
+      "category": "roaming",
+      "question": "32.- ¿Puedo usar mi número normalmente para llamadas y WhatsApp en el extranjero?",
+      "answer": "Sí, tu número habitual seguirá funcionando y será compatible con el paquete contratado de roaming internacional"
+    },
+    {
+      "id": "faq-33",
+      "number": 33,
+      "category": "roaming",
+      "question": "33.- ¿Qué debo hacer si no tengo señal al llegar al país?",
+      "answer": "Comunícate con nuestro soporte al cliente disponible 24/7 por medio de WhatsApp: <a href='https://wa.me/523396900001' target='_blank' rel='noopener noreferrer' class='font-bold text-mega-orange hover:underline'>33 9690 0001</a>"
+    },
+    {
+      "id": "faq-34",
+      "number": 34,
+      "category": "roaming",
+      "question": "34.- ¿Puedo usar mi plan adicional en varios países durante el mismo viaje?",
+      "answer": "Sí, siempre y cuando esté dentro de la cobertura contratada."
+    }
+  ]
+}

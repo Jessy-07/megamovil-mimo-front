@@ -1,0 +1,45 @@
+---
+/** Banner comercial naranja para cerrar páginas internas: el sitio vende en todo momento. */
+import Icon from "./Icon.astro";
+import { brandHtml } from "../utils/brand";
+import plans from "../data/plans.json";
+import site from "../data/site.json";
+
+interface Props {
+  title?: string;
+  text?: string;
+  ctaLabel?: string;
+}
+
+const {
+  title = "¿Aún no eres Mega móvil?",
+  text = "Cámbiate conservando tu número, con redes sociales ilimitadas.",
+  ctaLabel = plans.ctaLabel,
+} = Astro.props;
+
+const minPrice = Math.min(...Object.values(plans.groups).flatMap((g) => g.plans.map((p) => p.price)));
+---
+
+<section aria-labelledby="sales-banner-title" class="container mx-auto mt-12 px-4 sm:px-6 lg:px-8">
+  <div class="relative mx-auto max-w-5xl overflow-hidden rounded-3xl bg-gradient-to-r from-mega-orange via-[#FF6614] to-mega-orange-dark p-6 sm:p-10 text-white shadow-orange-glow">
+    <div class="absolute -right-10 -bottom-16 h-64 w-64 rounded-full bg-white/10 pointer-events-none" aria-hidden="true"></div>
+    <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div class="max-w-xl">
+        <p class="text-xs font-black uppercase tracking-widest text-white/80">{site.mimoClaim}</p>
+        <h2 id="sales-banner-title" class="mt-2 font-display text-2xl sm:text-4xl font-black uppercase leading-tight" set:html={brandHtml(title)} />
+        <p class="mt-2 text-sm sm:text-base font-semibold text-white/90">{text}</p>
+      </div>
+      <div class="flex flex-col items-start md:items-end gap-3 shrink-0">
+        <p class="leading-none">
+          <span class="text-sm font-bold text-white/80">Desde </span>
+          <span class="font-display text-5xl font-black">${minPrice}</span>
+          <span class="text-base font-extrabold text-white/80">{plans.perMonth}</span>
+        </p>
+        <a href="/planes" class="btn-secondary">
+          {ctaLabel}
+          <Icon name="arrow-right" class="h-4 w-4" />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

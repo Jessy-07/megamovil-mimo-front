@@ -6,7 +6,7 @@
     { "icon": "share", "label": "Redes sociales ilimitadas", "detail": "Sin gastar tus Gigas principales", "socials": true },
     { "icon": "message", "label": "Minutos y SMS incluidos", "detail": "Llamadas a México, EE.UU. y Canadá" },
     { "icon": "globe", "label": "Cobertura nacional", "detail": "Navegación 4.5G LTE de alta velocidad" },
-    { "icon": "repeat", "label": "Conserva tu número", "detail": "Portabilidad 100% gratuita en 24h" }
+    { "icon": "repeat", "label": "Conserva tu número", "detail": "Portabilidad 100% gratuita" }
   ],
   "socialApps": [
     { "name": "Facebook", "slug": "facebook" },

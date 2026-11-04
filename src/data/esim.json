@@ -1,0 +1,119 @@
+{
+  "seo": {
+    "title": "eSIM Mega móvil | Activa tu línea sin chip físico",
+    "description": "Contrata Mega móvil con eSIM: un chip virtual integrado en tu celular, tablet o reloj inteligente. Verifica la compatibilidad con *#06# y actívala en 5 pasos."
+  },
+  "hero": {
+    "titleBefore": "Tu línea, sin chip: ",
+    "titleHighlight": "eSIM",
+    "subtitle": "Un chip virtual integrado en tu celular, tablet o reloj inteligente. Obtén tu plan Mega móvil sin necesidad de una tarjeta física.",
+    "primaryCta": {
+      "label": "Elegir mi plan",
+      "href": "/planes"
+    },
+    "secondaryCta": {
+      "label": "¿Mi celular es compatible?",
+      "href": "#compatibilidad"
+    }
+  },
+  "what": {
+    "title": "¿Qué es la eSIM?",
+    "text": "Es un chip virtual integrado directamente a tu dispositivo (smartphone, tablet o reloj inteligente) que te permite tener un plan móvil sin necesidad de un chip físico."
+  },
+  "benefits": [
+    {
+      "icon": "cpu",
+      "title": "Chip interno",
+      "text": "No requiere tarjeta física."
+    },
+    {
+      "icon": "download",
+      "title": "Instalación digital",
+      "text": "Activación rápida desde tu equipo."
+    },
+    {
+      "icon": "repeat",
+      "title": "Cambio de operador",
+      "text": "Se hace desde tu celular."
+    },
+    {
+      "icon": "shield",
+      "title": "Seguridad integrada",
+      "text": "Protege tu información."
+    }
+  ],
+  "compatibility": {
+    "eyebrow": "Antes de contratar",
+    "title": "¿Tu celular es compatible?",
+    "text": "Marca *#06# desde tu celular. Si en la pantalla aparece tu código EID, tu equipo es compatible con eSIM.",
+    "steps": [
+      "Abre la app de Teléfono",
+      "Marca *#06#",
+      "Busca el código EID"
+    ],
+    "cta": {
+      "label": "Marcar *#06#",
+      "href": "tel:*%2306%23"
+    },
+    "fallback": "¿No aparece el EID? No pasa nada: tu plan también incluye SIM física.",
+    "video": {
+      "mp4": "/assets/video/esim-eid-tutorial.mp4",
+      "webm": "/assets/video/esim-eid-tutorial.webm",
+      "poster": "/img/esim-eid-poster.webp",
+      "label": "Video: en el teclado del celular se marca *#06# y aparece el código EID"
+    }
+  },
+  "activation": {
+    "title": "Activa tu eSIM en 5 pasos",
+    "subtitle": "Síguelos cuando recibas tu correo de activación.",
+    "steps": [
+      {
+        "icon": "pointer",
+        "title": "Da clic en «Activa tu eSIM»",
+        "text": "Es el botón de tu correo de activación."
+      },
+      {
+        "icon": "wifi",
+        "title": "Conéctate a una red WiFi",
+        "text": "Que sea estable durante la instalación."
+      },
+      {
+        "icon": "settings",
+        "title": "Ve a Configuración",
+        "text": "En los ajustes de tu dispositivo."
+      },
+      {
+        "icon": "qr",
+        "title": "Escanea el código QR",
+        "text": "O pega los códigos manualmente."
+      },
+      {
+        "icon": "check",
+        "title": "¡Listo!",
+        "text": "Configura tu eSIM y empieza a navegar."
+      }
+    ],
+    "guidesTitle": "¿Prefieres la guía completa?",
+    "guides": [
+      {
+        "os": "Android",
+        "platform": "android",
+        "label": "Guía de activación eSIM",
+        "file": "android",
+        "size": "PDF · 2.1 MB"
+      },
+      {
+        "os": "iPhone",
+        "platform": "ios",
+        "label": "Guía de activación eSIM",
+        "file": "ios",
+        "size": "PDF · 2.3 MB"
+      }
+    ]
+  },
+  "salesBanner": {
+    "title": "Contrata tu plan con eSIM",
+    "text": "Elige tu plan, conserva tu número y actívalo sin chip físico.",
+    "ctaLabel": "Elegir mi plan"
+  }
+}

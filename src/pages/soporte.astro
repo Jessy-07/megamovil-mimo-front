@@ -1,0 +1,95 @@
+---
+import { getImage } from "astro:assets";
+import Layout from "../layouts/Layout.astro";
+import TopBar from "../components/TopBar.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import FloatingActions from "../components/FloatingActions.astro";
+import SupportCenter from "../components/SupportCenter";
+import PageHero from "../components/PageHero.astro";
+import SalesBanner from "../components/SalesBanner.astro";
+import mimoWhatsapp from "../assets/img/general/mimo-whatssap.png";
+import site from "../data/site.json";
+
+const origin = Astro.site ? Astro.site.href : "https://megamovil.megacable.com.mx";
+const pageUrl = new URL("/soporte", origin).href;
+
+// Mimo optimizado (webp) para la tarjeta de WhatsApp de la isla React.
+const mimoCard = await getImage({ src: mimoWhatsapp, width: 288, format: "webp" });
+
+const description =
+  "Soporte Mega móvil: atención por WhatsApp y teléfono, activa tu línea o eSIM, consulta tu saldo, escucha tu buzón de voz y desbloquea tu celular.";
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Soporte | Mega móvil",
+    description,
+    url: pageUrl,
+    inLanguage: "es-MX",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: origin },
+      { "@type": "ListItem", position: 2, name: "Soporte", item: pageUrl },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: site.name,
+    url: origin,
+    contactPoint: [
+      { "@type": "ContactPoint", telephone: "+52 33 9690 0000", contactType: "customer support", areaServed: "MX", availableLanguage: "es" },
+      {
+        "@type": "ContactPoint",
+        url: "https://wa.me/523396900001",
+        contactType: "customer support",
+        contactOption: "WhatsApp",
+        areaServed: ["MX", "US", "CA"],
+        availableLanguage: "es",
+      },
+    ],
+  },
+];
+---
+
+<Layout title="Soporte y Atención a Clientes | Mega móvil" {description} {jsonLd}>
+  <!-- ENCABEZADO UNIFICADO STICKY -->
+  <div id="sticky-header-container" class="sticky top-0 z-50 w-full">
+    <TopBar />
+    <Header />
+  </div>
+
+  <main id="contenido" class="bg-slate-50/60 pb-16">
+    <PageHero
+      id="soporte-title"
+      crumb="Soporte"
+      titleBefore="¿En qué te "
+      titleHighlight="ayudamos"
+      titleAfter="?"
+      subtitle="Elige un tema y resuélvelo en minutos."
+      image={mimoWhatsapp}
+      imageAlt="Mimo, la mascota de Mega móvil, te saluda"
+    />
+
+    <!-- SELECTOR DE TEMAS + PANELES (se sobrepone al hero) -->
+    <div class="container relative z-10 mx-auto -mt-12 px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-5xl">
+        <SupportCenter client:load mimoSrc={mimoCard.src} />
+      </div>
+    </div>
+
+    <!-- BANNER COMERCIAL: el soporte también vende -->
+    <SalesBanner />
+  </main>
+
+  <!-- FOOTER -->
+  <Footer />
+
+  <!-- BOTONES FLOTANTES -->
+  <FloatingActions />
+</Layout>

@@ -2,11 +2,23 @@
 import nav from "../data/nav.json";
 import Icon from "./Icon.astro";
 import Logo from "./Logo.astro";
+import { resolveAnchor } from "../utils/links";
 
 const { location, menu } = nav;
 
 const consultaItem = menu.find((m) => m.label === "Consulta");
 const ayudaItem = menu.find((m) => m.label === "Ayuda");
+
+// Anclas según la página: #planes → /planes fuera del Home (ver utils/links.ts).
+const getHref = (href: string) => resolveAnchor(href, Astro.url.pathname);
+
+// Página activa: resalta el enlace del menú (naranja) y marca aria-current.
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isCurrent = (href: string) => href.startsWith("/") && href.replace(/\/$/, "") === currentPath;
+const ayudaActive = Boolean(ayudaItem?.children?.some((sub) => isCurrent(sub.href)));
+const esimActive = isCurrent("/esim");
+const cambiateActive = isCurrent("/cambiate-a-megamovil");
+const promosActive = isCurrent("/promociones");
 ---
 
 <header
@@ -45,8 +57,11 @@ const ayudaItem = menu.find((m) => m.label === "Ayuda");
                 consultaItem?.children?.map((sub) => (
                   <li>
                     <a
-                      href={sub.href}
-                      class="block rounded-xl px-3.5 py-2 text-xs font-bold text-slate-700 hover:bg-orange-50 hover:text-mega-orange transition-colors"
+                      href={getHref(sub.href)}
+                      target={sub.target || (sub.href.startsWith("http") ? "_blank" : undefined)}
+                      rel={sub.target === "_blank" || sub.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      aria-current={isCurrent(sub.href) ? "page" : undefined}
+                      class:list={["block rounded-xl px-3.5 py-2 text-xs font-bold hover:bg-orange-50 hover:text-mega-orange transition-colors", isCurrent(sub.href) ? "bg-orange-50 text-mega-orange" : "text-slate-700"]}
                     >
                       {sub.label}
                     </a>
@@ -60,8 +75,12 @@ const ayudaItem = menu.find((m) => m.label === "Ayuda");
         <!-- 2. Cámbiate a Mega móvil -->
         <li>
           <a
-            href="#planes"
-            class="inline-flex items-center rounded-full px-3.5 py-1.5 text-[13.5px] font-bold tracking-wide text-slate-700 hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150"
+            href="/cambiate-a-megamovil"
+            aria-current={cambiateActive ? "page" : undefined}
+            class:list={[
+              "inline-flex items-center rounded-full px-3.5 py-1.5 text-[13.5px] font-bold tracking-wide hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150",
+              cambiateActive ? "bg-orange-50 text-mega-orange" : "text-slate-700",
+            ]}
           >
             Cámbiate a Mega móvil
           </a>
@@ -70,8 +89,12 @@ const ayudaItem = menu.find((m) => m.label === "Ayuda");
         <!-- 3. Promociones -->
         <li>
           <a
-            href="#promos"
-            class="inline-flex items-center rounded-full px-3.5 py-1.5 text-[13.5px] font-bold tracking-wide text-slate-700 hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150"
+            href="/promociones"
+            aria-current={promosActive ? "page" : undefined}
+            class:list={[
+              "inline-flex items-center rounded-full px-3.5 py-1.5 text-[13.5px] font-bold tracking-wide hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150",
+              promosActive ? "bg-orange-50 text-mega-orange" : "text-slate-700",
+            ]}
           >
             Promociones
           </a>
@@ -80,8 +103,12 @@ const ayudaItem = menu.find((m) => m.label === "Ayuda");
         <!-- 4. eSIM -->
         <li>
           <a
-            href="#esim"
-            class="inline-flex items-center rounded-full px-3.5 py-1.5 text-[13.5px] font-bold tracking-wide text-slate-700 hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150"
+            href="/esim"
+            aria-current={esimActive ? "page" : undefined}
+            class:list={[
+              "inline-flex items-center rounded-full px-3.5 py-1.5 text-[13.5px] font-bold tracking-wide hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150",
+              esimActive ? "bg-orange-50 text-mega-orange" : "text-slate-700",
+            ]}
           >
             eSIM
           </a>
@@ -91,7 +118,10 @@ const ayudaItem = menu.find((m) => m.label === "Ayuda");
         <li class="group relative">
           <button
             type="button"
-            class="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13.5px] font-bold tracking-wide text-slate-700 hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150 cursor-pointer"
+            class:list={[
+              "inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13.5px] font-bold tracking-wide hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150 cursor-pointer",
+              ayudaActive ? "bg-orange-50 text-mega-orange" : "text-slate-700",
+            ]}
             aria-haspopup="true"
           >
             <span>Ayuda</span>
@@ -111,8 +141,11 @@ const ayudaItem = menu.find((m) => m.label === "Ayuda");
                 ayudaItem?.children?.map((sub) => (
                   <li>
                     <a
-                      href={sub.href}
-                      class="block rounded-xl px-3.5 py-2 text-xs font-bold text-slate-700 hover:bg-orange-50 hover:text-mega-orange transition-colors"
+                      href={getHref(sub.href)}
+                      target={sub.target || (sub.href.startsWith("http") ? "_blank" : undefined)}
+                      rel={sub.target === "_blank" || sub.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      aria-current={isCurrent(sub.href) ? "page" : undefined}
+                      class:list={["block rounded-xl px-3.5 py-2 text-xs font-bold hover:bg-orange-50 hover:text-mega-orange transition-colors", isCurrent(sub.href) ? "bg-orange-50 text-mega-orange" : "text-slate-700"]}
                     >
                       {sub.label}
                     </a>
@@ -154,7 +187,7 @@ const ayudaItem = menu.find((m) => m.label === "Ayuda");
 
       <!-- Botón CTA Protagonista en Naranja Mega móvil -->
       <a
-        href="#planes"
+        href={getHref("#planes")}
         class="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-mega-orange via-[#FF6614] to-mega-orange-dark px-4 sm:px-5 py-2 font-display text-xs font-black uppercase tracking-wider text-white shadow-orange-sm hover:shadow-orange-glow transition-all duration-150 hover:scale-105 active:scale-95"
       >
         <span>Cámbiate ya</span>
@@ -203,8 +236,11 @@ const ayudaItem = menu.find((m) => m.label === "Ayuda");
                 consultaItem?.children?.map((sub) => (
                   <li>
                     <a
-                      href={sub.href}
-                      class="block rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-700 hover:text-mega-orange hover:bg-orange-50 transition"
+                      href={getHref(sub.href)}
+                      target={sub.target || (sub.href.startsWith("http") ? "_blank" : undefined)}
+                      rel={sub.target === "_blank" || sub.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      aria-current={isCurrent(sub.href) ? "page" : undefined}
+                      class:list={["block rounded-lg px-2.5 py-1.5 text-xs font-bold hover:text-mega-orange hover:bg-orange-50 transition", isCurrent(sub.href) ? "bg-orange-50 text-mega-orange" : "text-slate-700"]}
                     >
                       {sub.label}
                     </a>
@@ -218,24 +254,27 @@ const ayudaItem = menu.find((m) => m.label === "Ayuda");
           <ul class="space-y-1 mb-1.5">
             <li>
               <a
-                href="#planes"
-                class="block rounded-xl px-3.5 py-2 text-xs font-bold text-mega-orange hover:bg-orange-50"
+                href="/cambiate-a-megamovil"
+                aria-current={cambiateActive ? "page" : undefined}
+                class:list={["block rounded-xl px-3.5 py-2 text-xs font-bold text-mega-orange hover:bg-orange-50", cambiateActive && "bg-orange-50"]}
               >
                 Cámbiate a Mega móvil
               </a>
             </li>
             <li>
               <a
-                href="#promos"
-                class="block rounded-xl px-3.5 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100"
+                href="/promociones"
+                aria-current={promosActive ? "page" : undefined}
+                class:list={["block rounded-xl px-3.5 py-2 text-xs font-bold hover:bg-slate-100", promosActive ? "bg-orange-50 text-mega-orange" : "text-slate-700"]}
               >
                 Promociones
               </a>
             </li>
             <li>
               <a
-                href="#esim"
-                class="block rounded-xl px-3.5 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100"
+                href="/esim"
+                aria-current={esimActive ? "page" : undefined}
+                class:list={["block rounded-xl px-3.5 py-2 text-xs font-bold hover:bg-slate-100", esimActive ? "bg-orange-50 text-mega-orange" : "text-slate-700"]}
               >
                 eSIM
               </a>
@@ -262,8 +301,11 @@ const ayudaItem = menu.find((m) => m.label === "Ayuda");
                 ayudaItem?.children?.map((sub) => (
                   <li>
                     <a
-                      href={sub.href}
-                      class="block rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-700 hover:text-mega-orange hover:bg-orange-50 transition"
+                      href={getHref(sub.href)}
+                      target={sub.target || (sub.href.startsWith("http") ? "_blank" : undefined)}
+                      rel={sub.target === "_blank" || sub.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      aria-current={isCurrent(sub.href) ? "page" : undefined}
+                      class:list={["block rounded-lg px-2.5 py-1.5 text-xs font-bold hover:text-mega-orange hover:bg-orange-50 transition", isCurrent(sub.href) ? "bg-orange-50 text-mega-orange" : "text-slate-700"]}
                     >
                       {sub.label}
                     </a>

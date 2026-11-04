@@ -8,22 +8,50 @@
     "description": "Cámbiate a Mega móvil, la telefonía celular de Megacable. Planes individuales y familiares con redes sociales ilimitadas, cobertura nacional y eSIM. Sin letras chiquitas.",
     "ogImage": "/og-image.png"
   },
-  "support": { "phone": "33 9690 0000", "href": "tel:3396900000" },
+  "support": {
+    "phone": "33 9690 0000",
+    "href": "tel:3396900000"
+  },
   "whatsapp": {
-    "href": "https://wa.me/523396900000",
+    "href": "https://wa.me/523396900001",
     "label": "Escríbenos por WhatsApp"
   },
-  "stickyBar": { "prefix": "Desde", "cta": { "label": "¡Lo quiero!", "href": "#planes" } },
+  "stickyBar": {
+    "prefix": "Desde",
+    "cta": {
+      "label": "¡Lo quiero!",
+      "href": "#planes"
+    }
+  },
   "socials": [
-    { "name": "Facebook", "slug": "facebook", "href": "https://facebook.com/megamovilmx" },
-    { "name": "X", "slug": "x", "href": "https://x.com/megamovilmx" },
-    { "name": "Instagram", "slug": "instagram", "href": "https://instagram.com/megamovilmx" },
-    { "name": "YouTube", "slug": "youtube", "href": "https://youtube.com/@megacable" }
+    {
+      "name": "Facebook",
+      "slug": "facebook",
+      "href": "https://facebook.com/megamovilmx"
+    },
+    {
+      "name": "X",
+      "slug": "x",
+      "href": "https://x.com/megamovilmx"
+    },
+    {
+      "name": "Instagram",
+      "slug": "instagram",
+      "href": "https://instagram.com/megamovilmx"
+    },
+    {
+      "name": "YouTube",
+      "slug": "youtube",
+      "href": "https://youtube.com/@megacable"
+    }
   ],
   "recharge": {
     "title": "¡Sigue conectado con más Gigas!",
     "text": "Compra más saldo para tu Plan Mega móvil",
-    "cta": { "label": "Quiero una recarga", "href": "/recargar" }
+    "cta": {
+      "label": "Quiero una recarga",
+      "href": "/recargar"
+    }
   },
   "compatibility": {
     "title": "Consulta la compatibilidad de tu equipo",
@@ -40,31 +68,96 @@
     },
     "stepsTitle": "¿Dónde encuentro mi IMEI?",
     "steps": [
-      { "icon": "hash", "text": "Marca *#06#" },
-      { "icon": "sliders", "text": "En Ajustes > Acerca del teléfono" },
-      { "icon": "package", "text": "En la etiqueta o caja" }
+      {
+        "icon": "hash",
+        "text": "Marca *#06#"
+      },
+      {
+        "icon": "sliders",
+        "text": "En Ajustes > Acerca del teléfono"
+      },
+      {
+        "icon": "package",
+        "text": "En la etiqueta o caja"
+      }
     ]
   },
   "coverage": {
     "title": "Cobertura en todo México",
     "subtitle": "Y también cuando viajas a Estados Unidos y Canadá.",
     "items": [
-      { "icon": "map-pin", "title": "Cobertura nacional" },
-      { "icon": "globe", "title": "Navega y llama en EE.UU. y Canadá", "badge": "¡Sin costo adicional!" },
-      { "icon": "zap", "title": "Tecnología y velocidad" }
+      {
+        "icon": "map-pin",
+        "title": "Cobertura nacional"
+      },
+      {
+        "icon": "globe",
+        "title": "Navega y llama en EE.UU. y Canadá",
+        "badge": "¡Sin costo adicional!"
+      },
+      {
+        "icon": "zap",
+        "title": "Tecnología y velocidad"
+      }
     ],
-    "cta": { "label": "Consulta cobertura", "href": "/cobertura" },
+    "cta": {
+      "label": "Consulta cobertura",
+      "href": "/cobertura"
+    },
     "pins": [
-      { "label": "Tijuana", "col": 2, "row": 1 },
-      { "label": "Monterrey", "col": 21, "row": 4 },
-      { "label": "Guadalajara", "col": 15, "row": 9 },
-      { "label": "CDMX", "col": 20, "row": 11 },
-      { "label": "Chetumal", "col": 33, "row": 12 }
+      {
+        "label": "Tijuana",
+        "col": 2,
+        "row": 1
+      },
+      {
+        "label": "Monterrey",
+        "col": 21,
+        "row": 4
+      },
+      {
+        "label": "Guadalajara",
+        "col": 15,
+        "row": 9
+      },
+      {
+        "label": "CDMX",
+        "col": 20,
+        "row": 11
+      },
+      {
+        "label": "Chetumal",
+        "col": 33,
+        "row": 12
+      }
     ]
   },
   "notFound": {
     "title": "Esta página no existe",
     "text": "Mimo no habla, pero hasta él sabe que aquí no hay nada.",
-    "cta": { "label": "Volver al inicio", "href": "/" }
+    "cta": {
+      "label": "Volver al inicio",
+      "href": "/"
+    }
+  },
+  "callcenter": {
+    "_nota": "Click to Call de Convertia / inConcert (mismo script y token del sitio actual). Ver CallMeModal.astro.",
+    "enabled": true,
+    "scriptUrl": "https://megacable.convertia.com/public/integration/scripts.js?token=2d657b119998999d814b50d8abfc251b",
+    "title": "¡Te llamamos en minutos!",
+    "text": "Déjanos tu número y un asesor te llama para activar tu plan.",
+    "label": "Tu número a 10 dígitos",
+    "placeholder": "Escribe tu número",
+    "button": "¡Llámame!",
+    "hours": "Te llamaremos del 33 9690 1500 · Lunes a viernes de 8 am a 10 pm.",
+    "whatsappLabel": "¿Prefieres WhatsApp? Escríbenos",
+    "termsHref": "https://megamovil.mx/terminos-y-condiciones",
+    "fallbackTitle": "Terminemos por WhatsApp",
+    "fallbackText": "En este momento no pudimos registrar tu llamada. Escríbenos por WhatsApp y un asesor te atiende al instante: ya va tu plan y tu número en el mensaje.",
+    "fallbackButton": "Enviar por WhatsApp",
+    "libs": [
+      "https://code.jquery.com/jquery-3.7.1.min.js",
+      "https://megacable.convertia.com/static/libs/bootstrap.min.js"
+    ]
   }
 }

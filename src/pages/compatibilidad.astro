@@ -1,0 +1,182 @@
+---
+/**
+ * Compatibilidad: validador de IMEI. Misma URL que el sitio anterior (/compatibilidad); el Home conserva su bloque #compatibilidad.
+ * Un solo camino: validar → "Elige tu plan" (aparece al validar) → planes con WhatsApp prellenado.
+ * Los textos de las 3 formas de obtener el IMEI son los del sitio anterior, tal cual.
+ * La validación aún es SIMULADA (solo revisa el formato). Pendiente: servicio real de IMEI.
+ */
+import Layout from "../layouts/Layout.astro";
+import TopBar from "../components/TopBar.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import FloatingActions from "../components/FloatingActions.astro";
+import PageHero from "../components/PageHero.astro";
+import Plans from "../components/Plans.astro";
+import Icon from "../components/Icon.astro";
+import ImeiChecker from "../components/ImeiChecker";
+import { Hash, Phone, QrCode, Settings, Tag } from "lucide-react";
+import data from "../data/compatibilidad.json";
+import { BRAND_LOGOS } from "../utils/brandLogos";
+import { planSummary, whatsappUrl } from "../utils/whatsapp";
+import { brandHtml } from "../utils/brand";
+// REFERENCIA: reemplazar por Mimo sosteniendo un celular con una palomita (✓) en la pantalla. PNG transparente, ~500×500.
+import mimoCompatibilidad from "../assets/img/general/mimo-compatibilidad.png";
+
+const origin = Astro.site ? Astro.site.href : "https://megamovil.megacable.com.mx";
+const pageUrl = new URL("/compatibilidad", origin).href;
+
+const { hero, checker, howTo, esim, plans: plansCopy } = data;
+const optionIcons = { dial: Hash, settings: Settings, tag: Tag };
+// Logo oficial de cada sistema (fuente única: utils/brandLogos), igual que en /esim.
+const osLogos = {
+  android: { tile: "bg-[#3DDC84] text-[#073042]", path: BRAND_LOGOS.android.path, name: "Android" },
+  ios: { tile: "bg-black text-white", path: BRAND_LOGOS.apple.path, name: "iPhone" },
+};
+const planWhatsapp = (plan: Parameters<typeof planSummary>[0]) => whatsappUrl(plansCopy.whatsappText.replace("{plan}", planSummary(plan)));
+
+const jsonLd = [
+  { "@context": "https://schema.org", "@type": "WebPage", name: data.seo.title, description: data.seo.description, url: pageUrl, inLanguage: "es-MX" },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: origin },
+      { "@type": "ListItem", position: 2, name: "Compatibilidad", item: pageUrl },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: howTo.title,
+    step: howTo.options.map((o, i) => ({
+      "@type": "HowToStep",
+      position: i + 1,
+      name: o.strong,
+      text: `${o.before}${o.strong} ${o.text} ${o.note}`.trim(),
+    })),
+  },
+];
+---
+
+<Layout title={data.seo.title} description={data.seo.description} {jsonLd}>
+  <!-- ENCABEZADO UNIFICADO STICKY -->
+  <div id="sticky-header-container" class="sticky top-0 z-50 w-full">
+    <TopBar />
+    <Header />
+  </div>
+
+  <main id="contenido" class="bg-slate-50/60 pb-16">
+    <!-- 1. HERO (sin botones: la acción es el validador, justo debajo) -->
+    <PageHero
+      id="compat-page-title"
+      crumb="Compatibilidad"
+      titleBefore={hero.titleBefore}
+      titleHighlight={hero.titleHighlight}
+      titleAfter={hero.titleAfter}
+      subtitle={hero.subtitle}
+      image={mimoCompatibilidad}
+      imageAlt="Mimo, la mascota de Mega móvil, revisa tu celular"
+    />
+
+    <!-- 2. VALIDADOR + CÓMO OBTENER EL IMEI (tarjeta sobrepuesta al hero: lo primero que se ve es el validador) -->
+    <div class="container relative z-10 mx-auto -mt-12 px-4 sm:px-6 lg:px-8">
+      <section aria-labelledby="checker-title" class="mx-auto max-w-5xl rounded-3xl bg-white p-6 sm:p-10 shadow-card-clean">
+        <div class="mx-auto max-w-3xl">
+          <h2 id="checker-title" class="text-center font-display text-2xl sm:text-3xl font-black uppercase tracking-tight text-mega-navy">
+            {checker.title}
+          </h2>
+          <ImeiChecker
+            client:load
+            label={checker.label}
+            placeholder={checker.placeholder}
+            button={checker.button}
+            checking={checker.checking}
+            invalid={checker.invalid}
+            success={checker.success}
+            successCtaLabel={checker.successCtaLabel}
+            successCtaHref={checker.successCtaHref}
+          />
+        </div>
+
+        <!-- Las 3 formas de obtener el IMEI -->
+        <div class="mt-6 border-t border-slate-100 pt-8 sm:pt-10">
+          <div class="text-center">
+            <h2 class="font-display text-xl sm:text-2xl font-black uppercase tracking-tight text-mega-navy">{howTo.title}</h2>
+            <p class="mt-1 text-sm sm:text-base font-medium text-slate-600">{howTo.subtitle}</p>
+          </div>
+
+          <ol class="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5">
+            {
+              howTo.options.map((o, i) => {
+                const OptionIcon = optionIcons[o.icon as keyof typeof optionIcons];
+                return (
+                  <li class="flex flex-col items-center rounded-3xl border-2 border-slate-100 bg-slate-50/70 p-5 sm:p-6 text-center">
+                    <span class="relative grid h-16 w-16 place-items-center rounded-full bg-mega-navy text-white">
+                      <OptionIcon className="h-8 w-8" aria-hidden="true" />
+                      <span class="absolute -left-1 -top-1 grid h-7 w-7 place-items-center rounded-full bg-gradient-to-br from-mega-orange to-mega-orange-dark font-display text-sm font-black text-white ring-2 ring-white">
+                        {i + 1}
+                      </span>
+                    </span>
+                    <p class="mt-4 text-base sm:text-lg font-medium leading-snug text-slate-700">
+                      {o.before}
+                      <strong class="font-black text-mega-navy">{o.strong}</strong> {o.text}
+                    </p>
+                    {o.note && <p class="mt-1 text-xs sm:text-sm font-semibold text-slate-500">{o.note}</p>}
+
+                    {o.paths.length > 0 && (
+                      <ul class="mt-4 w-full space-y-2 text-left">
+                        {o.paths.map((p) => {
+                          const logo = osLogos[p.os as keyof typeof osLogos];
+                          return (
+                            <li class="flex items-center gap-2.5 rounded-2xl bg-white px-3 py-2 ring-1 ring-slate-200/80">
+                              <span class:list={["grid h-8 w-8 shrink-0 place-items-center rounded-xl", logo.tile]}>
+                                <svg viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4" role="img" aria-label={logo.name}>
+                                  <path d={logo.path} />
+                                </svg>
+                              </span>
+                              <span class="text-xs sm:text-sm font-bold leading-tight text-mega-navy">{p.path}</span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+
+                    {/* En celular, un toque abre el marcador con *#06# (en escritorio no sirve: se oculta) */}
+                    {o.action && (
+                      <a
+                        href={o.action.href}
+                        class="mt-4 inline-flex items-center gap-2 rounded-full bg-mega-navy px-5 py-3 font-display text-sm font-black uppercase tracking-wider text-white hover:bg-mega-orange md:hidden"
+                      >
+                        <Phone className="h-4 w-4" aria-hidden="true" />
+                        {o.action.label}
+                      </a>
+                    )}
+                  </li>
+                );
+              })
+            }
+          </ol>
+        </div>
+
+        <!-- eSIM: requisito extra (EID), con su propia página -->
+        <p class="mt-8 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 border-t border-slate-100 pt-5 text-sm font-semibold text-slate-500">
+          <QrCode className="h-4 w-4 text-mega-orange" aria-hidden="true" />
+          <span set:html={brandHtml(esim.text)} />
+          <a href={esim.href} class="inline-flex items-center gap-1 font-black text-mega-orange hover:underline underline-offset-4">
+            {esim.label}
+            <Icon name="arrow-right" class="h-4 w-4" />
+          </a>
+        </p>
+      </section>
+    </div>
+
+    <!-- 3. PLANES: mismos del Home; el botón abre WhatsApp con el plan ya escrito -->
+    <Plans title={plansCopy.title} ctaHrefFor={planWhatsapp} />
+  </main>
+
+  <!-- FOOTER -->
+  <Footer />
+
+  <!-- BOTONES FLOTANTES -->
+  <FloatingActions />
+</Layout>

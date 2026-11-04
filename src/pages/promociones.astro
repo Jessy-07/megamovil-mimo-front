@@ -1,0 +1,243 @@
+---
+/**
+ * Promociones. Misma URL que el sitio anterior (/promociones).
+ * En el sitio anterior eran imágenes cargadas en el CMS: el texto no se leía en Google, ni en lectores de pantalla, ni se
+ * podía tocar. Aquí cada promoción es DATO (promociones.json, listo para el admin) y se arma como tarjeta con su botón:
+ * - Con textos → tarjeta de la marca (naranja / azul / navy) con "antes" tachado, beneficio grande, vigencia y botón.
+ * - Con "image" (arte del CMS) → la imagen con su alt + el mismo botón debajo (para campañas que solo traen arte).
+ * Vigencia: se filtra al generar el sitio (active, startsAt, endsAt) y TAMBIÉN en el navegador (data-ends), por si el sitio
+ * no se vuelve a generar el día que vence. Sin promociones vigentes → aviso + "Avísame por WhatsApp" y los planes siguen vendiendo.
+ */
+import Layout from "../layouts/Layout.astro";
+import TopBar from "../components/TopBar.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import FloatingActions from "../components/FloatingActions.astro";
+import PageHero from "../components/PageHero.astro";
+import Plans from "../components/Plans.astro";
+import Icon from "../components/Icon.astro";
+import { BellRing, CalendarClock, Check } from "lucide-react";
+import data from "../data/promociones.json";
+import { planSummary, whatsappUrl } from "../utils/whatsapp";
+// REFERENCIA: reemplazar por Mimo sosteniendo una etiqueta de "oferta" / con confeti. PNG transparente, ~500×500.
+import mimoPromociones from "../assets/img/general/mimo-promociones.png";
+
+const origin = Astro.site ? Astro.site.href : "https://megamovil.megacable.com.mx";
+const pageUrl = new URL("/promociones", origin).href;
+
+type Promo = (typeof data.promos)[number] & { image: { src: string; alt: string } | null; startsAt: string | null; endsAt: string | null };
+
+// Vigentes hoy (fecha de generación del sitio). El navegador vuelve a revisar endsAt.
+const today = new Date().toISOString().slice(0, 10);
+const promos = (data.promos as Promo[]).filter((p) => p.active && (!p.startsAt || p.startsAt <= today) && (!p.endsAt || p.endsAt >= today));
+
+// Colores de cada tema como estilo en línea (no dependen de que Tailwind genere clases; el admin podrá sumar temas).
+const themes = {
+  orange: { card: "background:linear-gradient(135deg,#FFA31A 0%,#FF8A00 45%,#FF5900 100%)", button: "color:#FF5900" },
+  blue: { card: "background:linear-gradient(135deg,#38B6FF 0%,#1E90FF 45%,#0066CC 100%)", button: "color:#0066CC" },
+  navy: { card: "background:linear-gradient(135deg,#061630 0%,#0A1E3D 50%,#0D2854 100%)", button: "color:#061630" },
+};
+const dateLabel = (iso: string) =>
+  new Date(`${iso}T12:00:00`).toLocaleDateString("es-MX", { day: "numeric", month: "long", year: "numeric" });
+
+// 1 promo: centrada y angosta · 2: dos columnas · 3 o más: tres columnas.
+const gridClass =
+  promos.length === 1 ? "mx-auto max-w-md grid-cols-1" : promos.length === 2 ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
+
+const planWhatsapp = (plan: Parameters<typeof planSummary>[0]) => whatsappUrl(data.plans.whatsappText.replace("{plan}", planSummary(plan)));
+
+const jsonLd = [
+  { "@context": "https://schema.org", "@type": "WebPage", name: data.seo.title, description: data.seo.description, url: pageUrl, inLanguage: "es-MX" },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: origin },
+      { "@type": "ListItem", position: 2, name: "Promociones", item: pageUrl },
+    ],
+  },
+  ...(promos.length
+    ? [
+        {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "Promociones Mega móvil",
+          itemListElement: promos.map((p, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            item: {
+              "@type": "Offer",
+              name: `${p.condition} ${p.lead} ${p.value} ${p.duration}`,
+              price: p.price,
+              priceCurrency: "MXN",
+              url: pageUrl,
+              ...(p.endsAt ? { priceValidUntil: p.endsAt } : {}),
+            },
+          })),
+        },
+      ]
+    : []),
+];
+---
+
+<Layout title={data.seo.title} description={data.seo.description} {jsonLd}>
+  <!-- ENCABEZADO UNIFICADO STICKY -->
+  <div id="sticky-header-container" class="sticky top-0 z-50 w-full">
+    <TopBar />
+    <Header />
+  </div>
+
+  <main id="contenido" class="bg-slate-50/60 pb-16">
+    <!-- 1. HERO -->
+    <PageHero
+      id="promos-title"
+      crumb="Promociones"
+      titleBefore={data.hero.titleBefore}
+      titleHighlight={data.hero.titleHighlight}
+      titleAfter={data.hero.titleAfter}
+      subtitle={data.hero.subtitle}
+      image={mimoPromociones}
+      imageAlt="Mimo, la mascota de Mega móvil, con las promociones"
+    />
+
+    <!-- 2. PROMOCIONES (tarjeta sobrepuesta al hero) -->
+    <div class="container relative z-10 mx-auto -mt-12 px-4 sm:px-6 lg:px-8">
+      <section aria-label="Promociones vigentes" class="mx-auto max-w-5xl rounded-3xl bg-white p-5 sm:p-8 lg:p-10 shadow-card-clean">
+        {
+          promos.length > 0 && (
+            <ul class:list={["grid gap-5 sm:gap-6", gridClass]} data-promo-list>
+              {promos.map((p) => {
+                const theme = themes[p.theme as keyof typeof themes] ?? themes.orange;
+                const href = whatsappUrl(p.whatsappText);
+                // El botón abre el modal "¡Llámame!" del callcenter (CallMeModal); el href de WhatsApp queda de respaldo sin JS.
+                const callme = { "data-callme": "", "data-callme-label": `Promoción ${p.value} ${p.duration} (plan de ${p.price})`, "data-callme-interest": `Promoción ${p.value} ${p.duration} plan ${p.price} - ${p.id}` };
+                return (
+                  <li id={p.id} class="scroll-mt-36" data-promo data-ends={p.endsAt ?? undefined}>
+                    {p.image ? (
+                      /* Promoción solo con arte del CMS: imagen + botón (el texto va en el alt) */
+                      <article class="flex h-full flex-col overflow-hidden rounded-3xl bg-slate-50 ring-1 ring-slate-200">
+                        <img src={p.image.src} alt={p.image.alt} loading="lazy" class="aspect-square w-full object-cover" />
+                        <div class="p-5">
+                          <a href={href} target="_blank" rel="noopener noreferrer" class="btn-primary w-full" {...callme}>
+                            {data.ctaLabel}
+                            <Icon name="arrow-right" class="h-5 w-5" />
+                          </a>
+                        </div>
+                      </article>
+                    ) : (
+                      /* Promoción con textos: tarjeta de la marca */
+                      <article class="relative flex h-full flex-col overflow-hidden rounded-3xl p-6 sm:p-8 text-center text-white shadow-card-clean" style={theme.card}>
+                        <div class="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-white/15 blur-2xl pointer-events-none" aria-hidden="true" />
+                        <p class="relative font-display text-2xl sm:text-[1.7rem] font-black leading-tight">{p.condition}</p>
+                        <p class="relative font-display text-lg sm:text-xl font-bold leading-tight text-white/95">{p.lead}</p>
+
+                        <div class="relative my-5">
+                          <p class="font-display text-2xl font-bold text-white/80">
+                            <span class="sr-only">Antes </span>
+                            <s class="decoration-[#FF2D8A] decoration-[3px]">{p.before}</s>
+                          </p>
+                          <p class="font-display text-7xl sm:text-8xl font-black leading-[0.9] tracking-tight drop-shadow-sm">{p.value}</p>
+                          <p class="mt-1 font-display text-3xl sm:text-4xl font-black">{p.duration}</p>
+                        </div>
+
+                        <div class="relative rounded-2xl bg-white/15 px-4 py-3.5 ring-1 ring-white/25">
+                          <p class="font-display text-sm font-black uppercase tracking-wider">
+                            {p.includesTitle} <span class="text-white/90">· {p.includesSuffix}</span>
+                          </p>
+                          <ul class="mt-2 flex flex-wrap justify-center gap-x-3 gap-y-1.5">
+                            {p.includes.map((inc) => (
+                              <li class="inline-flex items-center gap-1 text-sm font-bold">
+                                <Check className="h-4 w-4" aria-hidden="true" />
+                                {inc}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {p.endsAt && (
+                          <p class="relative mt-4 inline-flex items-center justify-center gap-1.5 text-sm font-bold text-white/95">
+                            <CalendarClock className="h-4 w-4" aria-hidden="true" />
+                            Válida hasta el {dateLabel(p.endsAt)}
+                          </p>
+                        )}
+
+                        <div class="relative mt-auto pt-6">
+                          <a
+                            href={href}
+                            {...callme}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 font-display text-base sm:text-lg font-black uppercase tracking-wider shadow-lg hover:bg-slate-50"
+                            style={theme.button}
+                          >
+                            {data.ctaLabel}
+                            <Icon name="arrow-right" class="h-5 w-5" />
+                          </a>
+                          <p class="mt-3 text-[11px] font-semibold text-white/80">{p.legal}</p>
+                        </div>
+                      </article>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          )
+        }
+
+        {
+          promos.length > 0 && (
+            <p class="mt-6 text-center text-sm font-semibold text-slate-500" data-promo-howto>
+              ¿Todavía no te cambias?
+              <a href={data.howTo.href} class="ml-1 inline-flex items-center gap-1 font-black text-mega-orange hover:underline underline-offset-4">
+                {data.howTo.label}
+                <Icon name="arrow-right" class="h-4 w-4" />
+              </a>
+            </p>
+          )
+        }
+
+        <!-- Sin promociones vigentes (también se muestra si el navegador detecta que todas vencieron) -->
+        <div data-promo-empty hidden={promos.length > 0}>
+        <div class="flex flex-col items-center gap-4 py-4 text-center sm:py-6">
+          <span class="grid h-16 w-16 place-items-center rounded-2xl bg-orange-50 text-mega-orange">
+            <BellRing className="h-8 w-8" aria-hidden="true" />
+          </span>
+          <h2 class="font-display text-2xl sm:text-3xl font-black uppercase tracking-tight text-mega-navy">{data.empty.title}</h2>
+          <p class="max-w-xl text-sm sm:text-base font-medium text-slate-600">{data.empty.text}</p>
+          <a
+            href={whatsappUrl(data.empty.whatsappText)}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-6 py-3.5 font-display text-sm font-black uppercase tracking-wider text-white hover:bg-[#20ba5a]"
+          >
+            <BellRing className="h-4 w-4" aria-hidden="true" />
+            {data.empty.label}
+          </a>
+        </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- 3. PLANES: siempre (con o sin promociones). Botón con WhatsApp prellenado -->
+    <Plans title={data.plans.title} ctaHrefFor={planWhatsapp} />
+  </main>
+
+  <!-- FOOTER -->
+  <Footer />
+
+  <!-- BOTONES FLOTANTES -->
+  <FloatingActions />
+</Layout>
+
+<script>
+  // Si una promoción venció después de generar el sitio, se oculta; si ya no queda ninguna, aparece el aviso.
+  const today = new Date().toISOString().slice(0, 10);
+  const cards = [...document.querySelectorAll<HTMLElement>("[data-promo]")];
+  cards.forEach((c) => {
+    if (c.dataset.ends && c.dataset.ends < today) c.style.display = "none";
+  });
+  if (cards.length && cards.every((c) => c.style.display === "none")) {
+    document.querySelectorAll<HTMLElement>("[data-promo-list], [data-promo-howto]").forEach((el) => (el.style.display = "none"));
+    document.querySelector<HTMLElement>("[data-promo-empty]")?.removeAttribute("hidden");
+  }
+</script>

@@ -2,8 +2,11 @@
 import nav from '../data/nav.json';
 import Countdown from './Countdown';
 import Icon from './Icon.astro';
+import { resolveAnchor } from '../utils/links';
 
 const { topBar } = nav;
+// #planes → /planes fuera del Home (ver utils/links.ts).
+const ctaHref = resolveAnchor(topBar.cta.href, Astro.url.pathname);
 ---
 
 <aside id="topbar" aria-label="Aviso promocional" class="relative z-50 bg-gradient-to-r from-mega-orange via-[#FF6614] to-mega-orange text-white shadow-sm">
@@ -22,7 +25,7 @@ const { topBar } = nav;
 
     <div class="flex items-center gap-2 shrink-0">
       <a
-        href={topBar.cta.href}
+        href={ctaHref}
         class="inline-flex items-center rounded-pill bg-white hover:bg-slate-100 text-mega-orange px-3.5 py-1 text-xs font-black uppercase shadow-sm transition hover:scale-105 active:scale-95"
       >
         {topBar.cta.label}

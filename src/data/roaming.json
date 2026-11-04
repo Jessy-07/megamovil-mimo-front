@@ -1,0 +1,162 @@
+{
+  "seo": {
+    "title": "Planes internacionales Mega móvil | Roaming en América y Europa",
+    "description": "Paquetes de datos adicionales para viajar: América 500 MB por $390 y Europa desde $780 por 30 días. Busca tu país y contrátalo por WhatsApp. En EE.UU. y Canadá tu plan ya funciona."
+  },
+  "hero": {
+    "titleBefore": "Planes ",
+    "titleHighlight": "internacionales",
+    "subtitle": "Paquetes de datos adicionales a tu plan Mega móvil para usar en el extranjero.",
+    "highlights": [
+      "Duran 30 días",
+      "Tu mismo número",
+      "Sin renovación automática"
+    ]
+  },
+  "finder": {
+    "label": "¿A dónde viajas?",
+    "placeholder": "Escribe el país. Ej. España, Japón, Colombia",
+    "includedCountries": [
+      "Estados Unidos",
+      "EE.UU.",
+      "EEUU",
+      "EUA",
+      "USA",
+      "Canadá"
+    ],
+    "includedMessage": "¡No necesitas paquete! Tu plan Mega móvil ya funciona en EE.UU. y Canadá sin costo adicional.",
+    "notFound": "No encontramos ese país en los paquetes. Pregúntanos por WhatsApp.",
+    "notFoundWhatsapp": "Hola, voy a viajar a {pais}. ¿Qué paquete de roaming me sirve?"
+  },
+  "aliases": {
+    "Inglaterra": "Reino Unido",
+    "Escocia": "Reino Unido",
+    "Gales": "Reino Unido",
+    "Gran Bretaña": "Reino Unido",
+    "Holanda": "Países Bajos",
+    "Corea": "Corea del Sur",
+    "Chequia": "República Checa",
+    "Macedonia": "República de Macedonia",
+    "Macedonia del Norte": "República de Macedonia",
+    "Qatar": "Catar",
+    "Bahréin": "Baréin",
+    "Bangladesh": "Bangladés",
+    "Fiji": "Fiyi",
+    "Rumania": "Rumanía"
+  },
+  "zones": [
+    {
+      "id": "america",
+      "name": "América",
+      "summary": "15 países de Latinoamérica y el Caribe",
+      "countries": [
+        "Argentina",
+        "Brasil",
+        "Chile",
+        "Colombia",
+        "Costa Rica",
+        "Ecuador",
+        "El Salvador",
+        "Guatemala",
+        "Honduras",
+        "Nicaragua",
+        "Panamá",
+        "Paraguay",
+        "Perú",
+        "República Dominicana",
+        "Uruguay"
+      ]
+    },
+    {
+      "id": "europa",
+      "name": "Europa",
+      "summary": "62 países de Europa, Asia, Oceanía y África",
+      "countries": [
+        "Albania",
+        "Alemania",
+        "Australia",
+        "Austria",
+        "Bangladés",
+        "Baréin",
+        "Bélgica",
+        "Belice",
+        "Bielorrusia",
+        "Bolivia",
+        "Bulgaria",
+        "Catar",
+        "China",
+        "Corea del Sur",
+        "Croacia",
+        "Dinamarca",
+        "Eslovaquia",
+        "Eslovenia",
+        "España",
+        "Estonia",
+        "Filipinas",
+        "Finlandia",
+        "Fiyi",
+        "Francia",
+        "Ghana",
+        "Grecia",
+        "Hong Kong",
+        "Hungría",
+        "Indonesia",
+        "Irlanda",
+        "Israel",
+        "Italia",
+        "Japón",
+        "Kuwait",
+        "Letonia",
+        "Liechtenstein",
+        "Lituania",
+        "Luxemburgo",
+        "Macao",
+        "Malasia",
+        "Malta",
+        "Montenegro",
+        "Noruega",
+        "Nueva Zelanda",
+        "Países Bajos",
+        "Polonia",
+        "Portugal",
+        "Reino Unido",
+        "República Checa",
+        "República de Macedonia",
+        "Rumanía",
+        "Rusia",
+        "Serbia",
+        "Singapur",
+        "Sri Lanka",
+        "Sudáfrica",
+        "Sudán",
+        "Suecia",
+        "Suiza",
+        "Tailandia",
+        "Taiwán",
+        "Ucrania"
+      ]
+    }
+  ],
+  "plans": [
+    {
+      "zone": "america",
+      "data": "500 MB",
+      "days": 30,
+      "price": 390
+    },
+    {
+      "zone": "europa",
+      "data": "500 MB",
+      "days": 30,
+      "price": 780
+    },
+    {
+      "zone": "europa",
+      "data": "1 GB",
+      "days": 30,
+      "price": 1100
+    }
+  ],
+  "planCta": "¡Lo quiero!",
+  "planWhatsapp": "Hola, quiero contratar el paquete de roaming {zona} de {datos} por {dias} días (${precio})."
+}

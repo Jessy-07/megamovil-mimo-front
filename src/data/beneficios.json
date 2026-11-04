@@ -1,0 +1,64 @@
+{
+  "seo": {
+    "title": "Beneficios Mega móvil | Wifi, plan control, cobertura MEX-EU-CAN y más",
+    "description": "Con Mega móvil tienes miles de puntos wifi, plan control sin cargos adicionales, cobertura en México, EE.UU. y Canadá, estrena celular a 12 meses y atención las 24 hrs."
+  },
+  "hero": {
+    "titleBefore": "Disfruta de todos los ",
+    "titleHighlight": "beneficios",
+    "subtitle": "Lo que ganas al ser Mega móvil, además de tu plan."
+  },
+  "benefits": [
+    {
+      "id": "wifi",
+      "icon": "wifi",
+      "title": "Miles de puntos wifi",
+      "headline": "¡Conéctate en todo lugar!",
+      "text": "Descarga la Megacable app y conéctate automáticamente a miles de puntos WIFI a nivel nacional todo el tiempo que quieras.",
+      "actions": [
+        { "type": "store", "store": "ios", "label": "App Store", "href": "https://apps.apple.com/mx/app/megacable-app/id1466002118" },
+        { "type": "store", "store": "android", "label": "Google Play", "href": "https://play.google.com/store/apps/details?id=mx.com.megacable&hl=es_MX" }
+      ]
+    },
+    {
+      "id": "plan-control",
+      "icon": "shield",
+      "title": "Plan control incluido",
+      "headline": "¡No pagues más de lo contratado!",
+      "text": "Con nuestros Planes Mega móvil no hay cargos adicionales, ni letras chiquitas.",
+      "actions": [{ "type": "link", "label": "Ver planes", "href": "#planes" }]
+    },
+    {
+      "id": "estrena-celular",
+      "icon": "smartphone",
+      "title": "Estrena celular",
+      "headline": "¡Los mejores equipos!",
+      "text": "Estrena celular a 12 meses sin intereses* y sin enganche, con tu Plan Mega móvil",
+      "actions": [{ "type": "whatsapp", "label": "Quiero estrenar celular", "text": "Hola, quiero estrenar celular a 12 meses sin intereses con mi plan Mega móvil." }]
+    },
+    {
+      "id": "cobertura",
+      "icon": "globe",
+      "title": "Cobertura MEX‑EU‑CAN",
+      "headline": "¡Sin costo adicional!",
+      "text": "Cobertura Nacional, además Navega y llama en EE.UU. y Canadá",
+      "actions": [{ "type": "external", "label": "Ver mapa de cobertura", "href": "https://cobertura.megacable.com.mx/megamovil/" }]
+    },
+    {
+      "id": "atencion",
+      "icon": "headset",
+      "title": "Atención al cliente",
+      "headline": "¡Atención y asesoría las 24 hrs!",
+      "text": "Marcando desde tu línea celular Mega móvil *1234 o manda un WhatsApp al 33 9690 0001.",
+      "actions": [
+        { "type": "whatsapp", "label": "Escríbenos", "text": "Hola, necesito ayuda con mi línea Mega móvil." },
+        { "type": "tel", "label": "Marcar *1234", "href": "tel:*1234", "mobileOnly": true }
+      ]
+    }
+  ],
+  "footnote": "*Aplican restricciones.",
+  "plans": {
+    "title": "Elige tu plan",
+    "whatsappText": "Hola, quiero contratar el plan {plan}."
+  }
+}

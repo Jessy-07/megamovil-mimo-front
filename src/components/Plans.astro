@@ -3,7 +3,17 @@ import plans from "../data/plans.json";
 import CommonBenefits from "./CommonBenefits.astro";
 import PlanCard from "./PlanCard.astro";
 
-const { groups, ctaLabel, perMonth } = plans;
+interface Props {
+  /** Título de la sección (Home: "¿Cuántas líneas necesitas?"). */
+  title?: string;
+  /** Texto del botón de cada plan (Home: "¡Lo quiero!"). */
+  ctaLabel?: string;
+  /** Destino del botón por plan. Sin definir: /contratar?plan=slug. */
+  ctaHrefFor?: (plan: { slug: string; name: string; price: number; lines?: number; gigas?: string; highlight: { value: string; unit: string } }) => string;
+}
+
+const { groups, perMonth } = plans;
+const { title = "¿Cuántas líneas necesitas?", ctaLabel = plans.ctaLabel, ctaHrefFor } = Astro.props;
 
 // Carrusel scroll-snap en móvil con peek de la siguiente tarjeta, y grid 3 cols en desktop
 const track =
@@ -23,7 +33,7 @@ const item = "w-[82%] sm:w-[50%] md:w-auto shrink-0 snap-center flex flex-col";
       <h2
         class="font-display text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight text-mega-navy mb-5 sm:mb-6"
       >
-        ¿CUÁNTAS LÍNEAS NECESITAS?
+        {title}
       </h2>
 
       <!-- Switch de categoría con iconos y número de líneas: Ancho expandido y simétrico (50% / 50%) -->
@@ -114,7 +124,7 @@ const item = "w-[82%] sm:w-[50%] md:w-auto shrink-0 snap-center flex flex-col";
         {
           groups.family.plans.map((plan) => (
             <li class={item}>
-              <PlanCard {plan} {ctaLabel} {perMonth} />
+              <PlanCard {plan} {ctaLabel} {perMonth} ctaHref={ctaHrefFor?.(plan)} />
             </li>
           ))
         }
@@ -132,7 +142,7 @@ const item = "w-[82%] sm:w-[50%] md:w-auto shrink-0 snap-center flex flex-col";
         {
           groups.individual.plans.map((plan) => (
             <li class={item}>
-              <PlanCard {plan} {ctaLabel} {perMonth} />
+              <PlanCard {plan} {ctaLabel} {perMonth} ctaHref={ctaHrefFor?.(plan)} />
             </li>
           ))
         }

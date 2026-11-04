@@ -1,0 +1,50 @@
+{
+  "seo": {
+    "title": "Cobertura Mega móvil | Consulta la cobertura en tu colonia",
+    "description": "Cobertura nacional y además navega y llama en EE.UU. y Canadá ¡sin costo adicional! Consulta en el mapa la cobertura de Mega móvil en tu colonia."
+  },
+  "hero": {
+    "titleBefore": "",
+    "titleHighlight": "Cobertura",
+    "titleAfter": " Mega móvil",
+    "subtitle": "Cobertura nacional, además navega y llama en EE.UU. y Canadá."
+  },
+  "map": {
+    "title": "Consulta la cobertura en tu colonia",
+    "text": "Busca tu calle y colonia o tu código postal, o usa tu ubicación. La zona azul es donde hay cobertura Mega móvil.",
+    "coverageTilesUrl": "https://geomega.com.mx/gwc_geomega/service/wmts?nocache=190926&layer=megamovil_cobertura&style=&tilematrixset=EPSG:900913&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/png&TileMatrix=EPSG:900913:{z}&TileCol={x}&TileRow={y}",
+    "searchPlaceholder": "Escribe tu calle y colonia, o tu código postal",
+    "legend": "Zona con cobertura",
+    "legendNote": "Servicio sujeto a factibilidad técnica",
+    "foundMessage": "¡Tienes cobertura!",
+    "ctaLabel": "Elige tu plan",
+    "ctaHref": "#planes",
+    "officialText": "¿Quieres ver el perímetro exacto de tu colonia?",
+    "officialLabel": "Abre el mapa oficial",
+    "href": "https://cobertura.megacable.com.mx/megamovil/"
+  },
+  "items": [
+    {
+      "icon": "map",
+      "title": "Cobertura Nacional"
+    },
+    {
+      "icon": "phone",
+      "title": "Navega y llama en EE.UU. y Canadá",
+      "badge": "¡Sin costo adicional!"
+    },
+    {
+      "icon": "rocket",
+      "title": "Tecnología y velocidad"
+    }
+  ],
+  "roaming": {
+    "text": "¿Viajas a otro país?",
+    "label": "Conoce los planes internacionales",
+    "href": "/roaming-internacional"
+  },
+  "plans": {
+    "title": "Elige tu plan",
+    "whatsappText": "Hola, quiero contratar el plan {plan}."
+  }
+}
