@@ -13,12 +13,16 @@ interface Props {
   /** Acción que aparece al validar (p. ej. "Elige tu plan"): el siguiente paso de la venta. */
   successCtaLabel?: string;
   successCtaHref?: string;
+  /** Sobre fondo oscuro: mensajes en tonos claros para que se lean. */
+  dark?: boolean;
+  /** Mensajes centrados (Home: validador en una columna centrada). */
+  centered?: boolean;
 }
 
 type Status = 'idle' | 'checking' | 'ok' | 'error';
 
 /** Solo UI: valida formato (15 a 17 dígitos: IMEI o IMEISV) y simula el resultado. */
-export default function ImeiChecker({ label, placeholder, button, checking, invalid, success, linkLabel, linkHref, successCtaLabel, successCtaHref }: Props) {
+export default function ImeiChecker({ label, placeholder, button, checking, invalid, success, linkLabel, linkHref, successCtaLabel, successCtaHref, dark = false, centered = false }: Props) {
   const id = useId();
   const [imei, setImei] = useState('');
   const [status, setStatus] = useState<Status>('idle');
@@ -49,9 +53,9 @@ export default function ImeiChecker({ label, placeholder, button, checking, inva
             setImei(e.target.value.replace(/\D/g, '').slice(0, 17));
             if (status !== 'idle') setStatus('idle');
           }}
-          className="h-14 flex-1 rounded-pill border-2 border-mega-blue/20 bg-white px-6 text-lg font-bold tracking-widest text-mega-navy placeholder:font-semibold placeholder:tracking-normal placeholder:text-mega-gray-dark/70 focus:border-mega-blue focus:outline-none"
+          className="h-14 w-full min-w-0 sm:w-auto sm:flex-1 rounded-pill border-2 border-mega-blue/20 bg-white px-6 text-lg font-bold tracking-widest text-mega-navy placeholder:font-semibold placeholder:tracking-normal placeholder:text-mega-gray-dark/70 focus:border-mega-blue focus:outline-none"
         />
-        <button type="submit" className="btn-primary h-14 shrink-0" disabled={status === 'checking'}>
+        <button type="submit" className={`btn-primary h-14 shrink-0 ${dark ? "!shadow-none" : ""}`} disabled={status === 'checking'}>
           {status === 'checking' ? (
             <>
               <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" /> {checking}
@@ -64,12 +68,12 @@ export default function ImeiChecker({ label, placeholder, button, checking, inva
 
       <div id={`${id}-msg`} role="status" aria-live="polite" className="mt-3 min-h-6 text-sm font-bold">
         {status === 'error' && (
-          <p className="flex items-center gap-2 text-red-700">
+          <p className={`flex items-center gap-2 ${centered ? 'justify-center' : ''} ${dark ? 'text-red-300' : 'text-red-700'}`}>
             <AlertCircle className="h-5 w-5 shrink-0" aria-hidden="true" /> {invalid}
           </p>
         )}
         {status === 'ok' && (
-          <p className="flex items-center gap-2 text-emerald-700">
+          <p className={`flex items-center gap-2 ${centered ? 'justify-center' : ''} ${dark ? 'text-emerald-300' : 'text-emerald-700'}`}>
             <CheckCircle2 className="h-5 w-5 shrink-0" aria-hidden="true" /> {success}
           </p>
         )}

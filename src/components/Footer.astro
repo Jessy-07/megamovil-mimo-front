@@ -4,11 +4,16 @@ import site from '../data/site.json';
 import Icon from './Icon.astro';
 import SocialIcon from './SocialIcon.astro';
 
+interface Props {
+  /** Sin margen superior: cuando la sección anterior tiene su propio fondo (Home). */
+  flush?: boolean;
+}
+const { flush = false } = Astro.props;
 const { footer } = nav;
 ---
 
-<footer class="mt-14 bg-[#051124] text-white relative overflow-hidden pb-24 sm:pb-12 border-t-4 border-mega-orange">
-  <div class="container mx-auto px-4 pt-10 sm:px-6">
+<footer class:list={[!flush && "mt-14", "bg-[#051124] text-white relative overflow-hidden pb-24 sm:pb-12 border-t-4 border-mega-orange"]}>
+  <div class="mx-auto max-w-[1440px] px-3 sm:px-6 lg:px-8 xl:px-10 pt-10">
     <!-- Fila Superior: Canales de Atención, CIS y Redes Sociales -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-white/10">
       <!-- Teléfono de Soporte -->

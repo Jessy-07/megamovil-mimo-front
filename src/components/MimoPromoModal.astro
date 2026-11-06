@@ -225,7 +225,7 @@ const promo = {
           <a
             id="mimo-cta-primary"
             href={promo.ctaHref}
-            class="group relative inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-mega-orange via-[#FF6614] to-mega-orange-dark py-4 px-6 font-display text-base sm:text-lg font-black uppercase tracking-wider text-white shadow-orange-glow transition-all duration-200 hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0 active:scale-95"
+            class="group relative inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-mega-orange hover:bg-mega-orange-dark py-4 px-6 font-display text-base sm:text-lg font-black uppercase tracking-wider text-white shadow-orange-glow transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
           >
             <span>¡QUIERO ESTA PROMOCIÓN!</span>
             <svg class="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
@@ -266,8 +266,12 @@ const promo = {
   id="mimo-promo-fab"
   type="button"
   aria-label="Ver promoción de Mimo"
-  class="fixed bottom-20 left-3.5 sm:bottom-6 sm:left-6 z-40 group flex items-center gap-2.5 rounded-full bg-white/95 px-3 py-2 shadow-2xl border-2 border-mega-orange backdrop-blur-md transition-all duration-300 hover:scale-105 hover:shadow-orange-glow active:scale-95 cursor-pointer"
+  class="mimo-promo-fab fixed bottom-3 left-3 sm:bottom-6 sm:left-6 z-40 group flex items-center gap-2.5 rounded-full bg-white/95 p-1 sm:px-3 sm:py-2 shadow-2xl border-2 border-mega-orange backdrop-blur-md transition-all duration-300 hover:scale-105 hover:shadow-orange-glow active:scale-95 cursor-pointer"
 >
+  <!-- Celular: solo el avatar (más chico) con un regalito en la esquina para distinguirlo del WhatsApp -->
+  <span class="absolute -right-1 -top-1 z-10 grid h-5 w-5 place-items-center rounded-full bg-mega-orange text-white ring-2 ring-white sm:hidden" aria-hidden="true">
+    <svg viewBox="0 0 24 24" class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+  </span>
   <div class="relative h-9 w-9 rounded-full bg-slate-100 overflow-hidden ring-2 ring-mega-orange/40 shrink-0">
     <img
       src="/assets/mimo/mimo-wave.webp"

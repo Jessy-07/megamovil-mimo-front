@@ -78,14 +78,14 @@ const whatsappPath =
     />
 
     <!-- 2. PLANES (tarjeta sobrepuesta al hero). Mismos datos y componente que el Home. -->
-    <div class="container relative z-10 mx-auto -mt-12 px-4 sm:px-6 lg:px-8">
+    <div class="relative z-10 mx-auto -mt-12 max-w-[1440px] px-7 sm:px-12 lg:px-16">
       <div class="rounded-3xl bg-white shadow-card-clean [&>section]:px-2 sm:[&>section]:px-4 [&>section]:!pt-8 [&>section]:!pb-10">
         <Plans ctaHrefFor={planWhatsapp} />
       </div>
     </div>
 
     <!-- 3. DOS AYUDAS PEQUEÑAS: para el indeciso y para quien viene de otra compañía -->
-    <div class="container mx-auto mt-8 px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto mt-8 max-w-[1440px] px-7 sm:px-12 lg:px-16">
       <ul class="grid grid-cols-1 gap-4 md:grid-cols-2">
         {
           page.help.map((h) => {

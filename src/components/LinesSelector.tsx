@@ -51,7 +51,7 @@ export default function LinesSelector() {
             onClick={() => handleSelect(num)}
             className={`min-w-[46px] sm:min-w-[56px] rounded-full py-1.5 px-3.5 text-xs sm:text-sm font-display font-black uppercase transition-all duration-200 ${
               selected === num
-                ? 'bg-gradient-to-r from-mega-orange to-[#FF7020] text-white shadow-orange-sm scale-105'
+                ? 'bg-mega-orange text-white shadow-orange-sm scale-105'
                 : 'text-slate-600 hover:text-mega-orange hover:bg-orange-50/50'
             }`}
           >

@@ -1,179 +1,177 @@
 ---
+/**
+ * Tarjeta de plan (familiar o individual). Lo que se destaca: los GIGAS y el PRECIO; después, qué plan es.
+ * - Encabezado: solo en familiares ("2 líneas"). Sin "PLAN FAMILIAR/INDIVIDUAL" ni nombres en individuales. SIN etiquetas:
+ *   el destacado (featured) se distingue por ir en azul oscuro (misma altura que las demás).
+ * - Todo lo "ilimitado" lleva un asterisco pequeño (el detalle está en las políticas de uso).
+ * - Lo que incluyen TODOS los planes del grupo va una sola vez arriba de las tarjetas (Plans.astro), y el legal, una sola
+ *   vez debajo. Aquí solo lo que cambia entre planes.
+ * - "¡Lo quiero!" (único naranja sólido de la tarjeta) abre el modal "¡Llámame!" del callcenter (CallMeModal, data-callme);
+ *   sin JavaScript, su href es WhatsApp. Al lado, WhatsApp discreto para dudas.
+ */
 import SocialIcon from './SocialIcon.astro';
+import SocialBrand from './SocialBrand.astro';
+import plansData from '../data/plans.json';
 import { planSummary, whatsappUrl } from '../utils/whatsapp';
 
 interface Plan {
   slug: string;
   name: string;
+  shortName: string;
   lines?: number;
   gigasDetail?: string;
   gigas?: string;
-  gigasUnit?: string;
-  speedTag?: string;
+  totalGb?: string;
   highlight: { value: string; unit: string };
-  detail: string;
   price: number;
-  pricePerLine?: string;
+  pricePerLineLabel?: string;
   savings?: string;
-  badge: string | null;
   featured: boolean;
-  colorTone?: string;
-  mascot: string | null;
+  detail?: string;
   socialApps?: string[];
-  legal: string;
 }
 
 interface Props {
   plan: Plan;
+  kind: 'family' | 'individual';
+  /** "PLAN FAMILIAR" / "PLAN INDIVIDUAL" */
+  kindLabel: string;
+  /** "en total" / "para navegar" */
+  unitLabel: string;
   ctaLabel: string;
   perMonth: string;
-  /**
-   * Respaldo del botón si no hay JavaScript (por defecto WhatsApp con el plan escrito).
-   * Con JavaScript, el botón abre el modal "¡Llámame!" del callcenter (CallMeModal, atributos data-callme).
-   */
+  /** Respaldo sin JavaScript (por defecto WhatsApp con el plan escrito). */
   ctaHref?: string;
 }
 
 const summary = planSummary(Astro.props.plan);
-const { plan, ctaLabel, perMonth, ctaHref = whatsappUrl(`Hola, quiero contratar el plan ${summary}.`) } = Astro.props;
-const ctaExternal = ctaHref.startsWith('http');
-const isFamily = Boolean(plan.lines && plan.lines > 1);
-const isUnlimited = plan.gigas === 'ILIMITADO' || plan.highlight.value === '∞';
+const { plan, kind, kindLabel, unitLabel, ctaLabel, perMonth, ctaHref = whatsappUrl(`Hola, quiero contratar el plan ${summary}.`) } = Astro.props;
+const dark = plan.featured;
+const isUnlimited = plan.gigas === 'ILIMITADO';
+const gb = kind === 'family' ? plan.totalGb : plan.gigas;
+const askHref = whatsappUrl(`Hola, tengo dudas sobre el plan ${summary}.`);
+
+// Redes del plan (individuales): se muestran solo las que SÍ incluye.
+const allApps = plansData.socialApps;
+const included = new Set(plan.socialApps ?? []);
+// Sin conteos ni 'todas': siempre el mismo texto (los logos muestran cuáles incluye).
+const socialTitle = 'Redes sociales ilimitadas';
 ---
 
-<div id={`plan-${plan.slug}`} class="relative h-full flex flex-col group transition-all duration-300">
-  <!-- Etiqueta de destacado FUERA de la card para que todas las cards tengan exactamente el mismo tamaño y alineación -->
-  {plan.badge && (
-    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap pointer-events-none">
-      <span class="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-mega-orange to-[#FF7020] px-4 py-1 font-display text-[11px] sm:text-xs font-black uppercase tracking-wider text-white shadow-orange-sm ring-2 ring-white">
-        <svg class="h-3 w-3 fill-current text-white shrink-0" viewBox="0 0 24 24">
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+<article
+  id={`plan-${plan.slug}`}
+  class:list={[
+    'relative flex h-full flex-col overflow-hidden rounded-3xl p-6 sm:p-7',
+    // Destacado: azul oscuro (misma altura que las demás). Sin etiquetas.
+    dark
+      ? 'bg-mega-navy text-white shadow-[0_18px_40px_-12px_rgba(6,22,48,0.45)]'
+      : 'border border-slate-200 bg-white text-mega-navy',
+  ]}
+>
+  {dark && <div class="pointer-events-none absolute -bottom-16 -right-16 h-48 w-48 rounded-full border-[18px] border-white/[0.04]" aria-hidden="true" />}
+
+  <!-- Encabezado: solo en familiares ("2 líneas"). En individuales no va nombre: la oferta son los gigas + el precio. -->
+  {
+    kind === 'family' ? (
+      <h3 class="relative flex items-center gap-2 font-display text-xl font-extrabold leading-tight">
+        <svg viewBox="0 0 24 24" class:list={['h-5 w-5 shrink-0', dark ? 'text-[#FF8A4C]' : 'text-mega-orange']} fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
         </svg>
-        <span>{plan.badge}</span>
-      </span>
-    </div>
-  )}
+        {plan.shortName}
+      </h3>
+    ) : (
+      <h3 class="sr-only">{`${kindLabel} ${plan.shortName}`}</h3>
+    )
+  }
 
-  <article
-    class:list={[
-      'relative z-10 flex h-full flex-col justify-between overflow-hidden rounded-3xl bg-white transition-all duration-200 hover:-translate-y-1',
-      plan.featured
-        ? 'border-2 border-mega-orange shadow-card-hover ring-1 ring-mega-orange/30'
-        : 'border border-slate-200/90 shadow-card-clean hover:border-mega-orange/60 hover:shadow-lg',
-    ]}
-  >
-    <div class="p-6 flex-1 flex flex-col justify-between">
-      <div>
-        <!-- Nombre del plan en tipografía limpia (exactamente a la misma altura en todas las cards) -->
-        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-          <span class="font-display text-xs font-black uppercase tracking-wider text-slate-500">
-            {plan.name}
-          </span>
-        </div>
+  <!-- GIGAS (lo más grande de la tarjeta) -->
+  <div class:list={['relative', kind === 'family' ? 'mt-5' : 'min-h-[5rem]']}>
+    {
+      isUnlimited ? (
+        <p class="font-display text-[2.6rem] font-extrabold leading-[0.95] tracking-tight">
+          Gigas <span class={dark ? 'text-[#FF8A4C]' : 'text-mega-orange-dark'}>ilimitados<sup class="relative -top-[0.3em] ml-px align-baseline text-[0.6em] font-bold">*</sup></span>
+        </p>
+      ) : (
+        <p class="flex items-baseline gap-1.5">
+          <span class="font-display text-6xl font-extrabold leading-none tracking-tight">{gb}</span>
+          <span class:list={['font-display text-3xl font-extrabold', dark ? 'text-[#FF8A4C]' : 'text-mega-orange-dark']}>GB</span>
+          <span class:list={['ml-1 text-sm font-semibold', dark ? 'text-slate-300' : 'text-slate-500']}>{unitLabel}</span>
+        </p>
+      )
+    }
+  </div>
 
-      <!-- BLOQUE PROTAGONISTA: Líneas o Gigas con el Naranja Mega móvil como acento -->
-      <div class="my-5 rounded-2xl bg-gradient-to-b from-slate-50/90 to-orange-50/20 p-5 text-center border border-slate-100">
-        {isFamily ? (
-          <div>
-            <div class="flex items-baseline justify-center gap-2">
-              <span class="font-display text-6xl sm:text-7xl font-black tracking-tight text-mega-navy leading-none">
-                {plan.lines}
-              </span>
-              <span class="font-display text-2xl font-black uppercase tracking-wide text-mega-orange">
-                Líneas
-              </span>
-            </div>
+  <!-- Familiares: reparto de gigas y separador. Individuales: el precio va JUNTO a los gigas ("6 GB · por solo $100"). -->
+  {
+    kind === 'family' && (
+      <>
+        <p class:list={['relative mt-3 text-[15px] font-semibold', dark ? 'text-slate-200' : 'text-slate-600']}>{plan.gigasDetail}</p>
+        <hr class:list={['relative my-5 border-t', dark ? 'border-white/10' : 'border-slate-200']} />
+      </>
+    )
+  }
 
-            <!-- Sticker destacado de ahorro comercial -->
-            {(plan.savings || plan.pricePerLine) && (
-              <div class="my-2.5 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-mega-orange to-[#FF7020] px-3.5 py-1 font-display text-xs font-black uppercase tracking-wider text-white shadow-orange-sm">
-                <span>{plan.savings || `Sale a ${plan.pricePerLine} por línea`}</span>
-              </div>
-            )}
+  <!-- PRECIO -->
+  <div class:list={['relative', kind === 'individual' && 'mt-4']}>
+    <p class:list={['text-xs font-bold uppercase tracking-[0.12em]', dark ? 'text-slate-300' : 'text-slate-500']}>Por solo</p>
+    <p class="mt-0.5 flex items-start gap-0.5">
+      <span class="mt-1.5 font-display text-2xl font-extrabold">$</span>
+      <span class="font-display text-5xl font-extrabold leading-none tracking-tight">{plan.price}</span>
+      <span class:list={['ml-1 self-end pb-1 text-base font-semibold', dark ? 'text-slate-300' : 'text-slate-500']}>{perMonth}</span>
+    </p>
+    {/* Familiares: solo el ahorro (en verde, como texto, sin etiqueta) */}
+    {kind === 'family' && plan.savings && (
+      <p class:list={['mt-2 text-sm font-bold', dark ? 'text-emerald-300' : 'text-emerald-700']}>{plan.savings}</p>
+    )}
+  </div>
 
-            <!-- Desglose de líneas y gigas -->
-            <p class="mt-1 text-lg font-bold text-slate-600 leading-snug">
-              {plan.gigasDetail}
-            </p>
-          </div>
-        ) : isUnlimited ? (
-          <div class="py-2.5">
-            <div class="flex items-center justify-center">
-              <span class="font-display text-4xl sm:text-5xl font-black tracking-tight text-mega-navy leading-none">
-                ILIMITADO
-              </span>
-            </div>
-          </div>
-        ) : (
-          <div class="py-1">
-            <div class="flex items-baseline justify-center gap-1.5">
-              <span class="font-display text-6xl sm:text-7xl font-black tracking-tight text-mega-navy leading-none">
-                {plan.gigas || plan.highlight.value}
-              </span>
-              <span class="font-display text-2xl sm:text-3xl font-black text-mega-orange">
-                GB
-              </span>
-            </div>
-          </div>
-        )}
-      </div>
-
-      <!-- REDES SOCIALES INCLUIDAS: Diferenciadas para planes individuales -->
-      {!isFamily && plan.socialApps && plan.socialApps.length > 0 && (
-        <div class="mt-3.5 rounded-xl bg-slate-50/90 border border-slate-100 p-2.5 text-center">
-          <p class="text-[10px] font-black uppercase tracking-wider text-slate-500 mb-2">
-            {isUnlimited ? 'Todas las redes incluidas:' : 'Redes sociales incluidas:'}
-          </p>
-          <div class="flex items-center justify-center gap-1.5 flex-wrap">
-            {plan.socialApps.map((slug) => (
-              <span
-                class="grid h-6 w-6 place-items-center rounded-full bg-white text-slate-700 shadow-2xs border border-slate-200/80 transition-transform hover:scale-110 hover:text-mega-orange"
-                title={slug.toUpperCase()}
-              >
-                <SocialIcon slug={slug} class="h-3.5 w-3.5" />
-              </span>
+  <!-- Individuales: redes incluidas debajo del precio (solo las que SÍ incluye); los botones quedan al final de la tarjeta -->
+  {
+    kind === 'individual' && (
+      <div class:list={['relative mt-5 border-t pt-4', dark ? 'border-white/10' : 'border-slate-200']}>
+        <p class:list={['text-xs font-bold', dark ? 'text-slate-200' : 'text-slate-600']}>
+          {socialTitle}
+          <sup class="relative -top-[0.3em] ml-px align-baseline text-[0.6em] font-bold">*</sup>
+        </p>
+        <ul class="mt-2 flex flex-wrap gap-1" aria-label={socialTitle}>
+          {allApps
+            .filter((app) => included.has(app.slug))
+            .map((app) => (
+              <li>
+                <SocialBrand slug={app.slug} class="h-6 w-6" />
+              </li>
             ))}
-          </div>
-        </div>
-      )}
-    </div>
-
-
-      <div class="mt-4 border-t border-slate-100 pt-4 text-center">
-        <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">
-          Por solo
-        </span>
-        <div class="flex items-baseline justify-center gap-0.5 text-mega-navy">
-          <span class="font-display text-2xl font-black text-slate-700">$</span>
-          <span class="font-display text-4xl sm:text-5xl font-black tracking-tight leading-none text-mega-navy">
-            {plan.price}
-          </span>
-          <span class="font-sans text-sm font-extrabold text-slate-500">
-            {perMonth}
-          </span>
-        </div>
-
-        <!-- Botón Naranja Protagonista ¡Lo quiero! -->
-        <a
-          href={ctaHref}
-          data-callme
-          data-callme-label={summary}
-          data-callme-interest={`${summary} - ${plan.slug}`}
-          target={ctaExternal ? '_blank' : undefined}
-          rel={ctaExternal ? 'noopener noreferrer' : undefined}
-          class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-mega-orange via-[#FF6614] to-mega-orange-dark py-3.5 px-4 font-display text-base font-black uppercase tracking-wider text-white shadow-orange-glow transition-all duration-200 hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0 active:scale-95"
-        >
-          <span>{ctaLabel}</span>
-          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-          </svg>
-        </a>
+        </ul>
       </div>
-    </div>
+    )
+  }
 
-    <!-- Pie de tarjeta en franja limpia con vigencia/condición -->
-    <div class="bg-slate-50/80 px-4 py-2.5 text-center text-[10px] font-extrabold text-slate-500 tracking-tight border-t border-slate-100">
-      {plan.legal}
-    </div>
-  </article>
-</div>
+  <!-- Acciones: ¡Lo quiero! (callcenter) + WhatsApp discreto para dudas -->
+  <div class="relative mt-auto flex items-center gap-2.5 pt-6">
+    <a
+      href={ctaHref}
+      data-callme
+      data-callme-label={summary}
+      data-callme-interest={`${summary} - ${plan.slug}`}
+      class="inline-flex h-12 flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-mega-orange px-5 font-display text-[19px] font-extrabold text-white hover:bg-mega-orange-dark"
+    >
+      {ctaLabel}
+    </a>
+    <a
+      href={askHref}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Preguntar por el plan ${plan.shortName} por WhatsApp`}
+      title="¿Dudas? Pregúntanos por WhatsApp"
+      class:list={[
+        'grid h-12 w-12 shrink-0 place-items-center rounded-full',
+        dark ? 'bg-white/10 text-[#25D366] hover:bg-white/15' : 'bg-[#25D366]/10 text-[#1DA851] ring-1 ring-[#25D366]/25 hover:bg-[#25D366]/15',
+      ]}
+    >
+      <SocialIcon slug="whatsapp" class="h-5 w-5" />
+    </a>
+  </div>
+
+</article>

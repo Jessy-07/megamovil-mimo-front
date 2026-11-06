@@ -24,8 +24,8 @@
     @apply bg-[#F8FAFC] font-sans text-mega-navy selection:bg-mega-orange selection:text-white;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-    letter-spacing: -0.02em;
+    font-family: 'Poppins', system-ui, sans-serif;
+    letter-spacing: -0.01em; /* Poppins ya es compacta: con -0.02em los títulos medianos se veían apretados */
   }
   :focus-visible {
     outline: 3px solid rgb(var(--mega-orange));
@@ -36,7 +36,7 @@
 
 @layer utilities {
   .font-display {
-    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-family: 'Poppins', system-ui, sans-serif;
   }
 
   /* Sombras y brillos con el naranja característico de Mega móvil */
@@ -62,17 +62,17 @@
 @layer components {
   /* Botón CTA protagonista en Naranja Mega móvil */
   .btn-primary {
-    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-    @apply inline-flex items-center justify-center gap-2 rounded-pill bg-gradient-to-r from-mega-orange via-[#FF6614] to-mega-orange-dark px-8 py-3.5 text-base sm:text-lg font-black uppercase tracking-wider text-white shadow-orange-glow transition-all duration-200 hover:-translate-y-0.5 hover:shadow-orange-glow hover:brightness-105 active:translate-y-0 active:scale-95;
+    font-family: 'Poppins', system-ui, sans-serif;
+    @apply inline-flex items-center justify-center gap-2 rounded-pill bg-mega-orange hover:bg-mega-orange-dark px-8 py-3.5 text-[19px] font-black uppercase tracking-wider text-white shadow-orange-glow transition-all duration-200 hover:-translate-y-0.5 hover:shadow-orange-glow active:translate-y-0 active:scale-95;
   }
 
   .btn-secondary {
-    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-family: 'Poppins', system-ui, sans-serif;
     @apply inline-flex items-center justify-center gap-2 rounded-pill bg-white px-7 py-3 text-base font-black uppercase tracking-wider text-mega-orange shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-50 hover:shadow-lg active:translate-y-0 active:scale-95;
   }
 
   .section-title {
-    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-family: 'Poppins', system-ui, sans-serif;
     @apply text-3xl font-black uppercase tracking-tight text-mega-navy sm:text-4xl lg:text-5xl;
   }
 
@@ -157,7 +157,7 @@
   }
 
   .mimo-sign__price {
-    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-family: 'Poppins', system-ui, sans-serif;
     font-weight: 900;
     font-size: calc(var(--mimo-h) * 0.115);
     color: #FF5900;
@@ -165,7 +165,7 @@
   }
 
   .mimo-sign__note {
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: 'Figtree', system-ui, sans-serif;
     margin-top: 2px;
     font-weight: 800;
     font-size: max(9px, calc(var(--mimo-h) * 0.032));
@@ -219,4 +219,29 @@
 /* Capa de cobertura redibujada con relleno suave + contorno (filtro SVG #mm-coverage-filter en CoverageMap.tsx). */
 .leaflet-coverage {
   filter: url(#mm-coverage-filter);
+}
+
+/* Barra superior: marquesina del texto de la promo (TopBar.astro). Solo corre con .is-running (lo pone el script si no cabe). */
+.topbar-marquee [data-marquee-copy] { display: none; }
+.topbar-marquee.is-running {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 14px, #000 calc(100% - 14px), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 14px, #000 calc(100% - 14px), transparent);
+}
+.topbar-marquee.is-running [data-marquee-item],
+.topbar-marquee.is-running [data-marquee-copy] { display: inline; padding-right: 3rem; }
+.topbar-marquee.is-running .topbar-marquee__track { animation: mm-marquee var(--mm-marquee-dur, 14s) linear infinite; }
+.topbar-marquee.is-running:hover .topbar-marquee__track,
+.topbar-marquee.is-running:active .topbar-marquee__track { animation-play-state: paused; }
+@keyframes mm-marquee { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .topbar-marquee.is-running .topbar-marquee__track { animation: none; }
+}
+
+/* Celular — barra fija (FloatingActions.astro). Abierta: el Mimo de la promo va arriba de la barra y WhatsApp vive dentro.
+   Cerrada (.mm-sticky-closed en <html>, solo en esta vista): se oculta la barra y el Mimo de la promo baja a la esquina.
+   En celular NO hay burbuja de WhatsApp: un solo globo en pantalla. */
+@media (max-width: 639px) {
+  .mimo-promo-fab { bottom: calc(84px + env(safe-area-inset-bottom)); }
+  .mm-sticky-closed .mm-sticky-bar { display: none; }
+  .mm-sticky-closed .mimo-promo-fab { bottom: calc(12px + env(safe-area-inset-bottom)); }
 }

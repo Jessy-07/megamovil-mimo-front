@@ -646,7 +646,7 @@ export default function FaqAccordion({ categories, items, variant = 'completo', 
                             href={item.cta.href}
                             className={`mt-5 inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-display text-xs sm:text-sm font-black uppercase tracking-wider ${
                               item.cta.type === 'venta'
-                                ? 'bg-gradient-to-r from-mega-orange via-[#FF6614] to-mega-orange-dark text-white shadow-orange-sm hover:brightness-105'
+                                ? 'bg-mega-orange hover:bg-mega-orange-dark text-white shadow-orange-sm'
                                 : 'bg-mega-navy text-white hover:bg-mega-orange'
                             }`}
                           >

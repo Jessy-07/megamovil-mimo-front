@@ -1,165 +1,92 @@
 ---
+/**
+ * Compatibilidad del Home ("¿Tu celular funciona con Mega móvil?").
+ * - Bloque azul oscuro SÓLIDO (sin degradado brillante, sin sombra grande ni borde translúcido) con el brillo naranja
+ *   tenue que usan la franja del Home y el encabezado de las páginas internas: misma familia visual.
+ * - Orden: título (fuera del bloque) → validador → las 3 formas de obtener el IMEI (escritorio: tarjetas blancas montadas sobre el
+ *   borde INFERIOR; celular: dentro del bloque, debajo de una línea fina).
+ * - Textos de las 3 formas: los oficiales del sitio actual. Validación aún simulada (ImeiChecker).
+ * Textos en site.json → compatibility.
+ */
+import site from "../data/site.json";
 import ImeiChecker from "./ImeiChecker";
+
+const { compatibility: c } = site;
+
+const icons: Record<string, string> = {
+  dial: '<path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"/>',
+  settings:
+    '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+  tag: '<path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.5"/>',
+};
+const svg = (name: string, cls: string) =>
+  `<svg viewBox="0 0 24 24" class="${cls}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]}</svg>`;
 ---
 
-<section
-  id="compatibilidad"
-  aria-labelledby="compat-title"
-  class="px-4 py-8 sm:px-6 lg:px-8 sm:py-12"
->
-  <div
-    class="container mx-auto overflow-hidden rounded-3xl bg-gradient-to-br from-mega-navy via-[#0A1E3D] to-mega-navy text-white shadow-2xl p-6 sm:p-10 lg:p-12 border border-white/10 relative"
-  >
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-      <!-- Columna 1 (Izquierda, 7 cols): Validador de Compatibilidad y CTA -->
-      <div class="lg:col-span-7 flex flex-col justify-center">
-        <h2
-          id="compat-title"
-          class="font-display text-2xl sm:text-3xl md:text-4xl font-black uppercase leading-tight tracking-tight text-white"
-        >
-          Consulta la compatibilidad de tu equipo
-        </h2>
+<!-- Orden (decisión del usuario): título → validador → cómo obtener el IMEI.
+     Jerarquía: título (grande, fuera) > instrucción (blanca, en negritas) > "¿Cómo obtener…?" (chico, DENTRO del panel de opciones).
+     En escritorio las opciones van en UN panel blanco montado sobre el borde inferior; el pb extra (~55 px) es la mitad que sobresale. -->
+<section id="compatibilidad" aria-labelledby="compat-title" class="scroll-mt-36 px-4 py-9 sm:px-6 md:pb-[5.75rem] lg:px-8 lg:pb-[7rem] lg:pt-14">
+  <div class="mx-auto max-w-6xl">
+    <!-- Título de sección ARRIBA del bloque (como planes y FAQ): marca el cambio de sección a simple vista -->
+    <h2 id="compat-title" class="mb-6 text-center font-display text-2xl font-black uppercase tracking-tight text-mega-navy sm:text-3xl md:mb-8 md:text-4xl">{c.title}</h2>
 
-        <!-- Isla React ImeiChecker -->
-        <div class="mt-6">
-          <ImeiChecker
-            client:visible
-            label="Número IMEI de 15 dígitos"
-            placeholder="Ingresa tu IMEI"
-            button="Validar aquí"
-            checking="Comprobando red..."
-            invalid="Ingresa un IMEI válido de 15 a 17 dígitos (solo números)"
-            success="¡Tu equipo es 100% compatible con Mega móvil!"
-          />
-        </div>
-
-        <!-- Enlace a planes compatibles -->
-        <div
-          class="mt-5 pt-4 border-t border-white/10 flex items-center gap-2 text-sm sm:text-base font-semibold text-slate-300"
-        >
-          <p>
-            Conoce nuestros planes compatibles con todos los equipos,{" "}
-            <a
-              href="#planes"
-              class="font-extrabold text-mega-orange hover:text-[#FF7020] underline underline-offset-4 transition cursor-pointer"
-            >
-              click aquí
-            </a>
-          </p>
-        </div>
+    <div class="relative rounded-3xl bg-mega-navy text-white">
+      <!-- Brillo naranja tenue (recortado al bloque; el panel de abajo sí sobresale) -->
+      <div class="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl" aria-hidden="true">
+        <div class="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-mega-orange/15 blur-3xl"></div>
       </div>
 
-      <!-- Columna 2 (Derecha, 5 cols): 3 opciones independientes para obtener el IMEI -->
-      <div class="lg:col-span-5">
-        <div
-          class="rounded-2xl bg-white/5 border border-white/10 p-5 sm:p-6 backdrop-blur-sm"
-        >
-          <h3
-            class="font-display text-base sm:text-lg md:text-xl font-black uppercase text-white tracking-wide"
-          >
-            ¿Cómo obtener el código IMEI de tu celular?
-          </h3>
-          <p class="mt-1 text-xs sm:text-sm font-semibold text-slate-300 mb-4">
-            Elige cualquiera de estas tres opciones:
-          </p>
+      <!-- 1) Validador: UNA columna centrada (instrucción → campo), en el mismo eje que el título -->
+      <div class="relative mx-auto max-w-2xl px-6 pb-2 pt-8 text-center sm:px-10 md:pt-10">
+        <p class="font-display text-lg font-bold leading-snug sm:text-xl">{c.subtitle}</p>
+        <ImeiChecker
+          client:visible
+          dark
+          centered
+          label={c.form.label}
+          placeholder={c.form.placeholder}
+          button={c.form.button}
+          checking={c.form.checking}
+          invalid={c.form.invalid}
+          success={c.form.success}
+          successCtaLabel={c.form.successCtaLabel}
+          successCtaHref={c.form.successCtaHref}
+        />
+      </div>
 
-          <div class="space-y-3">
-            <!-- Opción: Marcación directa -->
-            <div
-              class="flex items-start gap-3.5 rounded-xl bg-white/10 p-3.5 border border-white/5 transition hover:bg-white/15"
-            >
-              <span
-                class="grid h-8 w-8 place-items-center rounded-xl bg-orange-500/20 text-mega-orange border border-orange-500/30 shrink-0"
-              >
-                <svg
-                  class="h-4 w-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2.5"
-                >
-                  <path
-                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
-                  ></path>
-                </svg>
-              </span>
-              <div class="min-w-0">
-                <p
-                  class="font-display text-sm font-black uppercase text-white tracking-wide"
-                >
-                  Marca <span class="text-mega-orange">*#06#</span>
-                </p>
-                <p class="text-xs text-slate-300 mt-0.5 font-medium">
-                  desde tu celular
-                </p>
-              </div>
-            </div>
-
-            <!-- Opción: Ajustes del sistema -->
-            <div
-              class="flex items-start gap-3.5 rounded-xl bg-white/10 p-3.5 border border-white/5 transition hover:bg-white/15"
-            >
-              <span
-                class="grid h-8 w-8 place-items-center rounded-xl bg-blue-500/20 text-mega-blue-electric border border-blue-500/30 shrink-0"
-              >
-                <svg
-                  class="h-4 w-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2.5"
-                >
-                  <circle cx="12" cy="12" r="3"></circle>
-                  <path
-                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
-                  ></path>
-                </svg>
-              </span>
-              <div class="min-w-0">
-                <p
-                  class="font-display text-sm font-black uppercase text-white tracking-wide"
-                >
-                  Desde la configuración de tu equipo
-                </p>
-                <p class="text-xs text-slate-300 mt-0.5 font-medium">
-                  (Son entre 15 y 17 números)
-                </p>
-              </div>
-            </div>
-
-            <!-- Opción: Físico en caja o batería -->
-            <div
-              class="flex items-start gap-3.5 rounded-xl bg-white/10 p-3.5 border border-white/5 transition hover:bg-white/15"
-            >
-              <span
-                class="grid h-8 w-8 place-items-center rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shrink-0"
-              >
-                <svg
-                  class="h-4 w-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2.5"
-                >
-                  <path
-                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
-                  ></path>
-                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                  <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                </svg>
-              </span>
-              <div class="min-w-0">
-                <p
-                  class="font-display text-sm font-black uppercase text-white tracking-wide"
-                >
-                  Impreso en la etiqueta de la batería
-                </p>
-                <p class="text-xs text-slate-300 mt-0.5 font-medium">
-                  de tu dispositivo (o en la caja)
-                </p>
-              </div>
-            </div>
-          </div>
+      <!-- 2) Cómo obtener el IMEI: título y opciones en UN mismo panel (integrados). Son OPCIONES, no pasos: sin números y con
+           una "o" entre cada una. Celular: dentro del bloque. Escritorio: panel blanco montado sobre el borde inferior. -->
+      <div class="relative border-t border-white/10 px-6 py-6 sm:px-10 md:border-t-0 md:px-12 md:pb-20 md:pt-0">
+        <div class="md:absolute md:inset-x-12 md:bottom-0 md:translate-y-1/2 md:rounded-2xl md:bg-white md:px-6 md:pb-4 md:pt-3.5 md:text-mega-navy md:ring-1 md:ring-slate-200 md:shadow-[0_12px_28px_-16px_rgba(6,22,48,0.4)]">
+          <p class="mb-3 text-xs font-bold uppercase tracking-[0.14em] text-slate-300 md:border-b md:border-slate-100 md:pb-3 md:text-center md:text-slate-500">{c.stepsTitle}</p>
+          <ul class="grid gap-2 md:grid-cols-[1fr_auto_1fr_auto_1fr] md:items-center md:gap-4 lg:flex lg:justify-between">
+            {
+              c.steps.map((s, i) => {
+                const Tag = s.href ? "a" : "div";
+                return (
+                  <>
+                    {i > 0 && (
+                      <li aria-hidden="true" class="hidden h-7 w-7 place-items-center rounded-full bg-slate-100 font-display text-xs font-bold text-slate-500 md:grid">
+                        o
+                      </li>
+                    )}
+                    <li class="h-full">
+                      <Tag href={s.href} class="flex h-full items-center gap-3 rounded-2xl bg-white/[0.06] px-4 py-3 ring-1 ring-white/10 md:rounded-none md:bg-transparent md:p-0 md:ring-0">
+                        <span class="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-white/10 text-[#FF8A4C] md:h-10 md:w-10 md:bg-orange-50 md:text-mega-orange">
+                          <Fragment set:html={svg(s.icon, "h-[18px] w-[18px]")} />
+                        </span>
+                        <span class="min-w-0 leading-tight">
+                          <span class="block font-display text-sm font-bold">{s.title}</span>
+                          <span class="block text-xs font-medium text-slate-300 md:text-slate-500">{s.text}</span>
+                        </span>
+                      </Tag>
+                    </li>
+                  </>
+                );
+              })
+            }
+          </ul>
         </div>
       </div>
     </div>

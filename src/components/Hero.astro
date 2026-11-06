@@ -1,6 +1,13 @@
 ---
 const slides = [
   {
+    id: "7gb-100",
+    slug: "banner-7gb",
+    alt: "Mi móvil contigo: 7 GB por $100 con WhatsApp ilimitado, redes sociales, minutos y SMS ilimitados conservando tu número",
+    href: "#planes",
+    tabLabel: "7 GB por $100",
+  },
+  {
     id: "colaborador-50gb",
     slug: "banner-1",
     alt: "Mega móvil - Tu Plan Colaborador: 50 Gigas conservando tu número por solo $260 al mes",
@@ -19,7 +26,7 @@ const slides = [
 ---
 
 <section id="promos" aria-label="Promociones exclusivas Mega móvil" class="px-3 pt-3 sm:px-6 lg:px-8 xl:px-10">
-  <div class="mx-auto w-full max-w-[1720px] overflow-hidden rounded-hero shadow-2xl relative bg-black/5 aspect-[16/10] sm:aspect-[1920/550] max-h-[550px]">
+  <div class="mx-auto w-full max-w-[1440px] overflow-hidden rounded-hero shadow-[0_12px_30px_-14px_rgba(6,22,48,0.28)] relative bg-black/5 aspect-[4/5] max-h-[560px] sm:aspect-[1920/550] sm:max-h-[550px]">
     
     <div class="relative w-full h-full" role="region" aria-roledescription="carrusel" aria-label="Banners promocionales Mega móvil">
       <!-- Track de slides con scroll-snap nativo y proporción exacta 1920x550 para tablet, laptop y desktop -->
@@ -45,7 +52,7 @@ const slides = [
                 aria-label={slide.alt}
               >
                 <picture class="block w-full h-full">
-                  <!-- Móvil (< 640px): imagen propia exclusiva para móviles -->
+                  <!-- Móvil (< 640px): imagen propia exclusiva para móviles, formato 4:5 vertical (1080×1350 px; zona segura: deja ~120 px libres abajo para los controles del carrusel) -->
                   <source
                     media="(max-width: 639px)"
                     type="image/webp"

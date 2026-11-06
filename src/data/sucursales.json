@@ -1,0 +1,96 @@
+{
+  "_nota": "[PENDIENTE: dato real] Lista DE PRUEBA. La real tiene +500 sucursales (ciudades/zonas con servicio). Estructura: estado → sucursales; cada sucursal con municipios que cubre (para el buscador) y prefijos de código postal (cp). Ver BranchPicker.astro.",
+  "label": "Tu sucursal",
+  "title": "Elige tu sucursal",
+  "subtitle": "Las promociones cambian según tu sucursal.",
+  "searchPlaceholder": "Busca tu ciudad, municipio o C.P.",
+  "default": "Chetumal",
+  "popular": ["Guadalajara", "Monterrey", "Puebla", "Querétaro", "León", "Hermosillo", "Culiacán", "Morelia"],
+  "estados": [
+    { "estado": "Aguascalientes", "sucursales": [{ "nombre": "Aguascalientes", "cp": ["20"] }] },
+    {
+      "estado": "Baja California",
+      "sucursales": [
+        { "nombre": "Tijuana", "municipios": ["Rosarito"], "cp": ["22"] },
+        { "nombre": "Mexicali", "cp": ["21"] },
+        { "nombre": "Ensenada", "cp": ["228"] }
+      ]
+    },
+    {
+      "estado": "Chihuahua",
+      "sucursales": [
+        { "nombre": "Chihuahua", "cp": ["31"] },
+        { "nombre": "Ciudad Juárez", "cp": ["32"] }
+      ]
+    },
+    {
+      "estado": "Coahuila",
+      "sucursales": [
+        { "nombre": "Saltillo", "municipios": ["Ramos Arizpe"], "cp": ["25"] },
+        { "nombre": "Torreón", "cp": ["27"] }
+      ]
+    },
+    { "estado": "Colima", "sucursales": [{ "nombre": "Colima", "municipios": ["Villa de Álvarez"], "cp": ["28"] }, { "nombre": "Manzanillo", "cp": ["282"] }] },
+    {
+      "estado": "Estado de México",
+      "sucursales": [
+        { "nombre": "Toluca", "municipios": ["Metepec", "Zinacantepec"], "cp": ["50", "52"] },
+        { "nombre": "Naucalpan", "municipios": ["Tlalnepantla", "Atizapán"], "cp": ["53", "54"] }
+      ]
+    },
+    {
+      "estado": "Guanajuato",
+      "sucursales": [
+        { "nombre": "León", "municipios": ["Silao", "San Francisco del Rincón"], "cp": ["37"] },
+        { "nombre": "Celaya", "cp": ["38"] },
+        { "nombre": "Irapuato", "cp": ["366"] },
+        { "nombre": "Salamanca", "cp": ["367"] }
+      ]
+    },
+    {
+      "estado": "Jalisco",
+      "sucursales": [
+        { "nombre": "Guadalajara", "municipios": ["Zapopan", "Tlaquepaque", "Tonalá", "Tlajomulco"], "cp": ["44", "45"] },
+        { "nombre": "Puerto Vallarta", "cp": ["483"] },
+        { "nombre": "Lagos de Moreno", "cp": ["474"] }
+      ]
+    },
+    {
+      "estado": "Michoacán",
+      "sucursales": [
+        { "nombre": "Morelia", "municipios": ["Tarímbaro"], "cp": ["58"] },
+        { "nombre": "Uruapan", "cp": ["600"] },
+        { "nombre": "Zamora", "cp": ["596"] }
+      ]
+    },
+    { "estado": "Nayarit", "sucursales": [{ "nombre": "Tepic", "municipios": ["Xalisco"], "cp": ["63"] }] },
+    {
+      "estado": "Nuevo León",
+      "sucursales": [{ "nombre": "Monterrey", "municipios": ["San Pedro Garza García", "San Nicolás", "Guadalupe", "Apodaca"], "cp": ["64", "66", "67"] }]
+    },
+    { "estado": "Puebla", "sucursales": [{ "nombre": "Puebla", "municipios": ["San Andrés Cholula", "San Pedro Cholula"], "cp": ["72"] }, { "nombre": "Tehuacán", "cp": ["757"] }] },
+    { "estado": "Querétaro", "sucursales": [{ "nombre": "Querétaro", "municipios": ["Corregidora", "El Marqués"], "cp": ["76"] }, { "nombre": "San Juan del Río", "cp": ["768"] }] },
+    { "estado": "Quintana Roo", "sucursales": [{ "nombre": "Chetumal", "cp": ["77"] }, { "nombre": "Cancún", "municipios": ["Benito Juárez"], "cp": ["775"] }] },
+    { "estado": "San Luis Potosí", "sucursales": [{ "nombre": "San Luis Potosí", "municipios": ["Soledad de Graciano Sánchez"], "cp": ["78"] }] },
+    {
+      "estado": "Sinaloa",
+      "sucursales": [
+        { "nombre": "Culiacán", "cp": ["80"] },
+        { "nombre": "Mazatlán", "cp": ["82"] },
+        { "nombre": "Los Mochis", "municipios": ["Ahome"], "cp": ["812"] }
+      ]
+    },
+    {
+      "estado": "Sonora",
+      "sucursales": [
+        { "nombre": "Hermosillo", "cp": ["83"] },
+        { "nombre": "Ciudad Obregón", "municipios": ["Cajeme"], "cp": ["85"] },
+        { "nombre": "Nogales", "cp": ["840"] }
+      ]
+    },
+    { "estado": "Tamaulipas", "sucursales": [{ "nombre": "Tampico", "municipios": ["Ciudad Madero"], "cp": ["89"] }, { "nombre": "Reynosa", "cp": ["88"] }] },
+    { "estado": "Veracruz", "sucursales": [{ "nombre": "Veracruz", "municipios": ["Boca del Río"], "cp": ["91", "94"] }, { "nombre": "Xalapa", "cp": ["910"] }] },
+    { "estado": "Yucatán", "sucursales": [{ "nombre": "Mérida", "municipios": ["Kanasín", "Umán"], "cp": ["97"] }] },
+    { "estado": "Zacatecas", "sucursales": [{ "nombre": "Zacatecas", "municipios": ["Guadalupe"], "cp": ["98"] }] }
+  ]
+}

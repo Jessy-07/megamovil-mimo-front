@@ -16,14 +16,15 @@ const { title = site.seo.title, description = site.seo.description, image = site
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const ogImage = new URL(image, Astro.site).href;
-const googleFonts = 'https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800;12..96,900&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;0,9..40,800&display=swap';
+// Poppins (títulos y números): solo Bold 700 y ExtraBold 800. Figtree (texto): variable, un solo archivo con todos los pesos.
+const googleFonts = 'https://fonts.googleapis.com/css2?family=Figtree:wght@300..900&family=Poppins:wght@700;800&display=swap';
 ---
 
 <!doctype html>
 <html lang="es-MX">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#FF5900" />
     <title>{title}</title>
@@ -45,7 +46,7 @@ const googleFonts = 'https://fonts.googleapis.com/css2?family=Bricolage+Grotesqu
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <!-- Fuentes Display & Sans (Bricolage Grotesque + DM Sans) -->
+    <!-- Fuentes: Poppins (títulos y números) + Figtree (texto) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" as="style" href={googleFonts} />

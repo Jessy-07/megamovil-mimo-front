@@ -54,31 +54,35 @@
     }
   },
   "compatibility": {
-    "title": "Consulta la compatibilidad de tu equipo",
-    "subtitle": "Escribe el IMEI de tu celular y descubre si funciona con Mega móvil.",
+    "title": "¿Tu celular funciona con Mega móvil?",
+    "subtitle": "Escribe el IMEI de tu celular y descúbrelo en segundos.",
     "form": {
-      "label": "IMEI de tu equipo",
-      "placeholder": "15 dígitos",
-      "button": "Validar aquí",
+      "label": "IMEI de tu celular",
+      "placeholder": "Ingresa tu IMEI",
+      "button": "Validar",
       "checking": "Validando…",
-      "invalid": "El IMEI debe tener exactamente 15 dígitos.",
-      "success": "¡Listo! Tu equipo parece compatible con Mega móvil. (Resultado simulado)",
-      "linkLabel": "Conoce los equipos compatibles",
-      "linkHref": "/equipos-compatibles"
+      "invalid": "Ingresa un IMEI válido de 15 a 17 dígitos (solo números)",
+      "success": "¡Tu equipo es 100% compatible con Mega móvil!",
+      "successCtaLabel": "Elige tu plan",
+      "successCtaHref": "#planes"
     },
-    "stepsTitle": "¿Dónde encuentro mi IMEI?",
+    "stepsTitle": "¿Cómo obtener el código IMEI de tu celular?",
     "steps": [
       {
-        "icon": "hash",
-        "text": "Marca *#06#"
+        "icon": "dial",
+        "title": "Marca *#06#",
+        "text": "desde tu celular",
+        "href": "tel:*%2306%23"
       },
       {
-        "icon": "sliders",
-        "text": "En Ajustes > Acerca del teléfono"
+        "icon": "settings",
+        "title": "Desde la configuración de tu equipo",
+        "text": "(Son entre 15 y 17 números)"
       },
       {
-        "icon": "package",
-        "text": "En la etiqueta o caja"
+        "icon": "tag",
+        "title": "Impreso en la etiqueta de la batería",
+        "text": "de tu dispositivo (O en la caja)"
       }
     ]
   },
@@ -159,5 +163,19 @@
       "https://code.jquery.com/jquery-3.7.1.min.js",
       "https://megacable.convertia.com/static/libs/bootstrap.min.js"
     ]
+  },
+  "callStrip": {
+    "_nota": "Franja del Home debajo del banner (CallStrip.astro). Formulario propio conectado al Click to Call de Convertia.",
+    "title": "Cámbiate sin perder tu número",
+    "text": "Déjanos tu número y te llamamos para hacer el trámite.",
+    "label": "Tu número a 10 dígitos",
+    "placeholder": "Tu número a 10 dígitos",
+    "button": "¡Llámame!",
+    "interest": "Home - Cámbiate sin perder tu número",
+    "whatsappLabel": "¿Prefieres escribir? Mándanos un WhatsApp",
+    "whatsappText": "Hola, quiero cambiarme a Mega móvil conservando mi número.",
+    "fallbackText": "No pudimos registrar tu llamada en este momento.",
+    "fallbackLink": "Escríbenos por WhatsApp",
+    "whatsappButton": "Escríbenos"
   }
 }

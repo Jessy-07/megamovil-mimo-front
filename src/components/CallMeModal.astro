@@ -23,73 +23,86 @@ const { callcenter } = site;
   id="callme-dialog"
   data-wa={site.whatsapp.href}
   aria-labelledby="callme-title"
-  class="m-auto w-[calc(100%-2rem)] max-w-lg rounded-3xl bg-white p-0 text-mega-navy shadow-2xl backdrop:bg-mega-navy/60 backdrop:backdrop-blur-sm"
+  class="m-auto w-[calc(100%-2rem)] max-w-[460px] overflow-visible rounded-3xl bg-white p-0 text-mega-navy shadow-xl backdrop:bg-mega-navy/60 backdrop:backdrop-blur-sm"
 >
-  <div class="relative p-6 sm:p-8">
+  <!--
+    Diseño limpio (una sola columna, centrada): icono redondo montado sobre el borde → título → frase → plan elegido (texto,
+    sin etiqueta) → campo → botón a todo lo ancho → una línea de horario + términos → WhatsApp como salida discreta.
+  -->
+  <div class="relative px-6 pb-6 pt-14 text-center sm:px-9 sm:pb-8">
+    <!-- Icono redondo, montado sobre el borde superior (azul: el naranja sólido se reserva al botón de venta) -->
+    <span class="absolute left-1/2 top-0 grid h-[72px] w-[72px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-mega-navy text-[#FF8A4C] ring-[6px] ring-white" aria-hidden="true">
+      <svg viewBox="0 0 24 24" class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"></path>
+      </svg>
+    </span>
+
     <button
       type="button"
       data-callme-close
       aria-label="Cerrar"
-      class="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full bg-slate-100 text-slate-600 hover:bg-mega-orange hover:text-white cursor-pointer"
+      class="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-mega-navy cursor-pointer"
     >
       <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg>
     </button>
 
     <!-- Paso 1: pedir el número -->
     <div data-callme-step="form">
-      <span class="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-mega-orange to-mega-orange-dark text-white shadow-orange-sm">
-        <svg viewBox="0 0 24 24" class="h-7 w-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"></path>
-        </svg>
-      </span>
-      <h2 id="callme-title" class="mt-4 font-display text-2xl sm:text-3xl font-black uppercase leading-tight tracking-tight">{callcenter.title}</h2>
-      <p class="mt-1 text-sm sm:text-base font-medium text-slate-600">{callcenter.text}</p>
+      <h2 id="callme-title" class="font-display text-2xl font-black uppercase leading-tight tracking-tight">{callcenter.title}</h2>
+      <p class="mx-auto mt-2 max-w-xs text-sm font-medium text-slate-600 sm:text-base">{callcenter.text}</p>
 
-      <p class="mt-4 inline-flex max-w-full items-center gap-2 rounded-full bg-orange-50 px-4 py-2 text-sm font-bold text-mega-navy" data-callme-plan-wrap style="display:none">
-        <svg viewBox="0 0 24 24" class="h-4 w-4 shrink-0 text-mega-orange" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
-        <span class="truncate" data-callme-plan></span>
-      </p>
+      <!-- El plan elegido NO se muestra aquí: viaja interno (campo "interes" para el asesor y texto de WhatsApp). -->
 
       <!-- IDs y nombres IGUALES al sitio actual (Convertia los usa para reportar) -->
-      <form role="form" id="f-llamame-home2" class="mt-5" novalidate>
+      <form role="form" id="f-llamame-home2" class="mt-6" novalidate>
         <input type="hidden" id="f-llamame-interes" name="interes" value="" />
-        <label for="telefono1" class="mb-1.5 block text-sm font-black">{callcenter.label}</label>
-        <div class="flex flex-col gap-2.5 sm:flex-row">
-          <input
-            type="tel"
-            id="telefono1"
-            name="phone"
-            data-ic-form-field="phone"
-            class="telefono h-14 min-w-0 flex-1 rounded-full border-2 border-slate-200 bg-slate-50 px-5 text-lg font-bold tracking-wider text-mega-navy placeholder:font-medium placeholder:tracking-normal placeholder:text-slate-400 focus:border-mega-orange focus:bg-white focus:outline-none"
-            placeholder={callcenter.placeholder}
-            inputmode="numeric"
-            autocomplete="tel-national"
-            maxlength="14"
-            required
-            aria-describedby="callme-error callme-hours"
-          />
-          <button type="submit" id="f-llamame-home2_0" class="btn-llamar btn-primary h-14 shrink-0">{callcenter.button}</button>
-        </div>
-        <p id="callme-error" class="mt-2 min-h-[1.25rem] text-sm font-bold text-red-700" role="alert"></p>
+        <label for="telefono1" class="sr-only">{callcenter.label}</label>
+        <input
+          type="tel"
+          id="telefono1"
+          name="phone"
+          data-ic-form-field="phone"
+          class="telefono h-14 w-full rounded-full border-2 border-slate-200 bg-white px-5 text-center text-lg font-bold tracking-wider text-mega-navy placeholder:font-medium placeholder:tracking-normal placeholder:text-slate-400 focus:border-mega-orange focus:outline-none"
+          placeholder={callcenter.label}
+          inputmode="numeric"
+          autocomplete="tel-national"
+          maxlength="14"
+          required
+          aria-describedby="callme-error callme-hours"
+        />
+        <p id="callme-error" class="mt-2 text-sm font-bold text-red-700 empty:hidden" role="alert"></p>
+        <button type="submit" id="f-llamame-home2_0" class="btn-llamar btn-primary mt-3 h-14 w-full !shadow-none">{callcenter.button}</button>
       </form>
 
-      <p id="callme-hours" class="text-xs sm:text-sm font-semibold text-slate-500">{callcenter.hours}</p>
+      <p id="callme-hours" class="mt-3 text-balance text-xs font-medium text-slate-500">
+        {callcenter.hours}
+        <a href={callcenter.termsHref} target="_blank" rel="noopener noreferrer" class="whitespace-nowrap underline underline-offset-2 hover:text-mega-navy">Aplican términos</a>
+      </p>
 
-      <div class="mt-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-slate-100 pt-4 text-xs sm:text-sm font-semibold text-slate-500">
-        <a href={site.whatsapp.href} target="_blank" rel="noopener noreferrer" data-callme-whatsapp class="inline-flex items-center gap-1.5 font-black text-[#1DA851] hover:underline underline-offset-4">
-          {callcenter.whatsappLabel}
-        </a>
-        <span>
-          Aplican términos y condiciones,
-          <a href={callcenter.termsHref} target="_blank" rel="noopener noreferrer" class="font-black text-mega-orange hover:underline underline-offset-4">aquí</a>
-        </span>
+      <!-- ¿Prefieres escribir? Igual que la franja del Home: divisor "o" + botón aparte con contorno y texto ("Escríbenos"),
+           para que no se confunda con "¡Llámame!". -->
+      <div class="mt-4 flex items-center gap-3" aria-hidden="true">
+        <span class="h-px flex-1 bg-slate-200"></span>
+        <span class="text-xs font-bold uppercase text-slate-400">o</span>
+        <span class="h-px flex-1 bg-slate-200"></span>
       </div>
+      <a
+        href={site.whatsapp.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-callme-whatsapp
+        aria-label={callcenter.whatsappLabel}
+        class="mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border-2 border-slate-200 font-display text-sm font-extrabold text-mega-navy hover:border-[#25D366] hover:bg-[#25D366]/5"
+      >
+          <svg viewBox="0 0 24 24" class="h-5 w-5 text-[#25D366]" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.4-1.5-5.2C2.2 6.6 6.6 2.2 12 2.2c2.6 0 5.1 1 6.9 2.9 1.8 1.8 2.9 4.3 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8z"/></svg>
+        {site.callStrip.whatsappButton}
+      </a>
     </div>
 
     <!-- Si el callcenter no está disponible: WhatsApp con todo ya escrito -->
     <div data-callme-step="fallback" hidden>
       <h2 class="font-display text-2xl font-black uppercase leading-tight tracking-tight">{callcenter.fallbackTitle}</h2>
-      <p class="mt-2 text-sm sm:text-base font-medium text-slate-600">{callcenter.fallbackText}</p>
+      <p class="mx-auto mt-2 max-w-sm text-sm font-medium text-slate-600 sm:text-base">{callcenter.fallbackText}</p>
       <a
         href={site.whatsapp.href}
         target="_blank"
@@ -140,50 +153,57 @@ const { callcenter } = site;
 }
 
 <script>
+  import { setupCallForm } from "../scripts/callForm";
+
   const dialog = document.getElementById("callme-dialog") as HTMLDialogElement | null;
   const form = document.getElementById("f-llamame-home2") as HTMLFormElement | null;
   const phone = document.getElementById("telefono1") as HTMLInputElement | null;
   const interest = document.getElementById("f-llamame-interes") as HTMLInputElement | null;
+  const submitBtn = document.getElementById("f-llamame-home2_0") as HTMLButtonElement | null;
   const error = document.getElementById("callme-error");
-  const planText = dialog?.querySelector<HTMLElement>("[data-callme-plan]");
-  const planWrap = dialog?.querySelector<HTMLElement>("[data-callme-plan-wrap]");
   const stepForm = dialog?.querySelector<HTMLElement>('[data-callme-step="form"]');
   const stepFallback = dialog?.querySelector<HTMLElement>('[data-callme-step="fallback"]');
   const waLink = dialog?.querySelector<HTMLAnchorElement>("[data-callme-whatsapp]");
   const waFallback = dialog?.querySelector<HTMLAnchorElement>("[data-callme-fallback-link]");
   const WA = dialog?.dataset.wa ?? "https://wa.me/523396900001";
   let currentLabel = "";
-  const submitBtn = document.getElementById("f-llamame-home2_0") as HTMLButtonElement | null;
-  const submitText = submitBtn?.textContent ?? "";
-  const resetButton = () => {
-    if (!submitBtn) return;
-    submitBtn.disabled = false;
-    submitBtn.textContent = submitText;
-  };
 
-  const digits = () => (phone?.value ?? "").replace(/\D/g, "");
-  const waText = (withPhone: boolean) =>
-    `Hola, quiero contratar ${currentLabel ? `el plan ${currentLabel}` : "un plan Mega móvil"}.${withPhone && digits() ? ` Mi número es ${digits()}.` : ""}`;
+  const waText = (digits = "") =>
+    `Hola, quiero contratar ${currentLabel ? `el plan ${currentLabel}` : "un plan Mega móvil"}.${digits ? ` Mi número es ${digits}.` : ""}`;
+  const waHref = (digits = "") => `${WA}?text=${encodeURIComponent(waText(digits))}`;
+
+  const close = () => dialog?.close();
+
+  const callForm =
+    form && phone
+      ? setupCallForm(form, phone, submitBtn, {
+          // Válido y conectado: se cierra el modal para que se vea el aviso de Convertia.
+          onSend: close,
+          onFallback: (digits) => {
+            if (waFallback) waFallback.href = waHref(digits);
+            if (stepForm) stepForm.hidden = true;
+            if (stepFallback) stepFallback.hidden = false;
+          },
+          onError: (message) => {
+            if (error) error.textContent = message;
+          },
+        })
+      : null;
 
   const open = (label: string, interestValue: string) => {
     if (!dialog || !phone || !interest) return false;
     currentLabel = label;
     interest.value = interestValue;
-    if (planText && planWrap) {
-      planText.textContent = label;
-      planWrap.style.display = label ? "" : "none";
-    }
-    if (waLink) waLink.href = `${WA}?text=${encodeURIComponent(waText(false))}`;
+    if (waLink) waLink.href = waHref();
     if (stepForm) stepForm.hidden = false;
     if (stepFallback) stepFallback.hidden = true;
-    if (error) error.textContent = "";
-    phone.removeAttribute("aria-invalid");
+    callForm?.clearError();
     dialog.showModal();
     document.documentElement.style.overflow = "hidden";
     phone.focus();
     return true;
   };
-  const close = () => dialog?.close();
+
   dialog?.addEventListener("close", () => (document.documentElement.style.overflow = ""));
   dialog?.querySelector("[data-callme-close]")?.addEventListener("click", close);
   // Clic en el fondo oscuro cierra.
@@ -200,58 +220,4 @@ const { callcenter } = site;
 
   // Enlace directo para campañas: cualquier página + #llamame abre el modal (sin plan elegido).
   if (location.hash === "#llamame") open("", "Enlace #llamame - " + location.pathname);
-
-  // Máscara (000) 000-0000, la misma del sitio actual.
-  phone?.addEventListener("input", () => {
-    const d = digits().slice(0, 10);
-    phone.value = d.length > 6 ? `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}` : d.length > 3 ? `(${d.slice(0, 3)}) ${d.slice(3)}` : d;
-    if (error?.textContent) {
-      error.textContent = "";
-      phone.removeAttribute("aria-invalid");
-    }
-  });
-
-  // Se valida ANTES que Convertia (fase de captura en document). Si es válido, se cierra el modal para que se vea el aviso de
-  // Convertia ("¡¡Te llamaremos en breve!!") y el envío sigue su curso. Si Convertia no conectó el formulario, WhatsApp.
-  document.addEventListener(
-    "submit",
-    (e) => {
-      if (e.target !== form) return;
-      if (digits().length !== 10) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        if (error) error.textContent = "Escribe tu número a 10 dígitos.";
-        phone?.setAttribute("aria-invalid", "true");
-        phone?.focus();
-        return;
-      }
-      if (!form.hasAttribute("data-ic-form")) {
-        // Convertia todavía no conecta el formulario (sigue cargando): se espera hasta 6 s y se reintenta con el mismo botón
-        // (Convertia reporta su id). Si nunca conecta (bloqueador, sin red, dominio no autorizado): WhatsApp con todo escrito.
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        if (submitBtn) {
-          submitBtn.disabled = true;
-          submitBtn.textContent = "Enviando…";
-        }
-        const started = Date.now();
-        const wait = window.setInterval(() => {
-          if (form?.hasAttribute("data-ic-form")) {
-            window.clearInterval(wait);
-            resetButton();
-            submitBtn?.click();
-          } else if (Date.now() - started > 6000) {
-            window.clearInterval(wait);
-            resetButton();
-            if (waFallback) waFallback.href = `${WA}?text=${encodeURIComponent(waText(true))}`;
-            if (stepForm) stepForm.hidden = true;
-            if (stepFallback) stepFallback.hidden = false;
-          }
-        }, 250);
-        return;
-      }
-      close();
-    },
-    true,
-  );
 </script>

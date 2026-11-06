@@ -1,7 +1,13 @@
 ---
+/**
+ * Barra superior (azul oscuro de Mega móvil). Tres zonas:
+ * - Izquierda: contratar por teléfono (llamadas nacionales, 33 9690 0000).
+ * - Centro: promoción vigente (etiqueta + texto + "Ver plan").
+ * - Derecha: accesos rápidos para clientes (Recarga, Registra tu línea).
+ * En móvil solo se ve la promoción; el teléfono aparece desde sm y los accesos desde lg.
+ * Textos y enlaces en nav.json → topBar.
+ */
 import nav from '../data/nav.json';
-import Countdown from './Countdown';
-import Icon from './Icon.astro';
 import { resolveAnchor } from '../utils/links';
 
 const { topBar } = nav;
@@ -9,41 +15,86 @@ const { topBar } = nav;
 const ctaHref = resolveAnchor(topBar.cta.href, Astro.url.pathname);
 ---
 
-<aside id="topbar" aria-label="Aviso promocional" class="relative z-50 bg-gradient-to-r from-mega-orange via-[#FF6614] to-mega-orange text-white shadow-sm">
-  <div class="container mx-auto flex items-center justify-between gap-2 px-3 py-2 text-xs sm:text-sm">
-    <div class="flex flex-1 items-center justify-center gap-2 sm:gap-4 overflow-hidden">
-      <span class="hidden md:inline-flex items-center gap-1 rounded-full bg-white/20 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-white backdrop-blur">
-        ⚡ Promo Especial
-      </span>
-      <p class="truncate font-extrabold text-white text-center">
-        {topBar.message}
-      </p>
-      <div class="hidden sm:block shrink-0">
-        <Countdown client:idle target={topBar.countdownTarget} label={topBar.countdownLabel} />
-      </div>
-    </div>
+<aside id="topbar" aria-label="Aviso promocional y accesos rápidos" class="relative z-50 bg-mega-navy text-white">
+  <div class="px-3 sm:px-6 lg:px-8 xl:px-10">
+  <div class="mx-auto flex max-w-[1440px] items-center justify-center gap-4 py-2 text-xs sm:text-[13px] lg:justify-between">
+    <!-- Contratar por teléfono -->
+    <a href={topBar.phone.href} class="hidden shrink-0 items-center gap-2 text-slate-300 hover:text-white sm:inline-flex">
+      <svg viewBox="0 0 24 24" class="h-3.5 w-3.5 text-mega-orange" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"></path>
+      </svg>
+      <span class="hidden md:inline">{topBar.phone.label}</span>
+      <strong class="font-black tracking-wide text-white">{topBar.phone.number}</strong>
+    </a>
 
-    <div class="flex items-center gap-2 shrink-0">
-      <a
-        href={ctaHref}
-        class="inline-flex items-center rounded-pill bg-white hover:bg-slate-100 text-mega-orange px-3.5 py-1 text-xs font-black uppercase shadow-sm transition hover:scale-105 active:scale-95"
-      >
-        {topBar.cta.label}
-      </a>
-      <button
-        type="button"
-        data-topbar-close
-        class="grid h-7 w-7 place-items-center rounded-full text-white/80 hover:bg-white/20 hover:text-white transition"
-        aria-label={topBar.closeLabel}
-      >
-        <Icon name="close" class="h-3.5 w-3.5" />
-      </button>
-    </div>
+    <!-- Promoción -->
+    <p class="flex min-w-0 items-center gap-2.5">
+      <span class="inline-flex shrink-0 items-center gap-1 rounded-full bg-white/10 px-2.5 py-0.5 font-display text-[11px] font-black text-[#FF8A4C] ring-1 ring-mega-orange/40">
+        <svg viewBox="0 0 24 24" class="h-3 w-3" fill="currentColor" aria-hidden="true">
+          <path d="M12 2c.5 3.2-1.4 5.1-3 6.9C7.6 10.4 6 12 6 14.8 6 18.2 8.7 22 12 22s6-3 6-6.6c0-2.9-1.6-4.6-2.8-5.9-.2 1.3-.9 2.4-2 2.9.5-3.4-.4-7.3-1.2-11.4z" />
+        </svg>
+        {topBar.badge}
+      </span>
+      <!--
+        Texto de la promo: si NO cabe (celular), corre como marquesina para que se lea completo; si cabe, queda fijo.
+        La copia (aria-hidden) solo se muestra al correr, para que el ciclo sea continuo. Se pausa al tocar/pasar el cursor
+        y no se mueve con "reducir movimiento". Estilos: global.css → .topbar-marquee.
+      -->
+      <span class="topbar-marquee min-w-0 overflow-hidden" data-marquee>
+        <span class="topbar-marquee__track inline-flex whitespace-nowrap font-semibold text-white">
+          <span data-marquee-item>{topBar.message}</span>
+          <span data-marquee-copy aria-hidden="true">{topBar.message}</span>
+        </span>
+      </span>
+      <a href={ctaHref} class="shrink-0 font-black text-mega-orange underline underline-offset-4 hover:text-[#FF7A33]">{topBar.cta.label}</a>
+    </p>
+
+    <!-- Accesos rápidos para clientes -->
+    <nav aria-label="Accesos rápidos" class="hidden shrink-0 lg:block">
+      <ul class="flex items-center gap-5">
+        {
+          topBar.links.map((l) => (
+            <li>
+              <a
+                href={l.href}
+                target={'target' in l ? l.target : undefined}
+                rel={'target' in l ? 'noopener noreferrer' : undefined}
+                class="font-semibold text-slate-300 hover:text-white"
+              >
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
   </div>
 </aside>
 
 <script>
-  document.querySelector('[data-topbar-close]')?.addEventListener('click', () => {
-    document.getElementById('topbar')?.remove();
+  // Marquesina de la promo: solo corre cuando el texto no cabe.
+  const SPEED = 40; // px por segundo (lento, para que se lea)
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const update = () => {
+    document.querySelectorAll<HTMLElement>("[data-marquee]").forEach((box) => {
+      const item = box.querySelector<HTMLElement>("[data-marquee-item]");
+      if (!item) return;
+      box.classList.remove("is-running");
+      const overflow = item.scrollWidth > box.clientWidth + 1;
+      if (!overflow || reduce.matches) return;
+      box.classList.add("is-running");
+      // Distancia de un ciclo = ancho del texto + su separación (ya aplicada al correr).
+      box.style.setProperty("--mm-marquee-dur", `${Math.max(8, item.offsetWidth / SPEED)}s`);
+    });
+  };
+
+  let t: number | undefined;
+  update();
+  document.fonts?.ready.then(update);
+  window.addEventListener("resize", () => {
+    clearTimeout(t);
+    t = window.setTimeout(update, 150);
   });
 </script>

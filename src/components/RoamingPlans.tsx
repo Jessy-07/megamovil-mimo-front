@@ -50,7 +50,7 @@ export default function RoamingPlans({ zones, plans, ctaLabel }: Props) {
                 href={p.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-mega-orange via-[#FF6614] to-mega-orange-dark px-4 py-3.5 font-display text-base font-black uppercase tracking-wider text-white shadow-orange-glow hover:brightness-105"
+                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-mega-orange hover:bg-mega-orange-dark px-4 py-3.5 font-display text-base font-black uppercase tracking-wider text-white shadow-orange-glow"
               >
                 {ctaLabel}
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />

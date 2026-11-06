@@ -1,223 +1,202 @@
 ---
+/**
+ * Sección de planes (Home y páginas internas).
+ * Estructura (referencia del usuario, 2026-11-05):
+ *   título → switch → mensaje de ahorro → tarjetas → "qué incluye" (UNA vez, con borde) → legal (UNA vez, aparte).
+ * - Switch en tono BAJO (control segmentado claro): es un filtro, no una acción de venta. Con fondo azul oscuro competía
+ *   con la franja azul de arriba y con la tarjeta destacada (también azul): tres bloques oscuros seguidos.
+ * - Lo que incluyen todos los planes del grupo no se repite en cada tarjeta.
+ * - Móvil: carrusel con scroll-snap (se asoma la siguiente tarjeta). Escritorio: 3 columnas.
+ */
 import plans from "../data/plans.json";
-import CommonBenefits from "./CommonBenefits.astro";
 import PlanCard from "./PlanCard.astro";
+import SocialBrand from "./SocialBrand.astro";
 
 interface Props {
   /** Título de la sección (Home: "¿Cuántas líneas necesitas?"). */
   title?: string;
-  /** Texto del botón de cada plan (Home: "¡Lo quiero!"). */
+  /** Texto del botón de cada plan. */
   ctaLabel?: string;
-  /** Destino del botón por plan. Sin definir: /contratar?plan=slug. */
+  /** Respaldo del botón sin JavaScript (con JS abre el modal del callcenter). */
   ctaHrefFor?: (plan: { slug: string; name: string; price: number; lines?: number; gigas?: string; highlight: { value: string; unit: string } }) => string;
 }
 
-const { groups, perMonth } = plans;
+const { groups, perMonth, socialApps } = plans;
 const { title = "¿Cuántas líneas necesitas?", ctaLabel = plans.ctaLabel, ctaHrefFor } = Astro.props;
 
-// Carrusel scroll-snap en móvil con peek de la siguiente tarjeta, y grid 3 cols en desktop
+// Mayor ahorro de los planes familiares ("Ahorras $50 al mes" → "$50"), para el mensaje de venta del panel.
+const maxSavings = "$" + String(Math.max(...groups.family.plans.map((p) => Number((p.savings ?? "").replace(/[^0-9]/g, "")) || 0)));
+
+const panels = [
+  { key: "family" as const, id: "panel-family", tab: "btn-tab-family", group: groups.family },
+  { key: "individual" as const, id: "panel-individual", tab: "btn-tab-individual", group: groups.individual },
+];
+
 const track =
-  "no-scrollbar -mx-4 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto px-4 pb-4 sm:-mx-6 sm:px-6 md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0";
-const item = "w-[82%] sm:w-[50%] md:w-auto shrink-0 snap-center flex flex-col";
+  "no-scrollbar -mx-4 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto px-4 pb-2 sm:-mx-6 sm:px-6 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:px-0";
+const item = "w-[85%] sm:w-[46%] lg:w-auto shrink-0 snap-center flex flex-col";
+
+// Switch: discreto pero visible. Pista gris, opción activa blanca con sombra e icono naranja; la inactiva conserva buen
+// contraste (slate-600) para que se note que existe.
+const tabBase =
+  "group flex-1 flex items-center justify-center gap-3 rounded-full px-2 sm:px-6 py-2.5 sm:py-3 cursor-pointer select-none text-slate-600 hover:text-mega-navy aria-selected:bg-white aria-selected:text-mega-navy aria-selected:shadow-[0_4px_14px_-4px_rgba(6,22,48,0.18)] aria-selected:ring-1 aria-selected:ring-slate-200";
+const tabIcon = "hidden h-5 w-5 shrink-0 text-slate-400 group-aria-selected:text-mega-orange sm:block";
 ---
 
+<!-- Espaciado del sistema: 72 px (móvil) / 112 px (escritorio) entre secciones = py-9 / lg:py-14 en cada una -->
 <section
   id="planes"
   aria-label="Planes Mega móvil"
-  class="px-4 pt-6 pb-12 sm:px-6 lg:pt-16 sm:pt-8 sm:pb-16"
+  class="px-4 py-9 sm:px-6 lg:px-8 lg:py-14"
 >
-  <div class="container mx-auto">
-    <!-- ENCABEZADO: Título y Switch de Categoría con Iconos -->
-    <div class="mb-6 flex flex-col items-center justify-center text-center">
-      <!-- Título H2 en mayúsculas -->
-      <h2
-        class="font-display text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight text-mega-navy mb-5 sm:mb-6"
-      >
-        {title}
-      </h2>
+  <div class="mx-auto max-w-6xl">
+    <!-- Título + switch -->
+    <div class="mb-5 flex flex-col items-center text-center">
+      <h2 class="mb-5 font-display text-2xl font-black uppercase tracking-tight text-mega-navy sm:mb-6 sm:text-3xl md:text-4xl">{title}</h2>
 
-      <!-- Switch de categoría con iconos y número de líneas: Ancho expandido y simétrico (50% / 50%) -->
-      <div
-        class="inline-flex w-full max-w-[480px] sm:max-w-[540px] rounded-full bg-white p-1.5 border border-slate-200/90 shadow-sm"
-        role="tablist"
-        aria-label="Selector de tipo de plan"
-      >
-        <!-- 1. Opción 2 o más líneas (Familiar) - Activo por defecto -->
-        <button
-          type="button"
-          id="btn-tab-family"
-          role="tab"
-          aria-selected="true"
-          aria-controls="panel-family"
-          class="tab-switch-btn flex-1 flex items-center justify-center gap-2.5 sm:gap-3 rounded-full px-3 sm:px-6 py-2.5 sm:py-3 transition-all duration-200 bg-gradient-to-r from-mega-orange to-[#FF7020] text-white shadow-orange-sm cursor-pointer select-none"
-        >
-          <svg
-            class="h-5 w-5 shrink-0"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.5"
-          >
+      <div class="inline-flex w-full max-w-[640px] rounded-full border border-slate-200 bg-slate-200/50 p-1.5" role="tablist" aria-label="Tipo de plan">
+        <button type="button" id="btn-tab-family" role="tab" aria-selected="true" aria-controls="panel-family" class={tabBase}>
+          <svg class={tabIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
             <circle cx="9" cy="7" r="4"></circle>
-            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path>
           </svg>
-          <div class="flex flex-col text-left leading-tight">
-            <span
-              class="font-display text-xs sm:text-sm font-black uppercase tracking-wider"
-            >
-              2 O MÁS LÍNEAS
-            </span>
-            <span class="text-[12px] sm:text-[12px] font-semibold opacity-90">
-              Planes familiares
-            </span>
-          </div>
+          <span class="flex flex-col text-center leading-tight sm:text-left">
+            <span class="whitespace-nowrap font-display text-[13px] font-extrabold uppercase tracking-wide sm:text-base sm:tracking-wider">2 o más líneas</span>
+            <span class="text-xs font-bold">Planes familiares</span>
+          </span>
         </button>
-
-        <!-- 2. Opción 1 línea (Individual) -->
-        <button
-          type="button"
-          id="btn-tab-individual"
-          role="tab"
-          aria-selected="false"
-          aria-controls="panel-individual"
-          class="tab-switch-btn flex-1 flex items-center justify-center gap-2.5 sm:gap-3 rounded-full px-3 sm:px-6 py-2.5 sm:py-3 transition-all duration-200 text-slate-600 hover:text-mega-orange cursor-pointer select-none"
-        >
-          <svg
-            class="h-5 w-5 shrink-0"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.5"
-          >
+        <button type="button" id="btn-tab-individual" role="tab" aria-selected="false" aria-controls="panel-individual" class={tabBase}>
+          <svg class={tabIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
             <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
             <circle cx="12" cy="7" r="4"></circle>
           </svg>
-          <div class="flex flex-col text-left leading-tight">
-            <span
-              class="font-display text-xs sm:text-sm font-black uppercase tracking-wider"
-            >
-              1 LÍNEA
-            </span>
-            <span class="text-[12px] sm:text-[12px] font-semibold opacity-90">
-              Plan individual
-            </span>
-          </div>
+          <span class="flex flex-col text-center leading-tight sm:text-left">
+            <span class="whitespace-nowrap font-display text-[13px] font-extrabold uppercase tracking-wide sm:text-base sm:tracking-wider">1 línea</span>
+            <span class="text-xs font-bold">Plan individual</span>
+          </span>
         </button>
       </div>
     </div>
 
-    <!-- Franja "Todos los planes incluyen" mostrada UNA SOLA VEZ antes de las tarjetas -->
-    <div class="mb-4">
-      <CommonBenefits />
-    </div>
+    {
+      panels.map(({ key, id, tab, group }) => (
+        <div id={id} role="tabpanel" aria-labelledby={tab} hidden={key !== "family"}>
+          {/* Mensaje de venta, justo debajo del switch: una línea ligera, sin caja */}
+          <p class="mb-7 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-sm sm:text-base">
+            <span class="grid h-7 w-7 place-items-center rounded-full bg-emerald-50 text-emerald-700" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 5 5 19" />
+                <circle cx="6.5" cy="6.5" r="2.5" />
+                <circle cx="17.5" cy="17.5" r="2.5" />
+              </svg>
+            </span>
+            <strong class="font-display font-extrabold text-mega-navy">{group.savingsTitle}</strong>
+            <span class="font-medium text-slate-600">{group.savingsText.replace("{ahorro}", () => maxSavings)}</span>
+            {"savingsCta" in group && group.savingsCta && (
+              <button type="button" data-show-plan-tab="family" class="inline-flex items-center gap-1 font-display font-bold text-mega-orange-dark hover:underline underline-offset-4 cursor-pointer">
+                {group.savingsCta}
+                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+              </button>
+            )}
+          </p>
 
-    <!-- PANEL 1: PLANES FAMILIARES (Activo por defecto) -->
-    <div
-      id="panel-family"
-      role="tabpanel"
-      aria-labelledby="btn-tab-family"
-      class="transition-opacity duration-300"
-    >
-      <ul class:list={[track, "pt-5"]}>
-        {
-          groups.family.plans.map((plan) => (
-            <li class={item}>
-              <PlanCard {plan} {ctaLabel} {perMonth} ctaHref={ctaHrefFor?.(plan)} />
-            </li>
-          ))
-        }
-      </ul>
-    </div>
+          <ul class={track}>
+            {group.plans.map((plan) => (
+              <li class={item}>
+                <PlanCard
+                  {plan}
+                  kind={key}
+                  kindLabel={group.kindLabel}
+                  unitLabel={group.unitLabel}
+                  {ctaLabel}
+                  {perMonth}
+                  ctaHref={ctaHrefFor?.(plan)}
+                />
+              </li>
+            ))}
+          </ul>
 
-    <!-- PANEL 2: PLANES INDIVIDUALES (Oculto inicialmente) -->
-    <div
-      id="panel-individual"
-      role="tabpanel"
-      aria-labelledby="btn-tab-individual"
-      class="hidden transition-opacity duration-300"
-    >
-      <ul class:list={[track, "pt-5"]}>
-        {
-          groups.individual.plans.map((plan) => (
-            <li class={item}>
-              <PlanCard {plan} {ctaLabel} {perMonth} ctaHref={ctaHrefFor?.(plan)} />
-            </li>
-          ))
-        }
-      </ul>
-    </div>
+
+          {/*
+            Qué incluyen TODOS los planes del grupo (una sola vez), debajo de las tarjetas. Diseño de fila ligera (título
+            centrado y divisores) dentro de un contenedor con borde: lo separa del legal, que va aparte debajo.
+          */}
+          {/* Título SOBRE el borde (fieldset + legend: el borde se corta detrás del texto, sin depender del fondo) */}
+          <fieldset class="mt-8 rounded-3xl border border-slate-200 bg-white px-5 pb-5 pt-2 sm:px-8 sm:text-center">
+            <legend class="mx-auto px-3 text-xs font-bold uppercase tracking-[0.14em] text-slate-500">{group.includesTitle}</legend>
+            <ul class="mt-1 flex flex-col gap-3.5 text-left sm:mx-auto sm:w-fit lg:inline-flex lg:flex-row lg:items-center lg:gap-0 lg:divide-x lg:divide-slate-200">
+              {group.includes.map((inc) => (
+                <li class="flex items-center gap-3 lg:px-7 lg:first:pl-0 lg:last:pr-0">
+                  <span class="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-orange-50 text-mega-orange" aria-hidden="true">
+                    {inc.icon === "social" && (
+                      <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                        <path d="M8 9h8M8 13h5" />
+                      </svg>
+                    )}
+                    {inc.icon === "phone" && (
+                      <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z" />
+                      </svg>
+                    )}
+                    {inc.icon === "sim" && (
+                      <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 2h8l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" />
+                        <rect x="8" y="11" width="8" height="7" rx="1" />
+                      </svg>
+                    )}
+                  </span>
+                  <div class="min-w-0">
+                    <p class="font-display text-sm font-bold leading-tight text-mega-navy sm:text-[15px]">{inc.title}{/ilimitad/i.test(inc.title) && <sup class="relative -top-[0.3em] ml-px align-baseline text-[0.6em] font-bold">*</sup>}</p>
+                    {"text" in inc && inc.text && <p class="text-sm text-slate-500">{inc.text}</p>}
+                    {"socials" in inc && inc.socials && (
+                      <ul class="mt-1 flex flex-wrap gap-1" aria-label="Redes sociales incluidas">
+                        {socialApps.map((app) => (
+                          <li>
+                            <SocialBrand slug={app.slug} class="h-7 w-7" />
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </fieldset>
+
+          {/* Legal: una sola vez, aparte */}
+          <p class="mt-4 text-center text-xs font-semibold text-slate-500">{group.legal}</p>
+        </div>
+      ))
+    }
   </div>
 </section>
 
 <script>
-  const btnFamily = document.getElementById("btn-tab-family");
-  const btnIndividual = document.getElementById("btn-tab-individual");
-  const panelFamily = document.getElementById("panel-family");
-  const panelIndividual = document.getElementById("panel-individual");
-  const benefitsSocialPill = document.getElementById("benefits-social-pill");
-  const benefitsTitle = document.getElementById("benefits-title");
+  const tabs = {
+    family: { btn: document.getElementById("btn-tab-family"), panel: document.getElementById("panel-family") },
+    individual: { btn: document.getElementById("btn-tab-individual"), panel: document.getElementById("panel-individual") },
+  };
 
-  const activeClasses = [
-    "bg-gradient-to-r",
-    "from-mega-orange",
-    "to-[#FF7020]",
-    "text-white",
-    "shadow-orange-sm",
-  ];
-  const inactiveClasses = ["text-slate-600", "hover:text-mega-orange"];
+  const show = (which: "family" | "individual") => {
+    (Object.keys(tabs) as (keyof typeof tabs)[]).forEach((k) => {
+      const on = k === which;
+      tabs[k].btn?.setAttribute("aria-selected", String(on));
+      if (tabs[k].panel) tabs[k].panel!.hidden = !on;
+    });
+  };
 
-  function showFamily() {
-    panelFamily?.classList.remove("hidden");
-    panelIndividual?.classList.add("hidden");
+  tabs.family.btn?.addEventListener("click", () => show("family"));
+  tabs.individual.btn?.addEventListener("click", () => show("individual"));
 
-    btnFamily?.classList.add(...activeClasses);
-    btnFamily?.classList.remove(...inactiveClasses);
-    btnFamily?.setAttribute("aria-selected", "true");
+  document.querySelectorAll<HTMLElement>("[data-show-plan-tab]").forEach((el) =>
+    el.addEventListener("click", () => {
+      show(el.dataset.showPlanTab === "individual" ? "individual" : "family");
+      tabs.family.btn?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }),
+  );
 
-    btnIndividual?.classList.remove(...activeClasses);
-    btnIndividual?.classList.add(...inactiveClasses);
-    btnIndividual?.setAttribute("aria-selected", "false");
-
-    if (benefitsSocialPill) benefitsSocialPill.classList.remove("hidden");
-    if (benefitsTitle) {
-      benefitsTitle.textContent =
-        benefitsTitle.getAttribute("data-family") ||
-        "Todos los planes familiares incluyen sin costo adicional:";
-    }
-  }
-
-  function showIndividual() {
-    panelIndividual?.classList.remove("hidden");
-    panelFamily?.classList.add("hidden");
-
-    btnIndividual?.classList.add(...activeClasses);
-    btnIndividual?.classList.remove(...inactiveClasses);
-    btnIndividual?.setAttribute("aria-selected", "true");
-
-    btnFamily?.classList.remove(...activeClasses);
-    btnFamily?.classList.add(...inactiveClasses);
-    btnFamily?.setAttribute("aria-selected", "false");
-
-    if (benefitsSocialPill) benefitsSocialPill.classList.add("hidden");
-    if (benefitsTitle) {
-      benefitsTitle.textContent =
-        benefitsTitle.getAttribute("data-individual") ||
-        "Todos los planes individuales incluyen sin costo adicional:";
-    }
-  }
-
-  btnFamily?.addEventListener("click", showFamily);
-  btnIndividual?.addEventListener("click", showIndividual);
-
-  // Escuchar eventos globales para cambio de pestaña (desde el header)
-  window.addEventListener("select-plan-tab", (e) => {
-    const detail = (e as CustomEvent).detail;
-    if (detail === "individual") {
-      showIndividual();
-    } else {
-      showFamily();
-    }
-  });
+  // Cambio de pestaña desde otros componentes (p. ej. el header)
+  window.addEventListener("select-plan-tab", (e) => show((e as CustomEvent).detail === "individual" ? "individual" : "family"));
 </script>

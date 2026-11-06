@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import TopBar from '../components/TopBar.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
+import CallStrip from '../components/CallStrip.astro';
 import Plans from '../components/Plans.astro';
 import Compatibility from '../components/Compatibility.astro';
 import FaqSection from '../components/FaqSection.astro';
@@ -77,18 +78,25 @@ const jsonLd = [
     <!-- 3. HERO PROMOCIONAL con Mimo 3D, Sticker de Precio HTML, GB Gigante y Rayas -->
     <Hero />
 
+    <!-- 4. FRANJA "Cámbiate sin perder tu número": deja tu teléfono y te llaman (callcenter) o WhatsApp -->
+    <CallStrip />
+
     <!-- 5. PLANES (Selector rápido + Franja Beneficios Pillofon + Familiares primero + Individuales) -->
     <Plans />
+
+    <!-- De los planes para abajo: fondo blanco. La transición es un degradado sutil (sin corte, borde ni sombra) y hay más aire antes de compatibilidad. -->
+    <div class="bg-[linear-gradient(to_bottom,#F8FAFC_0,#FFFFFF_280px)] pb-14 lg:pt-6">
 
     <!-- 7. COMPATIBILIDAD DE TU EQUIPO (Azul marino + Validador IMEI React + Pasos y Requisitos) -->
     <Compatibility />
 
     <!-- 9. FAQ (5 preguntas en acordeón compacto con FAQPage JSON-LD) -->
     <FaqSection />
+    </div>
   </main>
 
   <!-- 11. FOOTER (Oscuro con borde de rayas, soporte y legales) -->
-  <Footer />
+  <Footer flush />
 
   <!-- 12. FLOTANTES (WhatsApp avatar Mimo + barra sticky CTA móvil) -->
   <FloatingActions />

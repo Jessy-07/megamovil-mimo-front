@@ -1,25 +1,27 @@
 {
   "topBar": {
-    "message": "¡Promo de lanzamiento! 30 GB + redes ilimitadas por $200",
+    "phone": {
+      "label": "Contrata por teléfono",
+      "number": "33 9690 0000",
+      "href": "tel:3396900000"
+    },
+    "badge": "Promoción",
+    "message": "30 GB + redes ilimitadas por $200 al mes",
     "cta": {
-      "label": "¡Lo quiero!",
+      "label": "Ver plan",
       "href": "#planes"
     },
-    "countdownTarget": "2026-11-30T23:59:59-06:00",
-    "countdownLabel": "Termina en",
-    "closeLabel": "Cerrar aviso promocional"
-  },
-  "location": {
-    "label": "Tu ciudad",
-    "current": "Chetumal",
-    "options": [
-      "Chetumal",
-      "Guadalajara",
-      "Puebla",
-      "Querétaro",
-      "León",
-      "Mérida",
-      "Hermosillo"
+    "links": [
+      {
+        "label": "Recarga",
+        "href": "/recargas",
+        "_nota": "[PENDIENTE: página /recargas — misma URL del sitio actual]"
+      },
+      {
+        "label": "Registra tu línea",
+        "href": "https://registro.megamovil.mx/vinculatulinea/",
+        "target": "_blank"
+      }
     ]
   },
   "menuLabel": "Menú principal",
@@ -59,7 +61,7 @@
       ]
     },
     {
-      "label": "Cámbiate a Mega móvil",
+      "label": "Portabilidad",
       "href": "/cambiate-a-megamovil"
     },
     {
@@ -270,5 +272,11 @@
       "href": "https://megamovil.mx/terminos-y-condiciones",
       "after": ". Vigencia a mes calendario."
     }
+  },
+  "headerCta": {
+    "label": "Cámbiate a Mega móvil",
+    "shortLabel": "Cámbiate",
+    "interest": "Menú - Cámbiate a Mega móvil",
+    "whatsappText": "Hola, quiero contratar un plan Mega móvil."
   }
 }

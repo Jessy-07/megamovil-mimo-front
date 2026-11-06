@@ -2,9 +2,13 @@
 import nav from "../data/nav.json";
 import Icon from "./Icon.astro";
 import Logo from "./Logo.astro";
+import BranchPicker from "./BranchPicker.astro";
+import MobileMenu from "./MobileMenu.astro";
+import sucursales from "../data/sucursales.json";
+import { whatsappUrl } from "../utils/whatsapp";
 import { resolveAnchor } from "../utils/links";
 
-const { location, menu } = nav;
+const { menu } = nav;
 
 const consultaItem = menu.find((m) => m.label === "Consulta");
 const ayudaItem = menu.find((m) => m.label === "Ayuda");
@@ -14,8 +18,11 @@ const getHref = (href: string) => resolveAnchor(href, Astro.url.pathname);
 
 // Página activa: resalta el enlace del menú (naranja) y marca aria-current.
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
-const isCurrent = (href: string) => href.startsWith("/") && href.replace(/\/$/, "") === currentPath;
-const ayudaActive = Boolean(ayudaItem?.children?.some((sub) => isCurrent(sub.href)));
+const isCurrent = (href: string) =>
+  href.startsWith("/") && href.replace(/\/$/, "") === currentPath;
+const ayudaActive = Boolean(
+  ayudaItem?.children?.some((sub) => isCurrent(sub.href)),
+);
 const esimActive = isCurrent("/esim");
 const cambiateActive = isCurrent("/cambiate-a-megamovil");
 const promosActive = isCurrent("/promociones");
@@ -58,10 +65,22 @@ const promosActive = isCurrent("/promociones");
                   <li>
                     <a
                       href={getHref(sub.href)}
-                      target={sub.target || (sub.href.startsWith("http") ? "_blank" : undefined)}
-                      rel={sub.target === "_blank" || sub.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      target={
+                        sub.target ||
+                        (sub.href.startsWith("http") ? "_blank" : undefined)
+                      }
+                      rel={
+                        sub.target === "_blank" || sub.href.startsWith("http")
+                          ? "noopener noreferrer"
+                          : undefined
+                      }
                       aria-current={isCurrent(sub.href) ? "page" : undefined}
-                      class:list={["block rounded-xl px-3.5 py-2 text-xs font-bold hover:bg-orange-50 hover:text-mega-orange transition-colors", isCurrent(sub.href) ? "bg-orange-50 text-mega-orange" : "text-slate-700"]}
+                      class:list={[
+                        "block rounded-xl px-3.5 py-2 text-xs font-bold hover:bg-orange-50 hover:text-mega-orange transition-colors",
+                        isCurrent(sub.href)
+                          ? "bg-orange-50 text-mega-orange"
+                          : "text-slate-700",
+                      ]}
                     >
                       {sub.label}
                     </a>
@@ -79,7 +98,9 @@ const promosActive = isCurrent("/promociones");
             aria-current={cambiateActive ? "page" : undefined}
             class:list={[
               "inline-flex items-center rounded-full px-3.5 py-1.5 text-[13.5px] font-bold tracking-wide hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150",
-              cambiateActive ? "bg-orange-50 text-mega-orange" : "text-slate-700",
+              cambiateActive
+                ? "bg-orange-50 text-mega-orange"
+                : "text-slate-700",
             ]}
           >
             Cámbiate a Mega móvil
@@ -142,10 +163,22 @@ const promosActive = isCurrent("/promociones");
                   <li>
                     <a
                       href={getHref(sub.href)}
-                      target={sub.target || (sub.href.startsWith("http") ? "_blank" : undefined)}
-                      rel={sub.target === "_blank" || sub.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      target={
+                        sub.target ||
+                        (sub.href.startsWith("http") ? "_blank" : undefined)
+                      }
+                      rel={
+                        sub.target === "_blank" || sub.href.startsWith("http")
+                          ? "noopener noreferrer"
+                          : undefined
+                      }
                       aria-current={isCurrent(sub.href) ? "page" : undefined}
-                      class:list={["block rounded-xl px-3.5 py-2 text-xs font-bold hover:bg-orange-50 hover:text-mega-orange transition-colors", isCurrent(sub.href) ? "bg-orange-50 text-mega-orange" : "text-slate-700"]}
+                      class:list={[
+                        "block rounded-xl px-3.5 py-2 text-xs font-bold hover:bg-orange-50 hover:text-mega-orange transition-colors",
+                        isCurrent(sub.href)
+                          ? "bg-orange-50 text-mega-orange"
+                          : "text-slate-700",
+                      ]}
                     >
                       {sub.label}
                     </a>
@@ -158,188 +191,51 @@ const promosActive = isCurrent("/promociones");
       </ul>
     </nav>
 
-    <!-- Acciones Derecha: Selector de Ciudad + Botón CTA Cámbiate Ya -->
+    <!-- Acciones Derecha: Sucursal (abre el buscador BranchPicker) + CTA "Cámbiate" (modal del callcenter) + ☰ (menú celular) -->
     <div class="flex items-center gap-2.5">
-      <!-- Selector de Ciudad -->
-      <div class="relative hidden md:block">
-        <label for="city-select" class="sr-only">{location.label}</label>
-        <Icon
-          name="map-pin"
-          class="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-mega-orange"
-        />
-        <select
-          id="city-select"
-          class="appearance-none rounded-full bg-slate-100 border border-slate-200/90 py-1.5 pl-8 pr-7 font-display text-xs font-black uppercase text-mega-navy hover:bg-slate-200/60 transition cursor-pointer"
-        >
-          {
-            location.options.map((city) => (
-              <option value={city} selected={city === location.current}>
-                {city}
-              </option>
-            ))
-          }
-        </select>
-        <Icon
-          name="chevron-down"
-          class="pointer-events-none absolute right-2.5 top-1/2 h-3 w-3 -translate-y-1/2 text-slate-400"
-        />
-      </div>
-
-      <!-- Botón CTA Protagonista en Naranja Mega móvil -->
-      <a
-        href={getHref("#planes")}
-        class="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-mega-orange via-[#FF6614] to-mega-orange-dark px-4 sm:px-5 py-2 font-display text-xs font-black uppercase tracking-wider text-white shadow-orange-sm hover:shadow-orange-glow transition-all duration-150 hover:scale-105 active:scale-95"
+      <!-- Sucursal: +500, así que abre un buscador (no una lista). En celular va dentro del menú. -->
+      <button
+        type="button"
+        data-branch-open
+        aria-haspopup="dialog"
+        aria-label={`${sucursales.label}: cambiar`}
+        class="hidden items-center gap-1.5 rounded-full border border-slate-200/90 bg-slate-100 py-1.5 pl-3 pr-2.5 font-display text-xs font-black uppercase text-mega-navy transition hover:bg-slate-200/60 cursor-pointer md:inline-flex"
       >
-        <span>Cámbiate ya</span>
-        <svg
-          class="h-3.5 w-3.5"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg
-        >
+        <Icon name="map-pin" class="h-3.5 w-3.5 text-mega-orange" />
+        <span data-branch-current>{sucursales.default}</span>
+        <Icon name="chevron-down" class="h-3 w-3 text-slate-400" />
+      </button>
+
+      <!-- CTA principal: abre el modal "¡Llámame!" del callcenter (CallMeModal). Sin JavaScript queda WhatsApp. -->
+      <a
+        href={whatsappUrl(nav.headerCta.whatsappText)}
+        data-callme
+        data-callme-label=""
+        data-callme-interest={nav.headerCta.interest}
+        class="inline-flex items-center gap-1.5 rounded-full bg-mega-orange hover:bg-mega-orange-dark px-4 sm:px-5 py-2 font-display text-xs font-black uppercase tracking-wider text-white shadow-orange-sm hover:shadow-orange-glow transition-all duration-150 hover:scale-105 active:scale-95"
+      >
+        <!-- En celular chico, versión corta para que quepa junto al logo y el menú -->
+        <span class="sm:hidden">{nav.headerCta.shortLabel}</span>
+        <span class="hidden sm:inline">{nav.headerCta.label}</span>
+        <Icon name="arrow-right" class="h-3.5 w-3.5" />
       </a>
 
-      <!-- Menú Móvil Hamburguesa -->
-      <details class="group/menu relative lg:hidden">
-        <summary
-          class="grid h-9 w-9 cursor-pointer list-none place-items-center rounded-full bg-slate-100 hover:bg-slate-200/80 transition text-mega-navy [&::-webkit-details-marker]:hidden"
-          aria-label={nav.menuLabel}
-        >
-          <Icon name="menu" class="h-5 w-5" />
-        </summary>
-
-        <div
-          class="absolute right-0 top-full mt-2 w-72 rounded-2xl bg-white p-4 text-mega-navy shadow-2xl border border-slate-200/90 z-50 max-h-[85vh] overflow-y-auto"
-        >
-          <!-- Acordeón Móvil Consulta -->
-          <details
-            class="group/sub mb-1.5 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden"
-            open
-          >
-            <summary
-              class="flex items-center justify-between px-3.5 py-2.5 font-sans text-xs font-bold text-mega-navy cursor-pointer list-none [&::-webkit-details-marker]:hidden"
-            >
-              <span class="flex items-center gap-2">
-                <span class="h-2 w-2 rounded-full bg-mega-orange"></span>
-                Consulta
-              </span>
-              <Icon
-                name="chevron-down"
-                class="h-3.5 w-3.5 text-slate-400 group-open/sub:rotate-180 transition-transform"
-              />
-            </summary>
-            <ul
-              class="px-2 pb-2 pt-1 space-y-0.5 bg-white border-t border-slate-100"
-            >
-              {
-                consultaItem?.children?.map((sub) => (
-                  <li>
-                    <a
-                      href={getHref(sub.href)}
-                      target={sub.target || (sub.href.startsWith("http") ? "_blank" : undefined)}
-                      rel={sub.target === "_blank" || sub.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      aria-current={isCurrent(sub.href) ? "page" : undefined}
-                      class:list={["block rounded-lg px-2.5 py-1.5 text-xs font-bold hover:text-mega-orange hover:bg-orange-50 transition", isCurrent(sub.href) ? "bg-orange-50 text-mega-orange" : "text-slate-700"]}
-                    >
-                      {sub.label}
-                    </a>
-                  </li>
-                ))
-              }
-            </ul>
-          </details>
-
-          <!-- Enlaces Directos Móvil -->
-          <ul class="space-y-1 mb-1.5">
-            <li>
-              <a
-                href="/cambiate-a-megamovil"
-                aria-current={cambiateActive ? "page" : undefined}
-                class:list={["block rounded-xl px-3.5 py-2 text-xs font-bold text-mega-orange hover:bg-orange-50", cambiateActive && "bg-orange-50"]}
-              >
-                Cámbiate a Mega móvil
-              </a>
-            </li>
-            <li>
-              <a
-                href="/promociones"
-                aria-current={promosActive ? "page" : undefined}
-                class:list={["block rounded-xl px-3.5 py-2 text-xs font-bold hover:bg-slate-100", promosActive ? "bg-orange-50 text-mega-orange" : "text-slate-700"]}
-              >
-                Promociones
-              </a>
-            </li>
-            <li>
-              <a
-                href="/esim"
-                aria-current={esimActive ? "page" : undefined}
-                class:list={["block rounded-xl px-3.5 py-2 text-xs font-bold hover:bg-slate-100", esimActive ? "bg-orange-50 text-mega-orange" : "text-slate-700"]}
-              >
-                eSIM
-              </a>
-            </li>
-          </ul>
-
-          <!-- Acordeón Móvil Ayuda -->
-          <details
-            class="group/sub mb-3 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden"
-          >
-            <summary
-              class="flex items-center justify-between px-3.5 py-2.5 font-sans text-xs font-bold text-mega-navy cursor-pointer list-none [&::-webkit-details-marker]:hidden"
-            >
-              <span>Ayuda</span>
-              <Icon
-                name="chevron-down"
-                class="h-3.5 w-3.5 text-slate-400 group-open/sub:rotate-180 transition-transform"
-              />
-            </summary>
-            <ul
-              class="px-2 pb-2 pt-1 space-y-0.5 bg-white border-t border-slate-100"
-            >
-              {
-                ayudaItem?.children?.map((sub) => (
-                  <li>
-                    <a
-                      href={getHref(sub.href)}
-                      target={sub.target || (sub.href.startsWith("http") ? "_blank" : undefined)}
-                      rel={sub.target === "_blank" || sub.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      aria-current={isCurrent(sub.href) ? "page" : undefined}
-                      class:list={["block rounded-lg px-2.5 py-1.5 text-xs font-bold hover:text-mega-orange hover:bg-orange-50 transition", isCurrent(sub.href) ? "bg-orange-50 text-mega-orange" : "text-slate-700"]}
-                    >
-                      {sub.label}
-                    </a>
-                  </li>
-                ))
-              }
-            </ul>
-          </details>
-
-          <!-- Ciudad en móvil -->
-          <div class="border-t border-slate-100 pt-3">
-            <label
-              for="city-select-m"
-              class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1"
-              >Tu ciudad</label
-            >
-            <div class="flex items-center gap-2">
-              <Icon name="map-pin" class="h-4 w-4 text-mega-orange shrink-0" />
-              <select
-                id="city-select-m"
-                class="w-full rounded-xl bg-slate-100 px-3 py-2 font-display text-xs font-bold text-mega-navy"
-              >
-                {
-                  location.options.map((city) => (
-                    <option value={city} selected={city === location.current}>
-                      {city}
-                    </option>
-                  ))
-                }
-              </select>
-            </div>
-          </div>
-        </div>
-      </details>
+      <!-- Menú celular/tablet: abre MobileMenu (pantalla completa) -->
+      <button
+        type="button"
+        data-menu-open
+        aria-haspopup="dialog"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        aria-label={nav.menuLabel}
+        class="grid h-9 w-9 cursor-pointer place-items-center rounded-full bg-slate-100 text-mega-navy transition hover:bg-slate-200/80 lg:hidden"
+      >
+        <Icon name="menu" class="h-5 w-5" />
+      </button>
     </div>
   </div>
 </header>
+
+<!-- Fuera del <header> (su backdrop-blur rompería el posicionamiento): menú de celular y buscador de sucursal -->
+<MobileMenu />
+<BranchPicker />

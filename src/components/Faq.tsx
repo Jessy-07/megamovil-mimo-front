@@ -7,13 +7,22 @@ interface Item {
   answer: string;
 }
 
-/** Acordeón plano, sin tarjetas ni fondos envolventes. */
+/**
+ * Acordeón plano, sin tarjetas ni fondos envolventes.
+ * En escritorio se reparte en 2 columnas (primera mitad / segunda mitad) para que no se vea alargado; en celular es una
+ * sola lista en el mismo orden. Una sola pregunta abierta a la vez (en ambas columnas).
+ */
 export default function Faq({ items }: { items: Item[] }) {
   const [open, setOpen] = useState<string | null>(items[0]?.id || null);
 
+  const half = Math.ceil(items.length / 2);
+  const columns = [items.slice(0, half), items.slice(half)].filter((c) => c.length);
+
   return (
-    <div className="divide-y divide-slate-200 border-t border-b border-slate-200">
-      {items.map((item) => {
+    <div className="grid gap-x-12 md:grid-cols-2 md:items-start">
+      {columns.map((col, ci) => (
+    <div key={ci} className={`divide-y divide-slate-200 border-b border-slate-200 ${ci === 0 ? "border-t" : "md:border-t"}`}>
+      {col.map((item) => {
         const isOpen = open === item.id;
         return (
           <div key={item.id} className="py-1">
@@ -50,6 +59,8 @@ export default function Faq({ items }: { items: Item[] }) {
           </div>
         );
       })}
+    </div>
+      ))}
     </div>
   );
 }
