@@ -2,6 +2,7 @@
 import { safeJson } from "../utils/safeJson";
 import '../styles/global.css';
 import site from '../data/site.json';
+import { INDEXAR } from '../config/publicacion.mjs';
 import CallMeModal from '../components/CallMeModal.astro';
 
 interface Props {
@@ -31,9 +32,10 @@ const googleFonts = 'https://fonts.googleapis.com/css2?family=Figtree:wght@300..
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex" />}
+    {/* En modo 'pruebas' (src/config/publicacion.mjs) TODAS las páginas llevan noindex; en producción, solo las que lo piden (404). */}
+    {(noindex || !INDEXAR) && <meta name="robots" content="noindex" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    {INDEXAR && <link rel="sitemap" href="/sitemap-index.xml" />}
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
