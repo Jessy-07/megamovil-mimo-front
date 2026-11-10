@@ -32,7 +32,7 @@ const CONTACT = {
   short: { label: '*1234', href: 'tel:*1234' },
   whatsapp: { label: '33 9690 0001', href: 'https://wa.me/523396900001' },
   email: { label: 'atencionclientes@megacable.com.mx', href: 'mailto:atencionclientes@megacable.com.mx' },
-  cis: { href: 'https://megacable.com.mx/cis' },
+  cis: { href: 'https://mega.mx/ayuda/centros-de-atencion' },
 };
 
 /* ------------------------------------------------------------------ */

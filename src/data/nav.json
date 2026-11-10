@@ -14,8 +14,7 @@
     "links": [
       {
         "label": "Recarga",
-        "href": "/recargas",
-        "_nota": "[PENDIENTE: página /recargas — misma URL del sitio actual]"
+        "href": "/recargas"
       },
       {
         "label": "Registra tu línea",
@@ -39,7 +38,7 @@
         },
         {
           "label": "Recargas",
-          "href": "#recargas"
+          "href": "/recargas"
         },
         {
           "label": "Compatibilidad",
@@ -100,7 +99,7 @@
     "supportLabel": "Consultas y Soporte Técnico",
     "cis": {
       "label": "Localiza tu CIS más cercano",
-      "href": "https://megacable.com.mx/cis"
+      "href": "https://mega.mx/ayuda/centros-de-atencion"
     },
     "socialsLabel": "Síguenos",
     "sections": [
@@ -127,31 +126,31 @@
         "links": [
           {
             "label": "Términos y Condiciones",
-            "href": "https://megamovil.mx/terminos-y-condiciones"
+            "href": "/terminos-y-condiciones"
           },
           {
             "label": "Aviso de Privacidad",
-            "href": "https://megamovil.mx/pdf/Aviso_privacidad.pdf"
+            "href": "/pdf/Aviso_privacidad.pdf"
           },
           {
             "label": "Aviso de Privacidad Visitante",
-            "href": "https://megamovil.mx/pdf/aviso_privacidad_visitantes.pdf"
+            "href": "/pdf/aviso_privacidad_visitantes.pdf"
           },
           {
             "label": "Lineamientos Neutralidad de la Red",
-            "href": "https://megamovil.mx/pdf/lineamientos_neutralidad_red.pdf"
+            "href": "/pdf/lineamientos_neutralidad_red.pdf"
           },
           {
             "label": "Política de Gestión de Tráfico y Administración de la Red",
-            "href": "https://megamovil.mx/pdf/politicas_gestion_trafico_y_admon.pdf"
+            "href": "/pdf/politicas_gestion_trafico_y_admon.pdf"
           },
           {
             "label": "Ajuste de Tarifas Mega móvil",
-            "href": "https://megamovil.mx/pdf/ajustes_megamovil.pdf"
+            "href": "/pdf/ajustes_megamovil.pdf"
           },
           {
             "label": "Derechos de Usuario",
-            "href": "https://megamovil.mx/pdf/carta_derechos_de_usuario.pdf"
+            "href": "/pdf/carta_derechos_de_usuario.pdf"
           },
           {
             "label": "Contacto con Autoridades en materia de seguridad",
@@ -167,7 +166,7 @@
           },
           {
             "label": "Penalidades",
-            "href": "https://megamovil.mx/penalidades"
+            "href": "/penalidades"
           }
         ]
       },
@@ -176,7 +175,7 @@
         "links": [
           {
             "label": "C.P.C. Telefonía Celular",
-            "href": "https://megamovil.mx/pdf/cod_practicas_com.pdf"
+            "href": "/pdf/cod_practicas_com.pdf"
           }
         ]
       },
@@ -185,19 +184,19 @@
         "links": [
           {
             "label": "Myc Red",
-            "href": "https://megamovil.mx/pdf/prepago/MYC_RED,_S.A._DE_C.V.pdf"
+            "href": "/pdf/prepago/MYC_RED,_S.A._DE_C.V.pdf"
           },
           {
             "label": "Servicio y Equipo en Telefonía",
-            "href": "https://megamovil.mx/pdf/prepago/Servicio_y_Equipo_de_Telefonia_Internet_y_TV_S.A._de_C.V.pdf"
+            "href": "/pdf/prepago/Servicio_y_Equipo_de_Telefonia_Internet_y_TV_S.A._de_C.V.pdf"
           },
           {
             "label": "Mega Cable",
-            "href": "https://megamovil.mx/pdf/prepago/Mega_Cable,_S.A._de_C.V.pdf"
+            "href": "/pdf/prepago/Mega_Cable,_S.A._de_C.V.pdf"
           },
           {
             "label": "Telefonía por cable",
-            "href": "https://megamovil.mx/pdf/prepago/telefonia-cable_prepago.pdf"
+            "href": "/pdf/prepago/telefonia-cable_prepago.pdf"
           }
         ]
       },
@@ -206,19 +205,19 @@
         "links": [
           {
             "label": "Myc Red",
-            "href": "https://megamovil.mx/pdf/pospago/MYC_RED_-_INTERNET_Y_TELEFONIA_MOVIL.pdf"
+            "href": "/pdf/pospago/MYC_RED_-_INTERNET_Y_TELEFONIA_MOVIL.pdf"
           },
           {
             "label": "Servicio y Equipo en Telefonía",
-            "href": "https://megamovil.mx/pdf/pospago/INTERNET_Y_TELEFONIA_MOVIL.pdf"
+            "href": "/pdf/pospago/INTERNET_Y_TELEFONIA_MOVIL.pdf"
           },
           {
             "label": "Telefonía por Cable",
-            "href": "https://megamovil.mx/pdf/pospago/TELEFONIA_X_CABLE-_INTERNET_Y_TELEFONIA_MOVIL.pdf"
+            "href": "/pdf/pospago/TELEFONIA_X_CABLE-_INTERNET_Y_TELEFONIA_MOVIL.pdf"
           },
           {
             "label": "Mega Cable",
-            "href": "https://megamovil.mx/pdf/pospago/MEGA_CABLE_-_INTERNET_Y_TELEFONIA_MOVIL.pdf"
+            "href": "/pdf/pospago/MEGA_CABLE_-_INTERNET_Y_TELEFONIA_MOVIL.pdf"
           }
         ]
       },
@@ -240,7 +239,7 @@
         "links": [
           {
             "label": "Samsung | Motorola | Huawei | Hisense | ZTE",
-            "href": "https://megamovil.mx/garantias"
+            "href": "/garantias"
           }
         ]
       },
@@ -257,19 +256,16 @@
           },
           {
             "label": "Folio de Registro de Tarifas",
-            "href": "https://megamovil.mx/pdf/folios_de_registro_telefonia_movil.xlsx"
-          },
-          {
-            "label": "Formatos Simplificados",
-            "href": "https://megamovil.mx/formatos_simplificados"
+            "href": "/pdf/folios_de_registro_telefonia_movil.xlsx"
           }
-        ]
+        ],
+        "_pendiente": "[PENDIENTE: dato real] Formatos Simplificados: falta el documento. La página del sitio anterior (megamovil.mx/formatos_simplificados) da error 404. Cuando exista, agregar aquí { label: 'Formatos Simplificados', href: '/pdf/...' }."
       }
     ],
     "legend": {
       "before": "Aplican restricciones. Consulta ",
       "link": "términos y condiciones aquí",
-      "href": "https://megamovil.mx/terminos-y-condiciones",
+      "href": "/terminos-y-condiciones",
       "after": ". Vigencia a mes calendario."
     }
   },

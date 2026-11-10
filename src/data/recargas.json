@@ -1,0 +1,49 @@
+{
+  "_nota": "Página /recargas (misma URL que el sitio anterior). Paquetes y precios tomados del sitio actual (Recarga 30 y Recarga 50). Las recargas NO se hacen por WhatsApp (lo indicó el usuario): solo por *1234, teléfono, CIS y OXXO. Esos medios salen de preguntas frecuentes (faq-full.json → faq-8) para no tenerlos en dos lugares.",
+  "seo": {
+    "title": "Recargas Mega móvil | Más datos, minutos y SMS para tu línea",
+    "description": "Recarga 30: 1 GB, 100 minutos y 25 SMS por $30. Recarga 50: 2 GB, 250 minutos y 50 SMS por $50. Marca *1234 desde tu línea, llama al 33 9690 0000 o recarga en un CIS u OXXO."
+  },
+  "hero": {
+    "titleBefore": "Recarga ",
+    "titleHighlight": "tu línea",
+    "subtitle": "Más datos, minutos y SMS cuando los necesites."
+  },
+  "packages": {
+    "label": "Recargas disponibles",
+    "items": [
+      { "slug": "recarga-30", "name": "Recarga 30", "data": "1 GB", "minutes": 100, "sms": 25, "price": 30 },
+      { "slug": "recarga-50", "name": "Recarga 50", "data": "2 GB", "minutes": 250, "sms": 50, "price": 50 }
+    ],
+    "legal": "Aplican restricciones. Vigencia a mes calendario.",
+    "legalLink": { "label": "Términos y condiciones", "href": "/terminos-y-condiciones#paquetes-excedentes" }
+  },
+  "channels": {
+    "title": "Recárgala como prefieras",
+    "_nota": "El primer medio de faq-8 (*1234) va destacado. Se muestra solo *1234 (la pregunta 8 dice '*1234 o #1234': confirmar si #1234 también funciona). Los medios de 'sinEnlace' van sin enlace (oxxo.com es la página de inicio, no un buscador de tiendas). El botón 'Marcar' y la nota de iPhone solo salen en celular (una computadora no marca).",
+    "featuredLabel": "La más rápida",
+    "featuredText": "desde tu Mega móvil",
+    "iphoneNote": "En iPhone, márcalo desde el teclado.",
+    "sinEnlace": ["Tiendas de Conveniencia"]
+  },
+  "balance": {
+    "text": "¿No sabes cuánto saldo te queda?",
+    "label": "Envía SALDO al 52142",
+    "href": "sms:52142?body=SALDO"
+  },
+  "stickyBar": {
+    "_nota": "Barra fija del celular, solo en esta página (en el resto del sitio vende planes).",
+    "prefix": "Recarga marcando",
+    "value": "*1234",
+    "ctaLabel": "Marcar",
+    "ctaHref": "tel:*1234"
+  },
+  "faq": {
+    "title": "Preguntas frecuentes",
+    "ids": ["faq-12", "faq-9", "faq-13"]
+  },
+  "salesBanner": {
+    "title": "¿Se te acaban los datos cada mes?",
+    "text": "Un plan con más gigas te puede salir mejor que recargar seguido. Conservas tu número y tienes redes sociales ilimitadas."
+  }
+}

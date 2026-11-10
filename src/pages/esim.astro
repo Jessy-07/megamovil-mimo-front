@@ -17,15 +17,14 @@ import FaqAccordion from "../components/FaqAccordion";
 import faqFull from "../data/faq-full.json";
 // REFERENCIA: reemplazar por Mimo sosteniendo un celular con un chip virtual / eSIM (PNG transparente, ~500×500).
 import mimoEsim from "../assets/img/general/mimo-esim.png";
-import guideAndroid from "../assets/pdf/guia-de-activacion-esim-android.pdf?url";
-import guideIos from "../assets/pdf/guia-de-activacion-esim-ios.pdf?url";
 
 const origin = Astro.site ? Astro.site.href : "https://megamovil.megacable.com.mx";
 const pageUrl = new URL("/esim", origin).href;
 
 const benefitIcons = { cpu: Cpu, download: Download, repeat: Repeat, shield: ShieldCheck };
 const stepIcons = { pointer: MousePointerClick, wifi: Wifi, settings: Settings, qr: QrCode, check: CheckCircle2 };
-const guideFiles = { android: guideAndroid, ios: guideIos };
+// Guías en public/pdf/: misma URL que en el sitio anterior (megamovil.mx/pdf/guia-de-activacion-esim-*.pdf).
+const guideFiles = { android: "/pdf/guia-de-activacion-esim-android.pdf", ios: "/pdf/guia-de-activacion-esim-ios.pdf" };
 
 // Logo oficial de cada sistema (fuente única: utils/brandLogos) sobre su color de marca: se identifica al instante.
 const platformLogos = {

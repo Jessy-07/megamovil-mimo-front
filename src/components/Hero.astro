@@ -1,116 +1,91 @@
 ---
+/**
+ * Banner principal del Home (arte del equipo de diseño).
+ *
+ * Archivos: src/assets/img/home/ (Astro los optimiza: genera WebP y tamaños al compilar).
+ *  · Escritorio y tablet (≥ 640 px): 1920×550 → banner-principal-pc.jpg
+ *  · Celular (< 640 px): 1080×1350 (4:5) → banner-principal-mob.jpg
+ * Para cambiar el banner basta con reemplazar esos dos archivos (mismo nombre y medida).
+ *
+ * Hoy hay un solo banner. Si se agregan más a `slides`, aparecen las flechas, los puntos y la rotación.
+ */
+import { getImage } from "astro:assets";
+import bannerPc from "../assets/img/home/banner-principal-pc.jpg";
+import bannerMob from "../assets/img/home/banner-principal-mob.jpg";
+
 const slides = [
   {
     id: "7gb-100",
-    slug: "banner-7gb",
-    alt: "Mi móvil contigo: 7 GB por $100 con WhatsApp ilimitado, redes sociales, minutos y SMS ilimitados conservando tu número",
+    desktop: bannerPc,
+    mobile: bannerMob,
+    alt: "Mi MOvil con Mega móvil: 7 GB por $100. Más beneficios conservando tu número: WhatsApp ilimitado, redes sociales ilimitadas (Facebook, X, Instagram y Messenger), minutos y SMS incluidos. Contrata ahora.",
     href: "#planes",
-    tabLabel: "7 GB por $100",
-  },
-  {
-    id: "colaborador-50gb",
-    slug: "banner-1",
-    alt: "Mega móvil - Tu Plan Colaborador: 50 Gigas conservando tu número por solo $260 al mes",
-    href: "#planes",
-    tabLabel: "Plan Colaborador",
-  },
-  {
-    id: "vincula-tu-linea",
-    slug: "banner-2",
-    alt: "Si tu número termina en 5 tu línea será suspendida si no la registras a más tardar el 31 de octubre - megamovil.mx/vinculatulinea",
-    href: "https://megamovil.mx/vinculatulinea/",
-    external: true,
-    tabLabel: "Vincula tu línea",
+    external: false,
   },
 ];
 
-/*
- * Proporción del banner de escritorio: se lee de la imagen real al compilar
- * (public/img/<slug>-desktop.jpg del primer banner). Así el contenedor siempre
- * coincide con el arte y nunca lo recorta: hoy 1920×550, y al subir los nuevos
- * de 1920×400 se ajusta solo. Todos los banners deben tener la misma medida.
- */
-import sharp from "sharp";
-import { join } from "node:path";
+const isCarousel = slides.length > 1;
 
-let desktop = { width: 1920, height: 400 };
-try {
-  const meta = await sharp(join(process.cwd(), "public", "img", `${slides[0].slug}-desktop.jpg`)).metadata();
-  if (meta.width && meta.height) desktop = { width: meta.width, height: meta.height };
-} catch {
-  /* si no se puede leer, se usa 1920×400 */
-}
+// Versiones optimizadas (WebP + JPG de respaldo) para cada banner.
+const srcset = async (img: ImageMetadata, widths: number[], format: "webp" | "jpg") => {
+  const out = await Promise.all(widths.filter((w) => w <= img.width).map(async (w) => {
+    const r = await getImage({ src: img, width: w, format, quality: 82 });
+    return `${r.src} ${w}w`;
+  }));
+  return out.join(", ");
+};
+const rendered = await Promise.all(slides.map(async (s) => ({
+  ...s,
+  desktopWebp: await srcset(s.desktop, [960, 1488, 1920], "webp"),
+  desktopJpg: await srcset(s.desktop, [960, 1488, 1920], "jpg"),
+  mobileWebp: await srcset(s.mobile, [540, 720, 1080], "webp"),
+  mobileJpg: await srcset(s.mobile, [540, 720, 1080], "jpg"),
+  fallback: (await getImage({ src: s.desktop, width: 1920, format: "jpg", quality: 82 })).src,
+})));
+
+// El contenedor toma la proporción exacta del arte: nunca se recorta (ni el texto legal de abajo).
+const desktopRatio = `${bannerPc.width} / ${bannerPc.height}`;
+const mobileRatio = `${bannerMob.width} / ${bannerMob.height}`;
 ---
 
 <!-- Mismo contenedor que el Header (container + px-4 sm:px-6): el banner queda alineado con el logo y el botón "Cámbiate". -->
 <section id="promos" aria-label="Promociones exclusivas Mega móvil" class="container mx-auto px-4 pt-3 sm:px-6">
-  <!--
-    Alto:
-    · Móvil: 4:5 (arte propio).
-    · Tablet y laptop chica (640–1279 px): proporción exacta del arte de escritorio, sin recortes.
-    · Desde 1280 px: 400 px fijos. El arte de 1920×400 se centra y se recortan solo las orillas
-      (se ven entre 1232 y 1488 px del centro), así que lo importante va en los ~1200 px centrales.
-  -->
   <div
-    class="w-full overflow-hidden rounded-hero shadow-[0_12px_30px_-14px_rgba(6,22,48,0.28)] relative bg-black/5 aspect-[4/5] max-h-[560px] sm:max-h-none sm:[aspect-ratio:var(--hero-ratio)] xl:[aspect-ratio:auto] xl:h-[400px]"
-    style={`--hero-ratio: ${desktop.width} / ${desktop.height}`}
+    class="w-full overflow-hidden rounded-hero shadow-[0_12px_30px_-14px_rgba(6,22,48,0.28)] relative bg-black/5 [aspect-ratio:var(--hero-ratio-mob)] sm:[aspect-ratio:var(--hero-ratio)]"
+    style={`--hero-ratio: ${desktopRatio}; --hero-ratio-mob: ${mobileRatio}`}
   >
-
-    <div class="relative w-full h-full" role="region" aria-roledescription="carrusel" aria-label="Banners promocionales Mega móvil">
-      <!-- Track de slides con scroll-snap nativo -->
-      <div
-        id="promo-track"
-        class="no-scrollbar flex snap-x snap-mandatory overflow-x-auto scroll-smooth w-full h-full items-stretch"
-        aria-live="off"
-      >
+    <div
+      class="relative w-full h-full"
+      role={isCarousel ? "region" : undefined}
+      aria-roledescription={isCarousel ? "carrusel" : undefined}
+      aria-label={isCarousel ? "Banners promocionales Mega móvil" : undefined}
+    >
+      <div id="promo-track" class="no-scrollbar flex snap-x snap-mandatory overflow-x-auto scroll-smooth w-full h-full items-stretch" aria-live="off">
         {
-          slides.map((slide, i) => (
+          rendered.map((slide, i) => (
             <div
               data-slide
-              role="group"
-              aria-roledescription="slide"
-              aria-label={`${i + 1} / ${slides.length}`}
+              role={isCarousel ? "group" : undefined}
+              aria-roledescription={isCarousel ? "slide" : undefined}
+              aria-label={isCarousel ? `${i + 1} / ${slides.length}` : undefined}
               class="relative w-full h-full shrink-0 snap-center overflow-hidden"
             >
               <a
                 href={slide.href}
-                target={slide.external ? '_blank' : undefined}
-                rel={slide.external ? 'noopener noreferrer' : undefined}
+                target={slide.external ? "_blank" : undefined}
+                rel={slide.external ? "noopener noreferrer" : undefined}
                 class="block w-full h-full focus:outline-none"
-                aria-label={slide.alt}
               >
                 <picture class="block w-full h-full">
-                  <!-- Móvil (< 640px): imagen propia exclusiva para móviles, formato 4:5 vertical (1080×1350 px; zona segura: deja ~120 px libres abajo para los controles del carrusel) -->
-                  <source
-                    media="(max-width: 639px)"
-                    type="image/webp"
-                    srcset={`/img/${slide.slug}-mobile.webp`}
-                  />
-                  <source
-                    media="(max-width: 639px)"
-                    type="image/jpeg"
-                    srcset={`/img/${slide.slug}-mobile.jpg`}
-                  />
-
-                  <!-- Tablet, laptops y pantallas grandes (>= 640px): banner de escritorio (1920 de ancho y su versión 4K), completo sin recortes -->
-                  <source
-                    media="(min-width: 640px)"
-                    type="image/webp"
-                    srcset={`/img/${slide.slug}-desktop.webp 1920w, /img/${slide.slug}-4k.webp 3840w`}
-                    sizes="(min-width: 1536px) 1488px, 100vw"
-                  />
-                  <source
-                    media="(min-width: 640px)"
-                    type="image/jpeg"
-                    srcset={`/img/${slide.slug}-desktop.jpg 1920w, /img/${slide.slug}-4k.jpg 3840w`}
-                    sizes="(min-width: 1536px) 1488px, 100vw"
-                  />
-
+                  <source media="(max-width: 639px)" type="image/webp" srcset={slide.mobileWebp} sizes="100vw" />
+                  <source media="(max-width: 639px)" type="image/jpeg" srcset={slide.mobileJpg} sizes="100vw" />
+                  <source media="(min-width: 640px)" type="image/webp" srcset={slide.desktopWebp} sizes="(min-width: 1536px) 1488px, 100vw" />
+                  <source media="(min-width: 640px)" type="image/jpeg" srcset={slide.desktopJpg} sizes="(min-width: 1536px) 1488px, 100vw" />
                   <img
-                    src={`/img/${slide.slug}-desktop.jpg`}
+                    src={slide.fallback}
                     alt={slide.alt}
-                    width={desktop.width}
-                    height={desktop.height}
+                    width={slide.desktop.width}
+                    height={slide.desktop.height}
                     loading={i === 0 ? "eager" : "lazy"}
                     fetchpriority={i === 0 ? "high" : "auto"}
                     decoding="async"
@@ -123,137 +98,81 @@ try {
         }
       </div>
 
-      {/* Barra de controles: Flechas, Dots y Play/Pausa en la esquina inferior derecha */}
-      <div class="absolute bottom-2 right-2 sm:bottom-4 sm:right-6 z-20 flex items-center gap-1.5 sm:gap-2 bg-black/50 backdrop-blur-md px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full border border-white/20 shadow-lg scale-90 sm:scale-100 origin-bottom-right">
-        <button
-          type="button"
-          data-promo-prev
-          aria-label="Banner anterior"
-          class="grid h-7 w-7 place-items-center rounded-full text-white/90 hover:text-white hover:bg-white/20 transition cursor-pointer"
-        >
-          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
-
-        <!-- Dots -->
-        <div class="flex items-center gap-1.5 px-1">
-          {
-            slides.map((_, i) => (
+      {isCarousel && (
+        <div class="absolute bottom-2 right-2 sm:bottom-4 sm:right-6 z-20 flex items-center gap-1.5 sm:gap-2 bg-black/50 backdrop-blur-md px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full border border-white/20 shadow-lg scale-90 sm:scale-100 origin-bottom-right">
+          <button type="button" data-promo-prev aria-label="Banner anterior" class="grid h-7 w-7 place-items-center rounded-full text-white/90 hover:text-white hover:bg-white/20 transition cursor-pointer">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6" /></svg>
+          </button>
+          <div class="flex items-center gap-1.5 px-1">
+            {slides.map((_, i) => (
               <button
                 type="button"
                 data-promo-dot={i}
                 aria-label={`Ir al banner ${i + 1}`}
-                class:list={[
-                  "h-2.5 rounded-full transition-all duration-200 cursor-pointer",
-                  i === 0 ? "w-7 bg-mega-orange shadow-sm" : "w-2.5 bg-white/50 hover:bg-white/80"
-                ]}
+                class:list={["h-2.5 rounded-full transition-all duration-200 cursor-pointer", i === 0 ? "w-7 bg-mega-orange shadow-sm" : "w-2.5 bg-white/50 hover:bg-white/80"]}
               />
-            ))
-          }
+            ))}
+          </div>
+          <button type="button" data-promo-next aria-label="Siguiente banner" class="grid h-7 w-7 place-items-center rounded-full text-white/90 hover:text-white hover:bg-white/20 transition cursor-pointer">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6" /></svg>
+          </button>
+          <button type="button" data-promo-toggle aria-label="Pausar rotación" class="grid h-7 w-7 place-items-center rounded-full text-white/90 hover:text-white hover:bg-white/20 transition cursor-pointer ml-1">
+            <svg data-icon-pause class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
+            <svg data-icon-play class="h-3.5 w-3.5 hidden" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+          </button>
         </div>
-
-        <button
-          type="button"
-          data-promo-next
-          aria-label="Siguiente banner"
-          class="grid h-7 w-7 place-items-center rounded-full text-white/90 hover:text-white hover:bg-white/20 transition cursor-pointer"
-        >
-          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
-        </button>
-
-        <button
-          type="button"
-          data-promo-toggle
-          aria-label="Pausar rotación"
-          class="grid h-7 w-7 place-items-center rounded-full text-white/90 hover:text-white hover:bg-white/20 transition cursor-pointer ml-1"
-        >
-          <svg data-icon-pause class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-          <svg data-icon-play class="h-3.5 w-3.5 hidden" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        </button>
-      </div>
+      )}
     </div>
-
   </div>
 </section>
 
 <script>
-  const track = document.getElementById('promo-track') as HTMLDivElement | null;
-  const dots = document.querySelectorAll<HTMLButtonElement>('[data-promo-dot]');
-  const prevBtn = document.querySelector('[data-promo-prev]');
-  const nextBtn = document.querySelector('[data-promo-next]');
-  const toggleBtn = document.querySelector('[data-promo-toggle]');
-  const iconPause = document.querySelector('[data-icon-pause]');
-  const iconPlay = document.querySelector('[data-icon-play]');
+  // Rotación: solo corre si hay más de un banner (si no, no existen los puntos).
+  const track = document.getElementById("promo-track") as HTMLDivElement | null;
+  const dots = document.querySelectorAll<HTMLButtonElement>("[data-promo-dot]");
+  const prevBtn = document.querySelector("[data-promo-prev]");
+  const nextBtn = document.querySelector("[data-promo-next]");
+  const toggleBtn = document.querySelector("[data-promo-toggle]");
+  const iconPause = document.querySelector("[data-icon-pause]");
+  const iconPlay = document.querySelector("[data-icon-play]");
 
-  if (track && dots.length > 0) {
+  if (track && dots.length > 1) {
     let currentIndex = 0;
     const count = dots.length;
     let isPaused = false;
     let isHovered = false;
-    let intervalId: number | null = null;
 
-    function updateUI(idx: number) {
+    const updateUI = (idx: number) => {
       currentIndex = idx;
       dots.forEach((dot, i) => {
-        if (i === idx) {
-          dot.className = "h-2.5 rounded-full transition-all duration-200 cursor-pointer w-7 bg-mega-orange shadow-sm";
-        } else {
-          dot.className = "h-2.5 rounded-full transition-all duration-200 cursor-pointer w-2.5 bg-white/50 hover:bg-white/80";
-        }
+        dot.className =
+          i === idx
+            ? "h-2.5 rounded-full transition-all duration-200 cursor-pointer w-7 bg-mega-orange shadow-sm"
+            : "h-2.5 rounded-full transition-all duration-200 cursor-pointer w-2.5 bg-white/50 hover:bg-white/80";
       });
-    }
-
-    function goTo(idx: number) {
-      if (!track) return;
+    };
+    const goTo = (idx: number) => {
       const target = (idx + count) % count;
-      track.scrollTo({ left: target * track.clientWidth, behavior: 'smooth' });
+      track.scrollTo({ left: target * track.clientWidth, behavior: "smooth" });
       updateUI(target);
-    }
+    };
 
-    track.addEventListener('scroll', () => {
-      if (!track) return;
+    track.addEventListener("scroll", () => {
       const newIdx = Math.round(track.scrollLeft / track.clientWidth);
-      if (newIdx !== currentIndex) {
-        updateUI(newIdx);
-      }
+      if (newIdx !== currentIndex) updateUI(newIdx);
     });
-
-    prevBtn?.addEventListener('click', () => goTo(currentIndex - 1));
-    nextBtn?.addEventListener('click', () => goTo(currentIndex + 1));
-
-    dots.forEach((dot, i) => {
-      dot.addEventListener('click', () => goTo(i));
-    });
-
-    function startAutoplay() {
-      stopAutoplay();
-      intervalId = window.setInterval(() => {
-        if (!isPaused && !isHovered) {
-          goTo(currentIndex + 1);
-        }
-      }, 6000);
-    }
-
-    function stopAutoplay() {
-      if (intervalId) {
-        clearInterval(intervalId);
-        intervalId = null;
-      }
-    }
-
-    track.addEventListener('mouseenter', () => { isHovered = true; });
-    track.addEventListener('mouseleave', () => { isHovered = false; });
-
-    toggleBtn?.addEventListener('click', () => {
+    prevBtn?.addEventListener("click", () => goTo(currentIndex - 1));
+    nextBtn?.addEventListener("click", () => goTo(currentIndex + 1));
+    dots.forEach((dot, i) => dot.addEventListener("click", () => goTo(i)));
+    track.addEventListener("mouseenter", () => (isHovered = true));
+    track.addEventListener("mouseleave", () => (isHovered = false));
+    toggleBtn?.addEventListener("click", () => {
       isPaused = !isPaused;
-      if (isPaused) {
-        iconPause?.classList.add('hidden');
-        iconPlay?.classList.remove('hidden');
-      } else {
-        iconPlay?.classList.add('hidden');
-        iconPause?.classList.remove('hidden');
-      }
+      iconPause?.classList.toggle("hidden", isPaused);
+      iconPlay?.classList.toggle("hidden", !isPaused);
     });
-
-    startAutoplay();
+    window.setInterval(() => {
+      if (!isPaused && !isHovered) goTo(currentIndex + 1);
+    }, 6000);
   }
 </script>

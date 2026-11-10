@@ -1,0 +1,223 @@
+---
+/**
+ * Cuerpo de las páginas legales (Términos y condiciones, Garantías…): tarjeta sobrepuesta al hero,
+ * índice fijo en escritorio (desplegable en móvil) cuando hay 4 secciones o más, y ayuda siempre a la vista.
+ * El texto legal llega en bloques desde su JSON y se publica TAL CUAL. Las páginas legales no llevan
+ * banner de venta: su CTA es la ayuda (asesor por WhatsApp, CIS, ver planes).
+ *
+ * Bloques: p (párrafo), lead (párrafo destacado), note (vigencia, en negritas), h3 (subtítulo), list (viñetas),
+ * plan + rows (tabla Datos / Redes / Minutos / SMS), app (red social: uso incluido / no incluido), glossary.
+ */
+import Icon from "./Icon.astro";
+import { Check, X } from "lucide-react";
+import { linkify } from "../utils/linkify";
+import { whatsappUrl } from "../utils/whatsapp";
+
+type Row = { label: string; text: string | string[] };
+export type LegalBlock = {
+  p?: string; lead?: string; note?: string; h3?: string; list?: string[];
+  plan?: string; rows?: Row[];
+  app?: string; zone?: string; included?: string[]; excluded?: string[];
+  glossary?: string[][];
+};
+export type LegalSection = { id: string; title?: string; toc?: string; blocks: LegalBlock[] };
+type Action = { label: string; href?: string; whatsappText?: string };
+export type LegalHelp = { title: string; text: string; primary: Action; secondary?: Action };
+
+interface Props {
+  /** id del h1 del hero: el artículo se rotula con él. */
+  labelledBy: string;
+  intro?: string;
+  tocLabel?: string;
+  sections: LegalSection[];
+  help: LegalHelp;
+}
+
+const { labelledBy, intro, tocLabel = "Contenido", sections, help } = Astro.props;
+const asList = (t: string | string[]) => (Array.isArray(t) ? t : [t]);
+const tocSections = sections.filter((s) => s.title);
+const showToc = tocSections.length >= 4;
+
+// Botón principal: WhatsApp (verde) o enlace (azul, p. ej. "Ubica tu CIS").
+const isWhatsapp = Boolean(help.primary.whatsappText);
+const primaryHref = isWhatsapp ? whatsappUrl(help.primary.whatsappText) : (help.primary.href ?? "/");
+const primaryExternal = primaryHref.startsWith("http");
+const primaryClass = isWhatsapp ? "bg-[#25D366] hover:bg-[#20ba5a]" : "bg-mega-navy hover:bg-mega-orange";
+const secondary = help.secondary;
+const secondaryHref = secondary ? (secondary.whatsappText ? whatsappUrl(secondary.whatsappText) : (secondary.href ?? "/")) : "";
+const secondaryExternal = secondaryHref.startsWith("http");
+---
+
+<div class="relative z-10 mx-auto -mt-12 container px-7 sm:px-10 lg:px-12">
+  <div class="mx-auto max-w-6xl rounded-3xl bg-white p-5 sm:p-8 lg:p-10 shadow-card-clean">
+    <div class="lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-10">
+      <!-- LATERAL (escritorio): índice + ayuda -->
+      <aside class="hidden lg:block">
+        <div class="sticky top-36">
+          {showToc && (
+            <>
+              <p class="text-xs font-black uppercase tracking-wider text-slate-400">{tocLabel}</p>
+              <nav aria-label={tocLabel} class="mt-3 mb-6">
+                <ol class="space-y-0.5 border-l border-slate-200">
+                  {tocSections.map((s) => (
+                    <li>
+                      <a href={`#${s.id}`} class="-ml-px block border-l-2 border-transparent py-1.5 pl-4 text-sm font-semibold leading-snug text-slate-600 hover:border-mega-orange hover:text-mega-navy">
+                        {s.toc ?? s.title}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </nav>
+            </>
+          )}
+
+          <div class="rounded-3xl border border-slate-200 p-5">
+            <p class="font-display text-lg font-black uppercase leading-tight text-mega-navy">{help.title}</p>
+            <p class="mt-1 text-sm font-medium text-slate-500">{help.text}</p>
+            <a
+              href={primaryHref}
+              target={primaryExternal ? "_blank" : undefined}
+              rel={primaryExternal ? "noopener noreferrer" : undefined}
+              class:list={["mt-4 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full px-5 font-display text-base font-extrabold text-white", primaryClass]}
+            >
+              <Icon name={isWhatsapp ? "message" : "map-pin"} class="h-4 w-4" />
+              {help.primary.label}
+            </a>
+            {secondary && (
+              <a
+                href={secondaryHref}
+                target={secondaryExternal ? "_blank" : undefined}
+                rel={secondaryExternal ? "noopener noreferrer" : undefined}
+                class="mt-3 inline-flex items-center gap-1 text-sm font-extrabold text-mega-orange hover:underline underline-offset-4"
+              >
+                {secondary.label}
+                <Icon name="arrow-right" class="h-4 w-4" />
+              </a>
+            )}
+          </div>
+        </div>
+      </aside>
+
+      <!-- TEXTO LEGAL -->
+      <article aria-labelledby={labelledBy} class="min-w-0 text-sm sm:text-base leading-relaxed text-slate-700">
+        {intro && <p class="mb-8 font-display text-lg sm:text-xl font-extrabold text-mega-navy text-balance">{intro}</p>}
+
+        {showToc && (
+          <details class="group mb-8 rounded-2xl border border-slate-200 lg:hidden">
+            <summary class="flex cursor-pointer list-none items-center justify-between px-4 py-3 font-display text-sm font-extrabold uppercase tracking-wide text-mega-navy [&::-webkit-details-marker]:hidden">
+              {tocLabel}
+              <Icon name="chevron-down" class="h-4 w-4 text-slate-400 transition-transform group-open:rotate-180" />
+            </summary>
+            <ol class="border-t border-slate-200 px-4 py-2">
+              {tocSections.map((s) => (
+                <li><a href={`#${s.id}`} class="block py-1.5 text-sm font-semibold text-slate-600 hover:text-mega-orange">{s.toc ?? s.title}</a></li>
+              ))}
+            </ol>
+          </details>
+        )}
+
+        {sections.map((section, i) => (
+          <section
+            id={section.id}
+            aria-labelledby={section.title ? `${section.id}-title` : undefined}
+            class:list={[i > 0 && "mt-10 border-t border-slate-200 pt-8", i === 0 && intro && "border-t border-slate-200 pt-8"]}
+          >
+            {section.title && <h2 id={`${section.id}-title`} class="mb-4 font-display text-xl sm:text-2xl font-black uppercase tracking-tight text-mega-navy text-balance">{section.title}</h2>}
+            <div class="space-y-4">
+              {section.blocks.map((b) => {
+                if (b.p) return <p set:html={linkify(b.p)} />;
+                if (b.lead) return <p class="font-bold text-mega-navy">{b.lead}</p>;
+                if (b.note) return <p class="font-extrabold text-mega-navy">{b.note}</p>;
+                if (b.h3) return <h3 class="font-display text-lg font-extrabold text-mega-navy">{b.h3}</h3>;
+                if (b.list)
+                  return (
+                    <ul class="space-y-2 pl-5 list-disc marker:text-mega-orange">
+                      {b.list.map((item) => <li set:html={linkify(item)} />)}
+                    </ul>
+                  );
+                if (b.plan)
+                  return (
+                    <div class="rounded-2xl border border-slate-200">
+                      <h3 class="border-b border-slate-200 px-4 py-3 font-display text-base sm:text-lg font-extrabold text-mega-navy sm:px-5">{b.plan}</h3>
+                      <dl class="divide-y divide-slate-100">
+                        {b.rows?.map((row) => (
+                          <div class="px-4 py-3 sm:grid sm:grid-cols-[11rem_minmax(0,1fr)] sm:gap-4 sm:px-5">
+                            <dt class="font-bold text-mega-navy">{row.label}</dt>
+                            <dd class="mt-1 space-y-2 sm:mt-0">{asList(row.text).map((t) => <p set:html={linkify(t)} />)}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    </div>
+                  );
+                if (b.app)
+                  return (
+                    <div class="rounded-2xl border border-slate-200 p-4 sm:p-5">
+                      <h3 class="font-display text-base sm:text-lg font-extrabold text-mega-navy">{b.app}</h3>
+                      <p class="mt-0.5 text-sm"><span class="font-bold text-mega-navy">Zona de uso:</span> {b.zone}</p>
+                      <div class="mt-4 grid gap-5 md:grid-cols-2">
+                        <div>
+                          <p class="font-bold text-mega-navy">Uso incluido:</p>
+                          <ul class="mt-2 space-y-2">
+                            {b.included?.map((item) => (
+                              <li class="flex gap-2"><Check className="mt-1 h-4 w-4 shrink-0 text-mega-orange" strokeWidth={3} aria-hidden="true" /><span>{item}</span></li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div>
+                          <p class="font-bold text-mega-navy">Uso No incluido:</p>
+                          <ul class="mt-2 space-y-2">
+                            {b.excluded?.map((item) => (
+                              <li class="flex gap-2"><X className="mt-1 h-4 w-4 shrink-0 text-slate-400" strokeWidth={3} aria-hidden="true" /><span>{item}</span></li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                if (b.glossary)
+                  return (
+                    <dl class="grid gap-x-6 gap-y-2 sm:grid-cols-2">
+                      {b.glossary.map(([term, def]) => (
+                        <div class="flex gap-2"><dt class="font-bold text-mega-navy">{term}:</dt><dd>{def}</dd></div>
+                      ))}
+                    </dl>
+                  );
+                return null;
+              })}
+            </div>
+          </section>
+        ))}
+
+        <!-- AYUDA en móvil y tableta (en escritorio va en el lateral) -->
+        <div class="mt-10 flex flex-col gap-4 rounded-3xl border border-slate-200 p-5 sm:flex-row sm:items-center sm:justify-between lg:hidden">
+          <div>
+            <p class="font-display text-lg font-black uppercase leading-tight text-mega-navy">{help.title}</p>
+            <p class="mt-1 text-sm font-medium text-slate-500">{help.text}</p>
+          </div>
+          <div class="flex shrink-0 flex-col gap-3 sm:items-end">
+            <a
+              href={primaryHref}
+              target={primaryExternal ? "_blank" : undefined}
+              rel={primaryExternal ? "noopener noreferrer" : undefined}
+              class:list={["inline-flex h-12 items-center justify-center gap-2 rounded-full px-6 font-display text-base font-extrabold text-white", primaryClass]}
+            >
+              <Icon name={isWhatsapp ? "message" : "map-pin"} class="h-4 w-4" />
+              {help.primary.label}
+            </a>
+            {secondary && (
+              <a
+                href={secondaryHref}
+                target={secondaryExternal ? "_blank" : undefined}
+                rel={secondaryExternal ? "noopener noreferrer" : undefined}
+                class="inline-flex items-center justify-center gap-1 text-sm font-extrabold text-mega-orange hover:underline underline-offset-4"
+              >
+                {secondary.label}
+                <Icon name="arrow-right" class="h-4 w-4" />
+              </a>
+            )}
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+{
+  "_nota": "Texto legal proporcionado por el área responsable: se publica TAL CUAL, sin corregir redacción ni datos. Mismos bloques que terminos.json (ver components/LegalDocument.astro).",
+  "seo": {
+    "title": "Penalidades | Mega móvil",
+    "description": "Penalidades de Mega móvil: plazo de entrega de la SIM Card / Chip y devolución del anticipo con penalidad cuando el servicio no puede iniciar por causas atribuibles al operador."
+  },
+  "hero": {
+    "titleBefore": "",
+    "titleHighlight": "Penalidades",
+    "titleAfter": ""
+  },
+  "help": {
+    "title": "¿Tienes dudas?",
+    "text": "Un asesor te las resuelve por WhatsApp.",
+    "primary": { "label": "Escríbenos", "whatsappText": "Hola, tengo una duda sobre las penalidades de Mega móvil." },
+    "secondary": { "label": "Términos y condiciones", "href": "/terminos-y-condiciones" }
+  },
+  "sections": [
+    {
+      "id": "entrega-de-sim",
+      "title": "ENTREGA DE SIM CARD / CHIP MEGA MOVIL",
+      "blocks": [
+        { "p": "La entrega de SIM Card/ Chip Mega móvil no podrá ser mayor a 10 días hábiles a partir de la firma del Contrato de Adhesión de Prestación de Servicio. En caso de que el OPERADOR no pueda iniciar la prestación del Servicio por causas atribuibles a él por imposibilidad física o técnica para la instalación del Equipo, debe devolver al CLIENTE las cantidades que haya pagado por concepto de anticipo, en un plazo no mayor de 30 días hábiles siguientes a la fecha límite establecida para la instalación de servicios principales, y se tendrá por terminado el contrato de adhesión sin responsabilidad para el CLIENTE debiendo pagar el OPERADOR, una penalidad equivalente al 20% de las cantidades que haya recibido por concepto de anticipo, por su incumplimiento en los casos atribuibles a él." }
+      ]
+    }
+  ]
+}

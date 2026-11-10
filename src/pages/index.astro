@@ -25,7 +25,7 @@ const jsonLd = [
     parentOrganization: { '@type': 'Organization', name: site.company },
     url: origin,
     slogan: site.tagline,
-    sameAs: site.socials.map((s) => s.href),
+    sameAs: site.socials.filter((s) => !('inSchema' in s && s.inSchema === false)).map((s) => s.href),
     contactPoint: {
       '@type': 'ContactPoint',
       telephone: '+52 33 9690 0000',
@@ -52,7 +52,7 @@ const jsonLd = [
       price: p.price,
       priceCurrency: 'MXN',
       availability: 'https://schema.org/InStock',
-      url: new URL(`/contratar?plan=${p.slug}`, origin).href,
+      url: new URL('/planes', origin).href,
     },
   })),
   {

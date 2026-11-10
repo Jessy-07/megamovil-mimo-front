@@ -23,26 +23,33 @@
       "href": "#planes"
     }
   },
+  "_socialsNota": "Mismas redes y orden que el sitio actual (cuentas de Megacable: Mega móvil es la telefonía de Megacable). TikTok enlaza a la etiqueta #megacable, no a un perfil: por eso no va en el JSON-LD (inSchema: false).",
   "socials": [
     {
       "name": "Facebook",
       "slug": "facebook",
-      "href": "https://facebook.com/megamovilmx"
-    },
-    {
-      "name": "X",
-      "slug": "x",
-      "href": "https://x.com/megamovilmx"
+      "href": "https://www.facebook.com/megacable"
     },
     {
       "name": "Instagram",
       "slug": "instagram",
-      "href": "https://instagram.com/megamovilmx"
+      "href": "https://www.instagram.com/megacable/"
     },
     {
       "name": "YouTube",
       "slug": "youtube",
-      "href": "https://youtube.com/@megacable"
+      "href": "https://www.youtube.com/user/spotsmegacable"
+    },
+    {
+      "name": "TikTok",
+      "slug": "tiktok",
+      "href": "https://www.tiktok.com/tag/megacable?lang=es",
+      "inSchema": false
+    },
+    {
+      "name": "X",
+      "slug": "x",
+      "href": "https://x.com/megacable"
     }
   ],
   "recharge": {
@@ -50,7 +57,7 @@
     "text": "Compra más saldo para tu Plan Mega móvil",
     "cta": {
       "label": "Quiero una recarga",
-      "href": "/recargar"
+      "href": "/recargas"
     }
   },
   "compatibility": {
@@ -155,10 +162,10 @@
     "button": "¡Llámame!",
     "hours": "Te llamaremos del 33 9690 1500 · Lunes a viernes de 8 am a 10 pm.",
     "whatsappLabel": "¿Prefieres WhatsApp? Escríbenos",
-    "termsHref": "https://megamovil.mx/terminos-y-condiciones",
+    "termsHref": "/terminos-y-condiciones",
     "_privacyNota": "Los formularios de teléfono recaban un dato personal: el Aviso de Privacidad va junto al campo (mismo PDF que el footer, nav.json → Legales).",
     "privacyLabel": "Aviso de privacidad",
-    "privacyHref": "https://megamovil.mx/pdf/Aviso_privacidad.pdf",
+    "privacyHref": "/pdf/Aviso_privacidad.pdf",
     "fallbackTitle": "Terminemos por WhatsApp",
     "fallbackText": "En este momento no pudimos registrar tu llamada. Escríbenos por WhatsApp y un asesor te atiende al instante: ya va tu plan y tu número en el mensaje.",
     "fallbackButton": "Enviar por WhatsApp",

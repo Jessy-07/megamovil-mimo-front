@@ -20,7 +20,9 @@ const promo = {
     "Conserva tu mismo número gratis"
   ],
   socialApps: ["whatsapp", "facebook", "instagram", "x", "messenger"],
-  ctaHref: "/contratar?plan=conectado-38gb",
+  // "¡Quiero esta promoción!" abre el modal "¡Llámame!" (CallMeModal): el cliente deja su número y lo llaman.
+  callmeLabel: "Promoción 38 GB + redes ilimitadas por $200",
+  callmeInterest: "Modal Mimo (Home) - 38 GB por $200 - conectado-38gb",
   whatsappHref: "https://api.whatsapp.com/send?phone=523396900001&text=Hola!%20Vi%20la%20promo%20del%20Mimo%20de%2038GB%20por%20$200%20y%20quiero%20contratarla"
 };
 ---
@@ -224,7 +226,10 @@ const promo = {
           <!-- Botón Primario Naranja Gigante -->
           <a
             id="mimo-cta-primary"
-            href={promo.ctaHref}
+            href={promo.whatsappHref}
+            data-callme
+            data-callme-label={promo.callmeLabel}
+            data-callme-interest={promo.callmeInterest}
             class="group relative inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-mega-orange hover:bg-mega-orange-dark py-4 px-6 font-display text-base sm:text-lg font-black text-white shadow-orange-glow transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
           >
             <span>¡Quiero esta promoción!</span>
@@ -374,6 +379,7 @@ const promo = {
   const glassSparkles = document.getElementById('glass-sparkles');
   const closeBtn = document.getElementById('mimo-close-btn');
   const dismissBtn = document.getElementById('mimo-cta-dismiss');
+  const ctaPrimary = document.getElementById('mimo-cta-primary');
   const fab = document.getElementById('mimo-promo-fab');
   const backdrop = document.getElementById('mimo-modal-backdrop');
 
@@ -461,6 +467,8 @@ const promo = {
 
   // Eventos de cierre
   closeBtn?.addEventListener('click', closeModal);
+  // Al pedir la promoción se cierra Mimo y queda solo el modal "¡Llámame!" (lo abre CallMeModal por data-callme).
+  ctaPrimary?.addEventListener('click', closeModal);
   dismissBtn?.addEventListener('click', () => {
     closeModal();
     // Scroll suave a planes si el usuario decide ver todos

@@ -1,0 +1,225 @@
+---
+/**
+ * Recargas. Misma URL que el sitio anterior: /recargas.
+ *
+ * En el sitio anterior: tarjetas → "¡Lo quiero!" → modal con canales (sin acción) → el cliente sale a buscar cómo pagar.
+ * Aquí, con poca información y sin modales ni botones intermedios (idea del usuario):
+ *  1. Las dos recargas flotan sobre el hero, en primer plano (como los planes en /planes). Solo informan: sin botón.
+ *  2. "Recárgala como prefieras": *1234 destacado y teléfono, CIS y OXXO al lado. Una línea por medio.
+ *     El botón "Marcar" y la nota de iPhone solo salen en celular (una computadora no marca).
+ * NO por WhatsApp: las recargas no se hacen por ese canal (lo indicó el usuario).
+ * Después: consulta de saldo, 3 preguntas y la venta de un plan para quien recarga seguido.
+ */
+import Layout from "../layouts/Layout.astro";
+import TopBar from "../components/TopBar.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import FloatingActions from "../components/FloatingActions.astro";
+import PageHero from "../components/PageHero.astro";
+import SalesBanner from "../components/SalesBanner.astro";
+import Icon from "../components/Icon.astro";
+import FaqAccordion from "../components/FaqAccordion";
+import { MapPin, MessageSquareText, Phone, Store } from "lucide-react";
+import data from "../data/recargas.json";
+import faqFull from "../data/faq-full.json";
+import site from "../data/site.json";
+// REFERENCIA: reemplazar por Mimo con un rayo o una batería cargando. PNG transparente, ~500×500.
+import mimoRecarga from "../assets/img/general/mimo-recargas.png";
+
+const origin = Astro.site ? Astro.site.href : "https://megamovil.megacable.com.mx";
+const pageUrl = new URL("/recargas", origin).href;
+
+const packages = data.packages.items.map((p) => {
+  // "1 GB" → 1 + GB (la unidad va en naranja, como en los planes del Home)
+  const [, amount = p.data, unit = ""] = p.data.match(/^([\d.,]+)\s*(\S+)$/) ?? [];
+  return { ...p, amount, unit };
+});
+
+// Medios: fuente única en preguntas frecuentes (pregunta 8). El primero (*1234) va destacado.
+const [featured, ...others] = faqFull.items.find((q) => q.id === "faq-8")?.recargaChannels ?? [];
+// "*1234 o #1234" → solo "*1234" (menos que leer; ver la nota en recargas.json).
+const featuredCode = (featured?.detail ?? "").split(" o ")[0];
+const otherIcons = [Phone, MapPin, Store];
+const channels = others.map((c, i) => ({
+  ...c,
+  Icon: otherIcons[i] ?? Store,
+  linked: !data.channels.sinEnlace.includes(c.title),
+}));
+
+// Preguntas: se muestran aquí, pero el FAQPage para Google ya lo publica /preguntas-frecuentes (no se repite).
+// Vienen de categorías distintas: se agrupan en una sola para que salgan como una lista continua.
+const faqItems = data.faq.ids
+  .map((id) => faqFull.items.find((q) => q.id === id))
+  .filter((q) => q !== undefined)
+  .map((q) => ({ ...q, category: "recargas" })) as Parameters<typeof FaqAccordion>[0]["items"];
+const faqCategories = [{ id: "recargas", label: "Recargas" }];
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: origin },
+      { "@type": "ListItem", position: 2, name: "Recargas", item: pageUrl },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Recargas Mega móvil",
+    itemListElement: packages.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: {
+        "@type": "Product",
+        name: `${p.name} Mega móvil`,
+        description: `${p.data} para navegar, ${p.minutes} minutos de llamadas y ${p.sms} SMS.`,
+        brand: { "@type": "Brand", name: site.name },
+        offers: { "@type": "Offer", price: p.price, priceCurrency: "MXN", availability: "https://schema.org/InStock", url: `${pageUrl}#${p.slug}` },
+      },
+    })),
+  },
+];
+---
+
+<Layout title={data.seo.title} description={data.seo.description} {jsonLd}>
+  <!-- ENCABEZADO UNIFICADO STICKY -->
+  <div id="sticky-header-container" class="sticky top-0 z-50 w-full">
+    <TopBar />
+    <Header />
+  </div>
+
+  <main id="contenido" class="bg-slate-50/60 pb-16">
+    <!-- 1. HERO -->
+    <PageHero
+      id="recargas-title"
+      crumb="Recargas"
+      titleBefore={data.hero.titleBefore}
+      titleHighlight={data.hero.titleHighlight}
+      subtitle={data.hero.subtitle}
+      image={mimoRecarga}
+      imageAlt="Mimo, la mascota de Mega móvil, te ayuda a recargar tu línea"
+    />
+
+    <!-- Misma altura de sobreposición que Planes, Roaming y eSIM (-mt-12): lo blanco empieza en el mismo punto en todas. -->
+    <div class="relative z-10 mx-auto -mt-12 container px-7 sm:px-10 lg:px-12">
+      <!-- 2. LAS RECARGAS, flotando sobre el hero (primer plano). Lado a lado también en celular.
+           Misma anatomía que las tarjetas de Planes y Roaming: nombre en azul, "para navegar", "Por solo" + precio. -->
+      <section aria-label={data.packages.label} class="mx-auto max-w-3xl">
+        <ul class="grid grid-cols-2 gap-3 sm:gap-5">
+          {
+            packages.map((p) => (
+              <li id={p.slug} class="scroll-mt-36">
+                <article class="h-full rounded-3xl bg-white p-4 text-mega-navy shadow-card-clean sm:p-7">
+                  <h2 class="font-display text-sm sm:text-base font-extrabold uppercase tracking-wide">{p.name}</h2>
+                  <p class="mt-2 flex flex-wrap items-baseline gap-x-1.5">
+                    <span class="font-display text-5xl sm:text-6xl font-extrabold leading-none tracking-tight">{p.amount}</span>
+                    <span class="font-display text-2xl sm:text-3xl font-extrabold text-mega-orange-dark">{p.unit}</span>
+                    <span class="whitespace-nowrap text-xs sm:text-sm font-semibold text-slate-500">para navegar</span>
+                  </p>
+                  <p class="mt-2 text-sm font-semibold text-slate-600">
+                    <span class="whitespace-nowrap">{p.minutes} min</span> · <span class="whitespace-nowrap">{p.sms} SMS</span>
+                  </p>
+                  <hr class="my-4 border-t border-slate-200 sm:my-5" />
+                  <p class="text-xs font-bold uppercase tracking-[0.12em] text-slate-500">Por solo</p>
+                  <p class="mt-0.5 flex items-start gap-0.5">
+                    <span class="mt-1 font-display text-xl sm:text-2xl font-extrabold">$</span>
+                    <span class="font-display text-4xl sm:text-5xl font-extrabold leading-none tracking-tight">{p.price}</span>
+                  </p>
+                </article>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="mt-4 text-center text-xs font-medium text-slate-500">
+          {data.packages.legal}
+          <a href={data.packages.legalLink.href} class="font-bold text-mega-navy underline underline-offset-2 hover:text-mega-orange">{data.packages.legalLink.label}</a>.
+        </p>
+      </section>
+
+      <!-- 3. CÓMO RECARGAR: *1234 destacado + los otros tres medios. Una línea por medio. -->
+      <section id="como-recargar" aria-labelledby="como-recargar-title" class="scroll-mt-36 mx-auto mt-12 max-w-6xl lg:mt-16">
+        <h2 id="como-recargar-title" class="text-center font-display text-2xl sm:text-3xl font-black uppercase tracking-tight text-mega-navy">{data.channels.title}</h2>
+
+        <ul class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {featured && (
+            <li class="rounded-2xl bg-mega-navy p-5 text-white">
+              <p class="text-xs font-black uppercase tracking-widest text-mega-orange">{data.channels.featuredLabel}</p>
+              <p class="mt-1 font-display text-4xl font-black leading-none tracking-tight">{featuredCode}</p>
+              <p class="mt-1 text-sm font-semibold text-slate-300">{data.channels.featuredText}</p>
+              {/* Solo celular: una computadora no marca. */}
+              <a href={featured.href} class="btn-primary mt-4 h-11 w-full !px-5 !py-0 !text-base !shadow-none lg:hidden">{featured.actionLabel}</a>
+              <p class="mt-2 text-xs font-medium text-slate-400 lg:hidden">{data.channels.iphoneNote}</p>
+            </li>
+          )}
+          {
+            channels.map((c) => {
+              // Llamar (tel:) solo funciona en celular: en computadora (lg) la tarjeta va sin enlace, con su descripción.
+              const isTel = c.href.startsWith("tel:");
+              const body = (withAction: boolean) => (
+                <>
+                  <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-orange-50 text-mega-orange">
+                    <c.Icon className="h-5 w-5" aria-hidden="true" />
+                  </span>
+                  <span class="min-w-0 flex-1">
+                    <span class="block font-display text-base font-black text-mega-navy">{c.detail}</span>
+                    {withAction ? (
+                      <span class="mt-0.5 inline-flex items-center gap-1 text-sm font-black text-mega-orange">
+                        {c.actionLabel}
+                        <Icon name={c.external ? "external-link" : "arrow-right"} class="h-3.5 w-3.5" />
+                      </span>
+                    ) : (
+                      <span class="mt-0.5 block text-sm font-medium text-slate-500">{c.desc}</span>
+                    )}
+                  </span>
+                </>
+              );
+              const box = "h-full items-center gap-3 rounded-2xl border border-slate-200 bg-white p-5";
+              return (
+                <li>
+                  {c.linked && (
+                    <a
+                      href={c.href}
+                      {...(c.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                      class:list={[box, "hover:border-mega-orange", isTel ? "flex lg:hidden" : "flex"]}
+                    >
+                      {body(true)}
+                    </a>
+                  )}
+                  {(!c.linked || isTel) && (
+                    <div class:list={[box, c.linked ? "hidden lg:flex" : "flex"]}>{body(false)}</div>
+                  )}
+                </li>
+              );
+            })
+          }
+        </ul>
+
+        <!-- Antes de recargar: saber cuánto le queda (pregunta 9). El SMS solo se puede enviar desde el celular: en computadora va como texto. -->
+        <p class="mt-6 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-sm font-semibold text-slate-600">
+          <MessageSquareText className="h-4 w-4 text-mega-orange" aria-hidden="true" />
+          {data.balance.text}
+          <a href={data.balance.href} class="font-black text-mega-navy underline underline-offset-2 hover:text-mega-orange lg:hidden">{data.balance.label}</a>
+          <strong class="hidden font-black text-mega-navy lg:inline">{data.balance.label}</strong>
+        </p>
+      </section>
+
+      <!-- 4. PREGUNTAS FRECUENTES (fuente única: faq-full.json) -->
+      <section id="preguntas" aria-labelledby="recargas-faq-title" class="scroll-mt-36 mx-auto mt-12 max-w-6xl lg:mt-20">
+        <h2 id="recargas-faq-title" class="mb-8 text-center font-display text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight text-mega-navy">
+          {data.faq.title}
+        </h2>
+        <FaqAccordion client:visible variant="simple" hideCtas categories={faqCategories} items={faqItems} />
+      </section>
+    </div>
+
+    <!-- 5. VENTA: para quien recarga seguido, un plan con más gigas -->
+    <SalesBanner title={data.salesBanner.title} text={data.salesBanner.text} />
+  </main>
+
+  <!-- FOOTER -->
+  <Footer />
+
+  <!-- BOTONES FLOTANTES (en celular, la barra fija lleva a marcar *1234 en lugar de vender planes) -->
+  <FloatingActions bar={data.stickyBar} />
+</Layout>

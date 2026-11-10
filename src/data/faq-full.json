@@ -69,7 +69,7 @@
             {
               "label": "Atención presencial:",
               "value": "Lunes a Sábado en tu CIS más cercano",
-              "href": "https://megacable.com.mx/cis",
+              "href": "https://mega.mx/ayuda/centros-de-atencion",
               "external": true
             },
             {
@@ -125,7 +125,7 @@
       "number": 4,
       "category": "sim",
       "question": "4.- ¿Dónde puedo adquirir mi SIM Mega móvil?",
-      "answer": "Adquiere tu tarjeta SIM acudiendo a tu <a href='https://megacable.com.mx/cis' target='_blank' rel='noopener noreferrer' class='font-bold text-mega-orange hover:underline'>CIS más cercano aquí</a> o solicítala vía telefónica marcando al <a href='tel:3396900000' class='font-bold text-mega-orange hover:underline'>33 9690 0000</a>."
+      "answer": "Adquiere tu tarjeta SIM acudiendo a tu <a href='https://mega.mx/ayuda/centros-de-atencion' target='_blank' rel='noopener noreferrer' class='font-bold text-mega-orange hover:underline'>CIS más cercano aquí</a> o solicítala vía telefónica marcando al <a href='tel:3396900000' class='font-bold text-mega-orange hover:underline'>33 9690 0000</a>."
     },
     {
       "id": "faq-5",
@@ -181,7 +181,7 @@
         {
           "title": "Atención Telefónica",
           "detail": "33 9690 0000",
-          "desc": "Llama para recargar con tarjeta de crédito o débito",
+          "desc": "Llama para recargar.",
           "actionLabel": "Llamar",
           "href": "tel:3396900000"
         },
@@ -190,7 +190,7 @@
           "detail": "Cualquier CIS",
           "desc": "Paga en ventanilla en efectivo o tarjeta",
           "actionLabel": "Ver sucursales",
-          "href": "https://megacable.com.mx/cis",
+          "href": "https://mega.mx/ayuda/centros-de-atencion",
           "external": true
         },
         {
@@ -258,7 +258,7 @@
       "number": 14,
       "category": "planes",
       "question": "14.- ¿Puedo cancelar? ¿Cómo cancelo?",
-      "answer": "Puedes revisar nuestras políticas de cancelación en los <a href='https://megamovil.mx/terminos-y-condiciones' target='_blank' rel='noopener noreferrer' class='font-bold text-mega-orange hover:underline'>términos y condiciones</a>. Recuerda que Mega móvil no maneja contratos forzosos."
+      "answer": "Puedes revisar nuestras políticas de cancelación en los <a href='/terminos-y-condiciones' target='_blank' rel='noopener noreferrer' class='font-bold text-mega-orange hover:underline'>términos y condiciones</a>. Recuerda que Mega móvil no maneja contratos forzosos."
     },
     {
       "id": "faq-15",
@@ -291,7 +291,7 @@
       "number": 18,
       "category": "planes",
       "question": "18.- ¿Todas las redes sociales son ilimitadas en los planes?",
-      "answer": "Los planes incluyen redes sociales y aplicaciones principales conforme a la oferta comercial de cada paquete. Puedes consultar las Políticas de Uso Justo (PUJ) y especificaciones en nuestros <a href='https://megamovil.mx/terminos-y-condiciones' target='_blank' rel='noopener noreferrer' class='font-bold text-mega-orange hover:underline'>términos y condiciones</a>.",
+      "answer": "Los planes incluyen redes sociales y aplicaciones principales conforme a la oferta comercial de cada paquete. Puedes consultar las Políticas de Uso Justo (PUJ) y especificaciones en nuestros <a href='/terminos-y-condiciones' target='_blank' rel='noopener noreferrer' class='font-bold text-mega-orange hover:underline'>términos y condiciones</a>.",
       "cta": {
         "type": "venta",
         "label": "Ver planes",

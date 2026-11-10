@@ -1,0 +1,54 @@
+{
+  "_nota": "Texto legal proporcionado por el área responsable: se publica TAL CUAL, sin corregir redacción ni datos. Mismos bloques que terminos.json (ver components/LegalDocument.astro).",
+  "seo": {
+    "title": "Garantías de equipos | Mega móvil",
+    "description": "Garantía de equipos Mega móvil Samsung, Motorola, Huawei, Hisense y ZTE: condiciones, requisitos y cómo hacerla válida en un Centro Integral de Servicios (CIS)."
+  },
+  "hero": {
+    "titleBefore": "",
+    "titleHighlight": "Garantías",
+    "titleAfter": ""
+  },
+  "help": {
+    "title": "Haz válida tu garantía",
+    "text": "Se atiende en persona en tu Centro Integral de Servicios (CIS).",
+    "primary": { "label": "Ubica tu CIS", "href": "https://mega.mx/ayuda/centros-de-atencion" },
+    "secondary": { "label": "¿Dudas? Escríbenos", "whatsappText": "Hola, tengo una duda sobre la garantía de mi equipo Mega móvil." }
+  },
+  "sections": [
+    {
+      "id": "como-se-atiende",
+      "blocks": [
+        { "p": "A:  Las Garantías se atenderán de manera presencial a través de nuestros Centros Integral de Servicios (CIS) en los horarios que correspondan a cada uno de ellos." },
+        { "p": "https://www.megacable.com.mx/centros-de-atencion" },
+        { "p": "1.- El personal de CIS tendrá que revisar que el equipo cumpla con las condiciones y requisitos correspondientes (abajo descritos)." }
+      ]
+    },
+    {
+      "id": "condiciones",
+      "title": "Condiciones",
+      "blocks": [
+        {
+          "list": [
+            "La duración de la garantía es de 12 meses directamente con Mega móvil",
+            "Solo cubre defectos de fábrica y no provocados por mal uso del equipo (por ejemplo, no cubre equipos mojados ni con la pantalla estrellada o rota, no aplica en sobre calentamiento de la batería).",
+            "Lo anterior aplica para todos nuestros modelos de equipos celular con marca Samsung, Motorola, Huawei, Hisense y ZTE. Se requiere entregar el equipo con todos sus accesorios originales."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "requisitos",
+      "title": "Requisitos",
+      "blocks": [
+        {
+          "list": [
+            "Foto del ticket de compra, comprobante o factura (podrá ser la factura que se emite por el ponto del enganche o la factura de la totalidad del equipo, esto dependerá del tipo de compra que se haya realizado).",
+            "Modelo del teléfono",
+            "Descripción del problema"
+          ]
+        }
+      ]
+    }
+  ]
+}

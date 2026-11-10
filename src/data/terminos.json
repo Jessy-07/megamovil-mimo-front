@@ -1,0 +1,430 @@
+{
+  "_nota": "Texto legal proporcionado por el área responsable: se publica TAL CUAL, sin corregir redacción ni datos. Para actualizarlo, cambia solo los textos. Bloques: p (párrafo), lead (párrafo destacado), note (vigencia, en negritas), list (viñetas), h3 (subtítulo), plan (tabla Datos / Redes / Minutos / SMS), app (red social con uso incluido y no incluido), glossary (términos). Las URL del texto se convierten solas en enlaces (las de megamovil.mx apuntan a la página del sitio nuevo).",
+  "seo": {
+    "title": "Términos y Condiciones | Mega móvil",
+    "description": "Términos y condiciones de Mega móvil: planes pospago, Plan Familiar, promoción de portabilidad, vinculación de línea, Política de Uso Justo, roaming y uso de redes sociales."
+  },
+  "hero": {
+    "titleBefore": "Términos y ",
+    "titleHighlight": "condiciones",
+    "titleAfter": ""
+  },
+  "intro": "Mega móvil es el servicio de Telefonía Celular de Megacable",
+  "tocLabel": "Contenido",
+  "help": {
+    "title": "¿Tienes dudas?",
+    "text": "Un asesor te las resuelve por WhatsApp.",
+    "primary": { "label": "Escríbenos", "whatsappText": "Hola, tengo una duda sobre los términos y condiciones de Mega móvil." },
+    "secondary": { "label": "Ver planes", "href": "/planes" }
+  },
+  "sections": [
+    {
+      "id": "planes-pospago",
+      "title": "Planes Pospago",
+      "blocks": [
+        { "p": "Aplica contratación para clientes activos de MEGA que quieran contratar una línea Mega móvil en Plan Pospago." },
+        { "p": "Disponible únicamente para clientes con modalidad CPP/EQP (el que llama paga)." },
+        { "p": "La modalidad podrá ser consultada en el siguiente enlace oficial de IFT." },
+        { "p": "https://sns.ift.org.mx/sns-frontend/consulta-numeracion/numeracion-geografica.xhtml" },
+        {
+          "plan": "Plan Mega móvil Esencial",
+          "rows": [
+            { "label": "Datos", "text": "Del total de los 3 GB, 3 GB son a velocidad máxima. Aplica Hotspot para compartir datos. 2,662 MB de datos para uso en territorio nacional. 410 MB de datos para uso en territorio nacional y roaming internacional en EUA y Canadá." },
+            { "label": "Redes Sociales", "text": "Del total de los 105,400 MB, 102,400 MB Whatsapp, Telegram. Facebook, Messenger y X. Para uso en territorio nacional. 3,000 MB Whatsapp, Telegram para uso territorio nacional y Roaming Internacional en EUA y Canadá." },
+            { "label": "Minutos (Llamadas)", "text": "Del total de los 44,700 minutos incluidos, 43,200 son a la misma red y 1,500 a otras compañías. 750 minutos incluidos uso en territorio nacional y roaming internacional en EUA y Canadá para llamar a móviles y fijos de México, EUA y Canadá." },
+            { "label": "SMS (Mensajes de texto)", "text": "De los 1,750 mensajes incluidos, 1,500 SMS incluidos para uso en territorio nacional. 250 SMS salientes para uso en territorio nacional y roaming internacional en EUA y Canadá." }
+          ]
+        },
+        {
+          "plan": "Plan Mega móvil Conectado",
+          "rows": [
+            { "label": "Datos", "text": "Del total de los 14 GB, 10 GB son a máxima velocidad y 4 GB son a velocidad reducida de 256 KBPS. Aplica Hotspot para compartir datos. 11,878 MB de datos para uso en territorio nacional. 2,458 MB de datos para uso en territorio nacional y roaming internacional en EUA y Canadá." },
+            { "label": "Redes Sociales", "text": "Del total de los 105,400 MB, 102,400 MB Whatsapp, Telegram, Messenger, Facebook, Instagram, Snapchat y X. Para uso en territorio nacional. 3,000 MB Whatsapp, Telegram para uso territorio nacional y Roaming Internacional en EUA y Canadá." },
+            { "label": "Minutos (Llamadas)", "text": "Del total de los 44,700 minutos incluidos, 43,200 son a la misma red y 1,500 a otras compañías. 750 minutos incluidos uso en territorio nacional y roaming internacional en EUA y Canadá para llamar a móviles y fijos de México, EUA y Canadá." },
+            { "label": "SMS (Mensajes de texto)", "text": "De los 1,750 mensajes incluidos, 1,500 SMS incluidos para uso en territorio nacional. 250 SMS salientes para uso en territorio nacional y roaming internacional en EUA y Canadá." }
+          ]
+        },
+        {
+          "plan": "Plan Mega móvil Ilimitado",
+          "rows": [
+            { "label": "Datos", "text": ["Los 40 GB del plan ilimitado de acuerdo con PUJ, incluidos para navegación en internet y redes sociales en cobertura Mega móvil Empresa y con vigencia a mes calendario y renovación de bolsas cada 1ero de mes.", "Política de Uso Justo (PUJ): Del total de los 40GB, cuenta con 20GB best effort y 20 GB a 512 KBPS . Aplica Hotspot para compartir GB. 32,832 MB de GB para uso en territorio nacional. 7,168 MB de GB para uso en territorio nacional y roaming internacional en EUA y Canadá."] },
+            { "label": "Redes Sociales", "text": "Del total de los 105,400 MB, 102,400 MB Whatsapp, Telegram, Messenger, Facebook, Instagram, Snapchat y X. Para uso en territorio nacional. 3,000 MB Whatsapp, Telegram para uso territorio nacional y Roaming Internacional en EUA y Canadá." },
+            { "label": "Minutos (Llamadas)", "text": "Del total de los 44,700 minutos incluidos, 43,200 son a la misma red y 1,500 a otras compañías. 750 minutos incluidos uso en territorio nacional y roaming internacional en EUA y Canadá para llamar a móviles y fijos de México, EUA y Canadá." },
+            { "label": "SMS (Mensajes de texto)", "text": "De los 1,750 mensajes incluidos, 1,500 SMS incluidos para uso en territorio nacional. 250 SMS salientes para uso en territorio nacional y roaming internacional en EUA y Canadá." }
+          ]
+        },
+        { "p": "Consulta tarifa y costo de planes pospago en https://megamovil.mx/planes. La oferta está sujeto a cambios y podrán variar y dependen directamente del proveedor de servició. Las tarifas incluyen impuestos. Algunos de los servicios mostrados pueden no estar disponibles en su ciudad. Consulta Política de Uso Justo (PUJ) en https://megamovil.mx/terminos-y-condiciones .Tarifas registradas ante el IFT." },
+        { "note": "Vigencia al 31 de diciembre del 2026." }
+      ]
+    },
+    {
+      "id": "plan-familiar",
+      "title": "Plan Familiar",
+      "blocks": [
+        {
+          "list": [
+            "Exclusivamente para clientes de servicio fijo de MEGA que contraten Mega móvil",
+            "Solo aplicable para líneas nuevas no se pueden adicionar líneas ya contratadas al plan familiar.",
+            "Es necesario para Red Altán hacer la validación correspondiente de compatibilidad del equipo celular mediante el IMEI de su celular. https://megamovil.mx/compatibilidad",
+            "Compatible con eSIM",
+            "Si una de las líneas empaquetadas es cancelada, automáticamente las demás líneas del mismo paquete perderán los beneficios de portabilidad y tarifa preferencialy pasarán a la tarifa normal con GB base de plan que son iguales a planes individuales.",
+            "Cada línea empaquetada incluye su propia bolsa de datos, minutos, mensajes y redes sociales según el plan contratado. Las bolsas pueden variar entre líneas del mismo paquete.",
+            "Cada línea empaquetada podrá convivir con la promoción de portabilidad por individual (consulta condiciones de portabilidad).",
+            "Oferta restringida a zona geográfica con cobertura MEGA y Mega móvil."
+          ]
+        },
+        {
+          "plan": "Plan 100 Mega móvil (Esencial) Altán",
+          "rows": [
+            { "label": "Datos", "text": "Del total de los 3 GB, 3 GB son a velocidad máxima. Aplica Hotspot para compartir datos. 2,662 MB de datos para uso en territorio nacional. 410 MB de datos para uso en territorio nacional y roaming internacional en EUA y Canadá." },
+            { "label": "Redes Sociales", "text": "Del total de los 105,400 MB, 102,400 MB Whatsapp, Telegram. Facebook, Messenger y X. Para uso en territorio nacional. 3,000 MB Whatsapp, Telegram para uso territorio nacional y Roaming Internacional en EUA y Canadá." },
+            { "label": "Minutos (Llamadas)", "text": "Del total de los 44,700 minutos incluidos, 43,200 son a la misma red y 1,500 a otras compañías. 750 minutos incluidos uso en territorio nacional y roaming internacional en EUA y Canadá para llamar a móviles y fijos de México, EUA y Canadá." },
+            { "label": "SMS (Mensajes de texto)", "text": "De los 1,750 mensajes incluidos, 1,500 SMS incluidos para uso en territorio nacional. 250 SMS salientes para uso en territorio nacional y roaming internacional en EUA y Canadá." }
+          ]
+        },
+        {
+          "plan": "Plan 200 Mega móvil (Conectado) Altán",
+          "rows": [
+            { "label": "Datos", "text": "Del total de los 14 GB, 10 GB son a máxima velocidad y 4 GB son a velocidad reducida de 256 KBPS. Aplica Hotspot para compartir datos. 11,878 MB de datos para uso en territorio nacional. 2,458 MB de datos para uso en territorio nacional y roaming internacional en EUA y Canadá." },
+            { "label": "Redes Sociales", "text": "Del total de los 105,400 MB, 102,400 MB Whatsapp, Telegram, Messenger, Facebook, Instagram, Snapchat y X. Para uso en territorio nacional. 3,000 MB Whatsapp, Telegram para uso territorio nacional y Roaming Internacional en EUA y Canadá." },
+            { "label": "Minutos (Llamadas)", "text": "Del total de los 44,700 minutos incluidos, 43,200 son a la misma red y 1,500 a otras compañías. 750 minutos incluidos uso en territorio nacional y roaming internacional en EUA y Canadá para llamar a móviles y fijos de México, EUA y Canadá." },
+            { "label": "SMS (Mensajes de texto)", "text": "De los 1,750 mensajes incluidos, 1,500 SMS incluidos para uso en territorio nacional. 250 SMS salientes para uso en territorio nacional y roaming internacional en EUA y Canadá." }
+          ]
+        },
+        {
+          "plan": "Plan 300 Mega móvil (Ilimitado) Altán",
+          "rows": [
+            { "label": "Datos", "text": "Del total de los 37 GB, 37 GB son a velocidad máxima. Aplica Hotspot para compartir datos. 30,720 MB de datos para uso en territorio nacional. 7,168 MB de datos para uso en territorio nacional y roaming internacional en EUA y Canadá." },
+            { "label": "Redes Sociales", "text": "Del total de los 105,400 MB, 102,400 MB Whatsapp, Telegram, Messenger, Facebook, Instagram, Snapchat y X. Para uso en territorio nacional. 3,000 MB Whatsapp, Telegram para uso territorio nacional y Roaming Internacional en EUA y Canadá." },
+            { "label": "Minutos (Llamadas)", "text": "Del total de los 44,700 minutos incluidos, 43,200 son a la misma red y 1,500 a otras compañías. 750 minutos incluidos uso en territorio nacional y roaming internacional en EUA y Canadá para llamar a móviles y fijos de México, EUA y Canadá." },
+            { "label": "SMS (Mensajes de texto)", "text": "De los 1,750 mensajes incluidos, 1,500 SMS incluidos para uso en territorio nacional. 250 SMS salientes para uso en territorio nacional y roaming internacional en EUA y Canadá." }
+          ]
+        },
+        { "p": "La oferta está sujeto a cambios y podrán variar y dependen directamente del proveedor de servició." },
+        { "note": "Vigencia al 31 de diciembre del 2026." }
+      ]
+    },
+    {
+      "id": "promocion-portabilidad",
+      "title": "Promoción de portabilidad",
+      "blocks": [
+        {
+          "list": [
+            "La promoción portabilidad aplica para cliente que contrate/active línea nueva portando su número celular a Mega móvil.",
+            "La promoción de portabilidad otorga Gigas adicionales para navegar sobre el Plan de Pospago Mega móvil contratado durante 12 meses a partir de la fecha de activación de la línea.",
+            "La promoción de portabilidad bajo la contratación con la red Altán aplica únicamente para usuarios cuyo número telefónico nunca haya sido activado previamente en la red Altán, independientemente del operador del que provengan al momento de realizar la portabilidad. En caso de que el número telefónico haya pertenecido, en cualquier momento de su historial, a un operador que utilice la red Altán, la promoción de portabilidad no será elegible ni aplicable, aun cuando el usuario haya migrado posteriormente a un operador que no opere bajo la red Altán.",
+            "Aplica para Planes Pospago Mega móvil Esencial, Mega móvil  Conectado, en contrato residencial y empresarial de MEGA.",
+            "El cliente tendrá 5 días posteriores a su fecha de instalación para realizar su portabilidad exitosamente y así poder obtener el beneficio.",
+            "El cliente no pagará ningún extra por esta promoción.",
+            "Para mantener vigente la promoción, tendrá que hacer uso de la línea (llamadas, mensajes de texto, navegación) y con el mismo producto con el cual se portó.",
+            "Si la línea con la promoción aplicada se da de baja, y posterior, se quiere recuperar, el cliente no tendrá el beneficio promocional por portabilidad.",
+            "Si la línea con la promoción aplicada sale a corte, el cliente perderá su beneficio promocional.",
+            "Si aplica upgrade o downgrade a cualquier otro plan Mega móvil, se perderá el beneficio de esta promoción.",
+            "Esta promoción no podrá combinarse con otras promociones.",
+            "Promoción válida para el total de líneas a contratar: 10 residencial y 199 empresarial."
+          ]
+        },
+        { "note": "Vigencia al 31 de diciembre del 2026." }
+      ]
+    },
+    {
+      "id": "vinculacion-de-linea",
+      "title": "Vinculación de línea",
+      "blocks": [
+        { "p": "Por disposición oficial, a partir del 09 de enero de 2026, al contratar una línea celular, todos los usuarios estarán obligados a registrarla con su identificación oficial vigente." },
+        { "p": "La contratación, activación y/o uso de los servicios de telefonía móvil ofrecidos por Mega móvil está sujeta al cumplimiento del proceso de Vinculación de Línea, en apego a la normatividad vigente y a los lineamientos establecidos por las autoridades competentes." },
+        { "p": "Para efectos de la vinculación, el usuario deberá proporcionar información veraz, completa y vigente, así como permitir la validación de dicha información a través de los medios físicos o digitales que Mega móvil determine." },
+        { "p": "Mega móvil se reserva el derecho de:" },
+        {
+          "list": [
+            "Negar la activación o continuidad del servicio si la información proporcionada es incompleta, incorrecta o no validable.",
+            "Suspender temporal o definitivamente el servicio en caso de incumplimiento del proceso de vinculación.",
+            "Solicitar actualizaciones o confirmaciones de información cuando sea requerido por disposiciones legales o regulatorias."
+          ]
+        },
+        { "p": "Se tendrá como fecha límite hasta el 28 de junio de 2026 Si tu línea no fue registrada antes de esta fecha será suspendida hasta que se realice el registro." },
+        { "p": "La información recabada será tratada conforme al Aviso de Privacidad de Mega móvil y utilizada exclusivamente para fines de identificación, validación, cumplimiento regulatorio y prestación del servicio." },
+        { "p": "Para más información sobre como realizar el proceso consulta en: https://megamovil.mx/aviso" },
+        { "p": "Para realizar tu registro de manera digital: https://registro.megamovil.mx/vinculatulinea" }
+      ]
+    },
+    {
+      "id": "politica-de-uso-justo",
+      "title": "Política de uso justo (PUJ)",
+      "blocks": [
+        { "p": "Los Planes y/o paquetes incluyen el uso de Datos, Minutos de llamada y SMS nacionales e internacionales a Norteamérica (EUA y Canadá), para navegar con la mayor velocidad disponible (en función de la tecnología instalada en la zona de cobertura donde se ubique el equipo celular y de la concentración de tráfico, las características del equipo celular del cliente, u otros factores externos),con la intención de que los Usuarios puedan disfrutar del servicio con una velocidad promedio estable y de calidad hasta llegar a una cuota de gigabytes (GB) determinada por el Plan y/o paquete." },
+        { "p": "La PUJ es aplicable a velocidad, uso de minutos de llamada y SMS de acuerdo a las características del Plan contratado Mega Móvil podrá verificar a detalle los patrones de las llamadas y volúmenes de tráfico con el fin de identificar si el uso de los servicios son personal y/o se cumplen con las condiciones del contrato de Prestación de Servicios de Telefonía Celular e Internet como lo es el enviar mensajes de manera masiva y transmisión de datos en general que disminuya, sature o de cualquier otra forma afecte las funciones de cualquier elemento de la red Mega Móvil o de terceros con los que exista interoperabilidad, incluyendo cualquier tipo de código malicioso." },
+        { "p": "Los Planes son aplicables para uso personal y sin fines comerciales." }
+      ]
+    },
+    {
+      "id": "paquetes-excedentes",
+      "title": "Paquetes excedentes Pospago (Recargas)",
+      "toc": "Paquetes excedentes (Recargas)",
+      "blocks": [
+        { "p": "Los paquetes excedentes son recargas a planes pospago Mega móvil en caso de terminarse los datos del plan pospago contratado." },
+        {
+          "plan": "Paquete excedente 30",
+          "rows": [
+            { "label": "Datos", "text": "1 GB para navegar. 750 MB de datos para navegación Best Effort, + 250 MB a velocidad reducida de 512 kbps. No comparte datos." },
+            { "label": "Minutos (Llamadas)", "text": "100 minutos para llamadas. 75 minutos de llamadas a cualquier compañía dentro del territorio nacional + 25 minutos en llamadas a EUA y Canadá." },
+            { "label": "SMS (Mensajes de texto)", "text": "25 SMS. Que contemplan 19 SMS a cualquier compañía dentro del territorio nacional y 6 SMS a EUA y Canadá." }
+          ]
+        },
+        {
+          "plan": "Paquete excedente 50",
+          "rows": [
+            { "label": "Datos", "text": "1.5 GB de datos para navegación Best Effort, + 500 MB a velocidad reducida de 512 kbps. No comparte datos." },
+            { "label": "Minutos (Llamadas)", "text": "185 minutos de llamadas a cualquier compañía dentro del territorio nacional y 63 minutos en llamadas a EUA y Canadá." },
+            { "label": "SMS (Mensajes de texto)", "text": "37 SMS a cualquier compañía dentro del territorio nacional y 13 SMS a EUA y Canadá." }
+          ]
+        },
+        { "p": "La vigencia de los paquetes excedentes es a la fecha de renovación del plan pospago contratado." },
+        { "p": "Consulta tarifa y costo de planes excedentes (Recargas Pospago) en https://megamovil.mx/planes. La oferta está sujeto a cambios y podrán variar y dependen directamente del proveedor de servició. Las tarifas incluyen impuestos. Algunos de los servicios mostrados pueden no estar disponibles en su ciudad. Consulta Política de Uso Justo (PUJ) en https://megamovil.mx/terminos-y-condiciones .Tarifas registradas ante el IFT." },
+        { "note": "Vigencia al 31 de diciembre del 2026." }
+      ]
+    },
+    {
+      "id": "equipos-compatibles",
+      "title": "Equipos compatibles",
+      "blocks": [
+        { "p": "La red de Mega móvil así como los Planes y Recargas, aplican únicamente con equipos homologados y compatibles (Banda 28 / 700Mhz / LTE, 4G, 4.5G, 5G)." },
+        { "p": "Las marcas y modelos homologados y compatibles, podrán ser consultados por medio del IMEI del equipo en la página de internet: https://megamovil.mx/compatibilidad ." },
+        { "p": "Si el Usuario Mega móvil cambia de Equipo Celular, dicho Equipo deberá cumplir las especificaciones anteriormente descritas a través de la revisión del IMEI del nuevo Equipo en https://megamovil.mx/compatibilidad ." },
+        { "p": "Si el equipo donde se insertó la tarjeta SIM Mega móvil no cumple con las especificaciones necesarias para soportar la Red 4.5 G de Mega móvil, la línea celular se suspenderá hasta contar con un equipo homologado y compatible de nueva cuenta." }
+      ]
+    },
+    {
+      "id": "roaming-nacional",
+      "title": "Política Roaming Nacional (NR)",
+      "blocks": [
+        { "p": "El uso intensivo del Plan fuera de la cobertura implica suspender el tráfico saliente de la línea. El tráfico entrante continuará siendo permitido de manera que el Cliente pueda contactar “Servicio al Cliente” o “Call Center Nacional”." },
+        { "p": "Se determinará el uso intensivo fuera de la cobertura de la siguiente forma: Al final de cada mes se analizará para cada usuario final el consumo acumulado fuera de la cobertura y se considerará uso intensivo si el consumo acumulado en servicio de usuario visitante es igual o mayor al 50% del total del consumo." },
+        { "p": "No se incluirá en este análisis Clientes finales que tenga un periodo de activación igual o menor a 14 días de activación." }
+      ]
+    },
+    {
+      "id": "roaming-internacional",
+      "title": "Política Roaming Internacional (RI)",
+      "blocks": [
+        { "p": "El Suscriptor Mega móvil que se encuentre en un destino diferente a México, deberá adquirir bolsas adicionales de Roaming Internacional de datos, minutos o SMS para contar con servicios." },
+        { "p": "De igual forma, la calidad con que se preste dicho servicio dependerá de la calidad que el operador de la red visitada tenga disponible para sus propios usuarios. Con lo anterior, Mega móvil sólo garantiza la calidad en su Cobertura Garantizada o Para los servicios en Roaming Internacional dentro de EUA y Canadá." },
+        { "p": "Permanecer por más de 30 días fuera del territorio nacional será causa de suspensión de la línea, hasta el regreso a territorio nacional." },
+        { "p": "Hacer uso de los servicios de Roaming y Larga Distancia Internacional en dispositivos distintos a los equipos de comunicación personal móvil se considera una violación a las condiciones razonables de uso y generara la cancelación automática y sin previo aviso de la línea con dicho comportamiento." }
+      ]
+    },
+    {
+      "id": "ciclo-de-vida-de-la-linea",
+      "title": "Ciclo de vida de la línea o número asignado para el servicio de Telefonía Celular.",
+      "toc": "Ciclo de vida de la línea",
+      "blocks": [
+        { "p": "En caso de que la línea celular presente un atraso de pago mayor a 10 (diez) días naturales posteriores a su fecha límite de pago, el servicio será suspendido." },
+        { "p": "Una vez suspendido el servicio, si transcurren 10 (diez) días naturales adicionales sin que se regularice el adeudo, la línea será cancelada de manera definitiva." },
+        { "p": "Posterior a la cancelación, el cliente contará con un plazo máximo de 40 (cuarenta) días naturales para solicitar la posible recuperación del número telefónico, ya sea dentro de la compañía o mediante portabilidad a otro proveedor, sujeto a disponibilidad y a la normativa aplicable." },
+        { "p": "Transcurrido dicho plazo de 40 (cuarenta) días naturales después de la cancelación, el número telefónico no podrá ser recuperado en ninguna circunstancia." }
+      ]
+    },
+    {
+      "id": "terminacion-anticipada",
+      "title": "Terminación anticipada de la promoción",
+      "toc": "Terminación anticipada",
+      "blocks": [
+        { "p": "La promoción y Planes quedan sin efecto:" },
+        {
+          "list": [
+            "Al término de la vigencia Mes calendario.",
+            "Si el número asignado al usuario es portado a otro proveedor.",
+            "Si el usuario hace uso indebido de los servicios otorgados: Utilizar los Servicios para fines de comercio, cederlos, revenderlos total o parcialmente, así como obtener cualquier lucro por la venta o reventa del servicio a cualquier tercero."
+          ]
+        },
+        { "p": "Nota: En caso de adquirir una promoción como cliente nuevo, esta solo aplicará 1 (una) sola vez en la vida de DN (número) al que se le aplique. Esto quiere decir que en caso de adquirir una promoción y el usuario decide portarse a otro proveedor o compañía y desea regresar nuevamente a Mega Móvil ya no podrá ser acreedor a una nueva promoción para su línea telefónica móvil." }
+      ]
+    },
+    {
+      "id": "servicio-unico",
+      "title": "Servicio único de líneas Mega móvil.",
+      "toc": "Servicio único de líneas",
+      "blocks": [
+        { "p": "No se puede contratar servicios solo de Mega móvil sin servicio fijo residencial o empresarial." }
+      ]
+    },
+    {
+      "id": "redes-sociales",
+      "title": "Condiciones de uso redes sociales ilimitadas",
+      "toc": "Redes sociales ilimitadas",
+      "blocks": [
+        { "lead": "CONDICIONES GENERALES DE USO PARA DATOS INCLUIDOS EN EL LÍMITE MÁXIMO DE TRÁFICO DE REDES SOCIALES “RRSS”" },
+        {
+          "app": "Whatsapp®",
+          "zone": "México, Estados Unidos de Norteamérica y Canadá.",
+          "included": [
+            "Envío de mensajes de texto, notas de voz, fotos, videos, archivos, contactos de la agenda.",
+            "Descargar o guardar fotos y videos.",
+            "Recibir notificaciones desde la aplicación.",
+            "Compartir una ubicación propia y consultar la ubicación de cualquier contacto."
+          ],
+          "excluded": [
+            "Descargar la aplicación Whatsapp®.",
+            "Carga y descarga de fotos fuera de la aplicación oficial.",
+            "Compartir, reproducir, cargar o descargar videos a través de aplicaciones distintas a la oficial Whatsapp®.",
+            "Redireccionamiento a cualquier link o URL externo a la aplicación oficial.",
+            "Servicio de llamadas de voz y videollamadas.",
+            "Transmisión de video en tiempo real; la reproducción de video en tiempo real.",
+            "Compartir una ubicación, propia en vivo o seguir la ubicación de cualquier contacto en vivo.",
+            "Visualizar, descargar, compartir fotos y/o videos en la funcionalidad Canales.",
+            "Cualquier otra funcionalidad que no esté enlistada en el uso incluido."
+          ]
+        },
+        {
+          "app": "Telegram®",
+          "zone": "México, Estados Unidos de Norteamérica y Canadá",
+          "included": [
+            "Envío de mensajes de texto, notas de voz, fotos, videos, archivos, contactos de la agenda.",
+            "Descargar o guardar fotos y videos.",
+            "Recibir notificaciones desde la aplicación.",
+            "Compartir una ubicación propia y consultar la ubicación de cualquier contacto."
+          ],
+          "excluded": [
+            "Carga y descarga de fotos fuera de la aplicación oficial.",
+            "Compartir, reproducir, cargar o descargar videos a través de aplicaciones distintas a la oficial Telegram®.",
+            "Redireccionamiento a cualquier link o URL externo a la aplicación oficial.",
+            "Servicio de llamadas de voz y videollamadas.",
+            "Transmisión de video en tiempo real; la reproducción de video en tiempo real.",
+            "Compartir ubicación propia o seguir una ubicación en tiempo real.",
+            "Visualizar, descargar, compartir fotos y/o videos en la funcionalidad Grupos.",
+            "Cualquier otra funcionalidad que no esté enlistada como incluida."
+          ]
+        },
+        {
+          "app": "Messenger®",
+          "zone": "México",
+          "included": [
+            "Envío de mensajes de texto, notas de voz, fotos, videos, archivos, contactos de la agenda.",
+            "Descargar o guardar fotos y videos.",
+            "Recibir notificaciones desde la aplicación.",
+            "Compartir una ubicación propia y consultar la ubicación de cualquier contacto."
+          ],
+          "excluded": [
+            "Carga y descarga de fotos a través de aplicaciones distintas de las oficiales.",
+            "Compartir, reproducir, cargar o descargar videos a través de aplicaciones distintas a la oficial Messenger®.",
+            "Redireccionamiento a cualquier link o URL externo a la aplicación, aun cuando este haya sido compartido utilizándose a través de algún estado o mensaje directo.",
+            "El servicio de llamadas de voz y videollamadas.",
+            "Transmisión de video en tiempo real; la reproducción de video en tiempo real.",
+            "Compartir una ubicación, propia en vivo o seguir la ubicación de cualquier contacto en vivo.",
+            "Cualquier otra funcionalidad no enlistada como incluida."
+          ]
+        },
+        {
+          "app": "Facebook®",
+          "zone": "México",
+          "included": [
+            "Visualización del muro personal o de cualquier otra persona o grupo.",
+            "Publicación de estado personal o el de cualquier otro usuario.",
+            "Publicación de fotos y videos en el muro utilizando las aplicaciones oficiales.",
+            "Guardar fotos del muro personal o compartidas por cualquier grupo o usuario.",
+            "Dar “me gusta” a alguna historia personal, de un grupo o un usuario.",
+            "Envío de mensajes de texto.",
+            "Recibir notificaciones a través de las aplicaciones oficiales de Facebook®.",
+            "Consultar la ubicación de cualquier usuario."
+          ],
+          "excluded": [
+            "Descargar la aplicación Facebook®.",
+            "Carga y descarga de fotos a través de aplicaciones distintas de las oficiales.",
+            "Reproducción de videos y la funcionalidad para compartirlos desde la aplicación de Facebook® o utilizando otras aplicaciones.",
+            "Redireccionamiento a cualquier link o URL externo a la aplicación, aun cuando este haya sido compartido utilizándose a través de algún estado o mensaje directo.",
+            "El servicio de llamadas de voz y videollamadas.",
+            "Transmisión de video en tiempo real; la reproducción de video en tiempo real.",
+            "Compartir una ubicación, propia en vivo o seguir la ubicación de cualquier contacto en vivo.",
+            "Cualquier otra funcionalidad no enlistada como incluida."
+          ]
+        },
+        {
+          "app": "Instagram®",
+          "zone": "México",
+          "included": [
+            "Visualizar la línea de tiempo personal o de terceros.",
+            "Publicar una foto o video.",
+            "Comentar sobre una foto o video.",
+            "Enviar y recibir mensajes de texto a través del buzón (“Direct”).",
+            "Enviar y recibir fotos o videos a través del buzón (“Direct”).",
+            "Publicar y reproducir historias (“Stories”)."
+          ],
+          "excluded": [
+            "Descargar la aplicación Instagram®.",
+            "Carga y descarga de fotos o videos fuera de la aplicación, aún y cuando estos hayan sido compartidos a través de la misma.",
+            "Compartir fotos o videos a través de otras aplicaciones distintas a Instagram® aún y cuando estos se hayan compartido a través de la aplicación.",
+            "Transmisión de video en tiempo real (“Live Video Streaming”); la reproducción de video en tiempo real (“Live Video Streaming”) a manera de espectador.",
+            "Redireccionamiento a cualquier link o URL externo a la aplicación, aun cuando este haya sido compartido utilizándose a través de un mensaje, publicación, historia o video en tiempo real.",
+            "Cualquier otra funcionalidad no enlistada como incluida."
+          ]
+        },
+        {
+          "app": "Snapchat®",
+          "zone": "México",
+          "included": [
+            "Visualizar “Snaps” personales y/o de terceros",
+            "Publicar un “Snap”; comentar un “Snap”",
+            "Enviar y recibir mensajes de texto a través del buzón (“Chat”)",
+            "Enviar y recibir fotos o video a través del buzón (“Chat”)",
+            "Reproducir “Historias” o “Memorias”"
+          ],
+          "excluded": [
+            "Descargar la aplicación Snapchat",
+            "Carga y descarga de fotos o videos fuera de la aplicación, aún y cuando estos hayan sido compartidos a través de la misma",
+            "Compartir fotos o videos a través de otras aplicaciones distintas a “Snapchat” aún y cuando estos se hayan compartido a través de la aplicación",
+            "Transmisión de video en tiempo real (“Live Video Streaming”); la reproducción de video en tiempo real (“Live Video Streaming”) a manera de espectador",
+            "Redireccionamiento a cualquier link o URL externo a la aplicación, aun cuando este haya sido compartido utilizándose a través de un mensaje",
+            "Publicación, historia o video en tiempo real",
+            "Cualquier otra funcionalidad no enlistada como incluida."
+          ]
+        },
+        {
+          "app": "X® (Antes Twitter®)",
+          "zone": "México",
+          "included": [
+            "Visualizar la línea de tiempo personal o de terceros",
+            "Publicar un tuit; comentar sobre un tuit; dar “me gusta” a un tuit; retuitear un tuit; citar un tuit",
+            "Envío de mensaje directo",
+            "Recepción de notificaciones",
+            "Publicación o cargue de fotos en la línea de tiempo; descargar fotos",
+            "Compartir ubicación"
+          ],
+          "excluded": [
+            "Descargar la aplicación X (Twitter)",
+            "Carga y descarga de fotos en aplicaciones distintas a la oficial",
+            "Reproducción de videos y la funcionalidad para compartirlos, desde la aplicación de Twitter® o utilizando otras aplicaciones",
+            "Redireccionamiento a cualquier link o URL externo a la aplicación, aun cuando este haya sido compartido utilizándose a través de la línea de tiempo o mensaje directo",
+            "Transmisión de video en tiempo real; la reproducción de video en tiempo real",
+            "Compartir una ubicación, propia en vivo o seguir ubicación de cualquier contacto en vivo",
+            "Cualquier otra funcionalidad no enlistada como incluida."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "glosario",
+      "title": "Glosario",
+      "blocks": [
+        {
+          "glossary": [
+            ["CCN", "Call center nacional"],
+            ["CIS", "Centros de información a solicitantes"],
+            ["IFT", "Instituto Federal de Telecomunicaciones"],
+            ["HM", "Huella Megacable"],
+            ["NR", "Roaming Nacional"],
+            ["IR", "International Roaming"],
+            ["LDI", "Larga Distancia Internacional"],
+            ["Kbps", "Kilobits por segundo"],
+            ["IFT", "Instituto Federal de Telecomunicaciones"],
+            ["Best Effort", "Mejor velocidad"],
+            ["MB", "Megabyte"],
+            ["GB", "Gigabyte"],
+            ["VoLTE", "Voz sobre evolución a largo plazo"],
+            ["DN", "Número de línea telefónica móvil"]
+          ]
+        },
+        { "p": "La zona de cobertura Mega móvil se puede consultar en el número de Whatsapp 33 9690 0001" }
+      ]
+    }
+  ]
+}
