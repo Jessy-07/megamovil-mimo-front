@@ -64,7 +64,8 @@ const phone = nav.topBar.phone;
     </div>
 
     <div class="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pb-6 pt-4">
-      <!-- 2. Sucursal en una línea -->
+      <!-- 2. Sucursal en una línea. OCULTO POR AHORA: se muestra solo si sucursales.json → visible es true (no se borró nada). -->
+      {sucursales.visible && (
       <button
         type="button"
         data-branch-open
@@ -78,6 +79,7 @@ const phone = nav.topBar.phone;
         </span>
         <span class="font-display text-sm font-bold text-mega-orange-dark">Cambiar</span>
       </button>
+      )}
 
       <!-- 3. Lo que vende: filas grandes -->
       <nav aria-label={nav.menuLabel} class="mt-3">

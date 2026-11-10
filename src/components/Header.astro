@@ -193,7 +193,9 @@ const promosActive = isCurrent("/promociones");
 
     <!-- Acciones Derecha: Sucursal (abre el buscador BranchPicker) + CTA "Cámbiate" (modal del callcenter) + ☰ (menú celular) -->
     <div class="flex items-center gap-2.5">
-      <!-- Sucursal: +500, así que abre un buscador (no una lista). En celular va dentro del menú. -->
+      <!-- Sucursal: +500, así que abre un buscador (no una lista). En celular va dentro del menú.
+           OCULTO POR AHORA: se muestra solo si sucursales.json → visible es true (no se borró nada). -->
+      {sucursales.visible && (
       <button
         type="button"
         data-branch-open
@@ -206,6 +208,7 @@ const promosActive = isCurrent("/promociones");
         <span data-branch-current class="lg:hidden xl:inline">{sucursales.default}</span>
         <Icon name="chevron-down" class="h-3 w-3 text-slate-400" />
       </button>
+      )}
 
       <!-- CTA principal: abre el modal "¡Llámame!" del callcenter (CallMeModal). Sin JavaScript queda WhatsApp. -->
       <a
@@ -239,4 +242,5 @@ const promosActive = isCurrent("/promociones");
 
 <!-- Fuera del <header> (su backdrop-blur rompería el posicionamiento): menú de celular y buscador de sucursal -->
 <MobileMenu />
-<BranchPicker />
+{/* Buscador de sucursal: oculto mientras sucursales.json → visible sea false. */}
+{sucursales.visible && <BranchPicker />}

@@ -1,5 +1,7 @@
 {
   "_nota": "[PENDIENTE: dato real] Lista DE PRUEBA. La real tiene +500 sucursales (ciudades/zonas con servicio). Estructura: estado → sucursales; cada sucursal con municipios que cubre (para el buscador) y prefijos de código postal (cp). Ver BranchPicker.astro.",
+  "_visibleNota": "OCULTO POR AHORA (decisión del usuario, 2026-11-10). false = no se muestra el selector de sucursal (botón del header, fila \"Promos en… · Cambiar\" del menú celular ni el buscador). Nada se borró: para volver a mostrarlo, poner true.",
+  "visible": false,
   "label": "Tu sucursal",
   "title": "Elige tu sucursal",
   "subtitle": "Las promociones cambian según tu sucursal.",
