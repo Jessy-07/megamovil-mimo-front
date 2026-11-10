@@ -33,7 +33,7 @@ const jsonLd = [
       areaServed: 'MX',
       availableLanguage: 'es',
     },
-  },
+  }, 
   {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -75,14 +75,27 @@ const jsonLd = [
   </div>
 
   <main id="contenido">
-    <!-- 3. HERO PROMOCIONAL con Mimo 3D, Sticker de Precio HTML, GB Gigante y Rayas -->
-    <Hero />
+    <!--
+      Orden visual:
+      · Celular (< 640 px): PLANES → banner. La franja "Cámbiate" no se muestra en celular (display none).
+      · Tablet y escritorio: banner → franja → planes.
+      El HTML conserva el orden banner → franja → planes (SEO y lectores de pantalla); solo cambia el orden visual con CSS.
+    -->
+    <div class="flex flex-col">
+      <!-- 3. HERO PROMOCIONAL con Mimo 3D, Sticker de Precio HTML, GB Gigante y Rayas -->
+      <div class="order-2 sm:order-1">
+        <Hero />
+      </div>
+ 
+      <!-- 4. FRANJA "Cámbiate sin perder tu número": deja tu teléfono y te llaman (callcenter) o WhatsApp -->
+      <div class="hidden sm:order-2 sm:block">
+        <CallStrip />
+      </div>
 
-    <!-- 4. FRANJA "Cámbiate sin perder tu número": deja tu teléfono y te llaman (callcenter) o WhatsApp -->
-    <CallStrip />
-
-    <!-- 5. PLANES (Selector rápido + Franja Beneficios Pillofon + Familiares primero + Individuales) -->
-    <Plans />
+      <!-- 5. PLANES (Selector rápido + Franja Beneficios Pillofon + Familiares primero + Individuales) -->
+      <div class="order-1 sm:order-3">        <Plans />
+      </div>
+    </div>
 
     <!-- De los planes para abajo: fondo blanco. La transición es un degradado sutil (sin corte, borde ni sombra) y hay más aire antes de compatibilidad. -->
     <div class="bg-[linear-gradient(to_bottom,#F8FAFC_0,#FFFFFF_280px)] pb-14 lg:pt-6">

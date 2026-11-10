@@ -1,10 +1,10 @@
 ---
 /**
  * Promociones. Misma URL que el sitio anterior (/promociones).
- * En el sitio anterior eran imágenes cargadas en el CMS: el texto no se leía en Google, ni en lectores de pantalla, ni se
- * podía tocar. Aquí cada promoción es DATO (promociones.json, listo para el admin) y se arma como tarjeta con su botón:
- * - Con textos → tarjeta de la marca (naranja / azul / navy) con "antes" tachado, beneficio grande, vigencia y botón.
- * - Con "image" (arte del CMS) → la imagen con su alt + el mismo botón debajo (para campañas que solo traen arte).
+ * Cada promoción es el ARTE CUADRADO del equipo de diseño (como en el sitio actual), en una tarjeta con su título corto,
+ * vigencia y los mismos botones que las tarjetas de planes del Home: "¡La quiero!" (callcenter) + WhatsApp.
+ * - El texto del arte va completo en el alt (Google y lectores de pantalla) y el título corto queda como texto visible.
+ * - Datos en promociones.json (listo para el admin; ahí está la medida del arte).
  * Vigencia: se filtra al generar el sitio (active, startsAt, endsAt) y TAMBIÉN en el navegador (data-ends), por si el sitio
  * no se vuelve a generar el día que vence. Sin promociones vigentes → aviso + "Avísame por WhatsApp" y los planes siguen vendiendo.
  */
@@ -16,7 +16,8 @@ import FloatingActions from "../components/FloatingActions.astro";
 import PageHero from "../components/PageHero.astro";
 import Plans from "../components/Plans.astro";
 import Icon from "../components/Icon.astro";
-import { BellRing, CalendarClock, Check } from "lucide-react";
+import { BellRing, CalendarClock } from "lucide-react";
+import SocialIcon from "../components/SocialIcon.astro";
 import data from "../data/promociones.json";
 import { planSummary, whatsappUrl } from "../utils/whatsapp";
 // REFERENCIA: reemplazar por Mimo sosteniendo una etiqueta de "oferta" / con confeti. PNG transparente, ~500×500.
@@ -25,24 +26,18 @@ import mimoPromociones from "../assets/img/general/mimo-promociones.png";
 const origin = Astro.site ? Astro.site.href : "https://megamovil.megacable.com.mx";
 const pageUrl = new URL("/promociones", origin).href;
 
-type Promo = (typeof data.promos)[number] & { image: { src: string; alt: string } | null; startsAt: string | null; endsAt: string | null };
+type Promo = (typeof data.promos)[number] & { startsAt: string | null; endsAt: string | null };
 
 // Vigentes hoy (fecha de generación del sitio). El navegador vuelve a revisar endsAt.
 const today = new Date().toISOString().slice(0, 10);
 const promos = (data.promos as Promo[]).filter((p) => p.active && (!p.startsAt || p.startsAt <= today) && (!p.endsAt || p.endsAt >= today));
 
-// Colores de cada tema como estilo en línea (no dependen de que Tailwind genere clases; el admin podrá sumar temas).
-const themes = {
-  orange: { card: "background:linear-gradient(135deg,#FFA31A 0%,#FF8A00 45%,#FF5900 100%)", button: "color:#FF5900" },
-  blue: { card: "background:linear-gradient(135deg,#38B6FF 0%,#1E90FF 45%,#0066CC 100%)", button: "color:#0066CC" },
-  navy: { card: "background:linear-gradient(135deg,#061630 0%,#0A1E3D 50%,#0D2854 100%)", button: "color:#061630" },
-};
 const dateLabel = (iso: string) =>
   new Date(`${iso}T12:00:00`).toLocaleDateString("es-MX", { day: "numeric", month: "long", year: "numeric" });
 
-// 1 promo: centrada y angosta · 2: dos columnas · 3 o más: tres columnas.
+// 1 promo: centrada y angosta · 2: dos columnas (máx. 896 px, así el botón queda en la primera pantalla) · 3 o más: tres columnas.
 const gridClass =
-  promos.length === 1 ? "mx-auto max-w-md grid-cols-1" : promos.length === 2 ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
+  promos.length === 1 ? "mx-auto max-w-md grid-cols-1" : promos.length === 2 ? "mx-auto max-w-4xl grid-cols-1 md:grid-cols-2" : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
 
 const planWhatsapp = (plan: Parameters<typeof planSummary>[0]) => whatsappUrl(data.plans.whatsappText.replace("{plan}", planSummary(plan)));
 
@@ -67,7 +62,8 @@ const jsonLd = [
             position: i + 1,
             item: {
               "@type": "Offer",
-              name: `${p.condition} ${p.lead} ${p.value} ${p.duration}`,
+              name: p.title,
+              image: new URL(p.image.src, origin).href,
               price: p.price,
               priceCurrency: "MXN",
               url: pageUrl,
@@ -95,88 +91,62 @@ const jsonLd = [
       titleBefore={data.hero.titleBefore}
       titleHighlight={data.hero.titleHighlight}
       titleAfter={data.hero.titleAfter}
-      subtitle={data.hero.subtitle}
       image={mimoPromociones}
       imageAlt="Mimo, la mascota de Mega móvil, con las promociones"
     />
 
-    <!-- 2. PROMOCIONES (tarjeta sobrepuesta al hero) -->
-    <div class="relative z-10 mx-auto -mt-12 max-w-[1440px] px-7 sm:px-12 lg:px-16">
-      <section aria-label="Promociones vigentes" class="mx-auto max-w-5xl rounded-3xl bg-white p-5 sm:p-8 lg:p-10 shadow-card-clean">
+    <!-- 2. PROMOCIONES (caja sobrepuesta al hero, como las demás páginas internas; tarjetas con borde, sin sombra) -->
+    <div class="relative z-10 mx-auto -mt-12 container px-7 sm:px-10 lg:px-12">
+      <section aria-label="Promociones vigentes" class="mx-auto max-w-6xl rounded-3xl bg-white p-4 sm:p-8 lg:p-10 shadow-card-clean">
         {
           promos.length > 0 && (
             <ul class:list={["grid gap-5 sm:gap-6", gridClass]} data-promo-list>
               {promos.map((p) => {
-                const theme = themes[p.theme as keyof typeof themes] ?? themes.orange;
                 const href = whatsappUrl(p.whatsappText);
-                // El botón abre el modal "¡Llámame!" del callcenter (CallMeModal); el href de WhatsApp queda de respaldo sin JS.
-                const callme = { "data-callme": "", "data-callme-label": `Promoción ${p.value} ${p.duration} (plan de ${p.price})`, "data-callme-interest": `Promoción ${p.value} ${p.duration} plan ${p.price} - ${p.id}` };
+                const askHref = whatsappUrl(`Hola, tengo dudas sobre la promoción ${p.title}.`);
+                // "¡La quiero!" abre el modal "¡Llámame!" del callcenter (CallMeModal); el href de WhatsApp queda de respaldo sin JS.
+                const callme = { "data-callme": "", "data-callme-label": `Promoción ${p.title}`, "data-callme-interest": `Promoción ${p.title} - ${p.id}` };
                 return (
                   <li id={p.id} class="scroll-mt-36" data-promo data-ends={p.endsAt ?? undefined}>
-                    {p.image ? (
-                      /* Promoción solo con arte del CMS: imagen + botón (el texto va en el alt) */
-                      <article class="flex h-full flex-col overflow-hidden rounded-3xl bg-slate-50 ring-1 ring-slate-200">
-                        <img src={p.image.src} alt={p.image.alt} loading="lazy" class="aspect-square w-full object-cover" />
-                        <div class="p-5">
-                          <a href={href} target="_blank" rel="noopener noreferrer" class="btn-primary w-full" {...callme}>
-                            {data.ctaLabel}
-                            <Icon name="arrow-right" class="h-5 w-5" />
-                          </a>
-                        </div>
-                      </article>
-                    ) : (
-                      /* Promoción con textos: tarjeta de la marca */
-                      <article class="relative flex h-full flex-col overflow-hidden rounded-3xl p-6 sm:p-8 text-center text-white shadow-card-clean" style={theme.card}>
-                        <div class="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-white/15 blur-2xl pointer-events-none" aria-hidden="true" />
-                        <p class="relative font-display text-2xl sm:text-[1.7rem] font-black leading-tight">{p.condition}</p>
-                        <p class="relative font-display text-lg sm:text-xl font-bold leading-tight text-white/95">{p.lead}</p>
-
-                        <div class="relative my-5">
-                          <p class="font-display text-2xl font-bold text-white/80">
-                            <span class="sr-only">Antes </span>
-                            <s class="decoration-[#FF2D8A] decoration-[3px]">{p.before}</s>
-                          </p>
-                          <p class="font-display text-7xl sm:text-8xl font-black leading-[0.9] tracking-tight drop-shadow-sm">{p.value}</p>
-                          <p class="mt-1 font-display text-3xl sm:text-4xl font-black">{p.duration}</p>
-                        </div>
-
-                        <div class="relative rounded-2xl bg-white/15 px-4 py-3.5 ring-1 ring-white/25">
-                          <p class="font-display text-sm font-black uppercase tracking-wider">
-                            {p.includesTitle} <span class="text-white/90">· {p.includesSuffix}</span>
-                          </p>
-                          <ul class="mt-2 flex flex-wrap justify-center gap-x-3 gap-y-1.5">
-                            {p.includes.map((inc) => (
-                              <li class="inline-flex items-center gap-1 text-sm font-bold">
-                                <Check className="h-4 w-4" aria-hidden="true" />
-                                {inc}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
+                    <article class="flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white">
+                      {/* El arte también abre el modal (es lo primero que la gente toca). Fuera del orden de tabulación: el botón ya es el enlace. */}
+                      <a href={href} target="_blank" rel="noopener noreferrer" tabindex="-1" class="block bg-slate-100" {...callme}>
+                        <img src={p.image.src} alt={p.image.alt} width="800" height="800" loading="eager" decoding="async" class="aspect-square w-full object-cover" />
+                      </a>
+                      <div class="flex flex-1 flex-col p-5 sm:p-6">
+                        <p class="text-xs font-black uppercase tracking-widest text-mega-orange">{p.text}</p>
+                        <h2 class="mt-1 font-display text-xl sm:text-2xl font-extrabold leading-tight tracking-tight text-mega-navy">{p.title}</h2>
                         {p.endsAt && (
-                          <p class="relative mt-4 inline-flex items-center justify-center gap-1.5 text-sm font-bold text-white/95">
-                            <CalendarClock className="h-4 w-4" aria-hidden="true" />
+                          <p class="mt-2 inline-flex items-center gap-1.5 text-sm font-bold text-slate-600">
+                            <CalendarClock className="h-4 w-4 text-mega-orange" aria-hidden="true" />
                             Válida hasta el {dateLabel(p.endsAt)}
                           </p>
                         )}
-
-                        <div class="relative mt-auto pt-6">
+                        {/* Mismos botones que las tarjetas de planes del Home */}
+                        <div class="mt-auto flex items-center gap-2.5 pt-5">
                           <a
                             href={href}
-                            {...callme}
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 font-display text-base sm:text-lg font-black uppercase tracking-wider shadow-lg hover:bg-slate-50"
-                            style={theme.button}
+                            {...callme}
+                            class="inline-flex h-12 flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-mega-orange px-5 font-display text-[19px] font-extrabold text-white hover:bg-mega-orange-dark"
                           >
                             {data.ctaLabel}
-                            <Icon name="arrow-right" class="h-5 w-5" />
                           </a>
-                          <p class="mt-3 text-[11px] font-semibold text-white/80">{p.legal}</p>
+                          <a
+                            href={askHref}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`Preguntar por la promoción ${p.title} por WhatsApp`}
+                            title="¿Dudas? Pregúntanos por WhatsApp"
+                            class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#25D366]/10 text-[#1DA851] ring-1 ring-[#25D366]/25 hover:bg-[#25D366]/15"
+                          >
+                            <SocialIcon slug="whatsapp" class="h-5 w-5" />
+                          </a>
                         </div>
-                      </article>
-                    )}
+                        <p class="mt-3 text-xs font-medium text-slate-500">{p.legal}</p>
+                      </div>
+                    </article>
                   </li>
                 );
               })}
@@ -208,7 +178,7 @@ const jsonLd = [
             href={whatsappUrl(data.empty.whatsappText)}
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-6 py-3.5 font-display text-sm font-black uppercase tracking-wider text-white hover:bg-[#20ba5a]"
+            class="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-6 py-3.5 font-display text-sm font-black text-white hover:bg-[#20ba5a]"
           >
             <BellRing className="h-4 w-4" aria-hidden="true" />
             {data.empty.label}

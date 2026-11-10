@@ -44,7 +44,7 @@ const promosActive = isCurrent("/promociones");
         <li class="group relative">
           <button
             type="button"
-            class="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13.5px] font-bold tracking-wide text-slate-700 hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150 cursor-pointer"
+            class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 xl:px-3.5 py-1.5 text-[13.5px] font-bold xl:tracking-wide text-slate-700 hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150 cursor-pointer"
             aria-haspopup="true"
           >
             <span>Consulta</span>
@@ -97,7 +97,7 @@ const promosActive = isCurrent("/promociones");
             href="/cambiate-a-megamovil"
             aria-current={cambiateActive ? "page" : undefined}
             class:list={[
-              "inline-flex items-center rounded-full px-3.5 py-1.5 text-[13.5px] font-bold tracking-wide hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150",
+              "inline-flex items-center whitespace-nowrap rounded-full px-2.5 xl:px-3.5 py-1.5 text-[13.5px] font-bold xl:tracking-wide hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150",
               cambiateActive
                 ? "bg-orange-50 text-mega-orange"
                 : "text-slate-700",
@@ -113,7 +113,7 @@ const promosActive = isCurrent("/promociones");
             href="/promociones"
             aria-current={promosActive ? "page" : undefined}
             class:list={[
-              "inline-flex items-center rounded-full px-3.5 py-1.5 text-[13.5px] font-bold tracking-wide hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150",
+              "inline-flex items-center whitespace-nowrap rounded-full px-2.5 xl:px-3.5 py-1.5 text-[13.5px] font-bold xl:tracking-wide hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150",
               promosActive ? "bg-orange-50 text-mega-orange" : "text-slate-700",
             ]}
           >
@@ -127,7 +127,7 @@ const promosActive = isCurrent("/promociones");
             href="/esim"
             aria-current={esimActive ? "page" : undefined}
             class:list={[
-              "inline-flex items-center rounded-full px-3.5 py-1.5 text-[13.5px] font-bold tracking-wide hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150",
+              "inline-flex items-center whitespace-nowrap rounded-full px-2.5 xl:px-3.5 py-1.5 text-[13.5px] font-bold xl:tracking-wide hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150",
               esimActive ? "bg-orange-50 text-mega-orange" : "text-slate-700",
             ]}
           >
@@ -140,7 +140,7 @@ const promosActive = isCurrent("/promociones");
           <button
             type="button"
             class:list={[
-              "inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13.5px] font-bold tracking-wide hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150 cursor-pointer",
+              "inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 xl:px-3.5 py-1.5 text-[13.5px] font-bold xl:tracking-wide hover:text-mega-orange hover:bg-orange-50/70 transition-all duration-150 cursor-pointer",
               ayudaActive ? "bg-orange-50 text-mega-orange" : "text-slate-700",
             ]}
             aria-haspopup="true"
@@ -202,7 +202,8 @@ const promosActive = isCurrent("/promociones");
         class="hidden items-center gap-1.5 rounded-full border border-slate-200/90 bg-slate-100 py-1.5 pl-3 pr-2.5 font-display text-xs font-black uppercase text-mega-navy transition hover:bg-slate-200/60 cursor-pointer md:inline-flex"
       >
         <Icon name="map-pin" class="h-3.5 w-3.5 text-mega-orange" />
-        <span data-branch-current>{sucursales.default}</span>
+        <!-- En laptop chica (1024–1279 px) solo el ícono: el menú completo no deja espacio. La ciudad se ve al abrir el buscador. -->
+        <span data-branch-current class="lg:hidden xl:inline">{sucursales.default}</span>
         <Icon name="chevron-down" class="h-3 w-3 text-slate-400" />
       </button>
 
@@ -212,11 +213,11 @@ const promosActive = isCurrent("/promociones");
         data-callme
         data-callme-label=""
         data-callme-interest={nav.headerCta.interest}
-        class="inline-flex items-center gap-1.5 rounded-full bg-mega-orange hover:bg-mega-orange-dark px-4 sm:px-5 py-2 font-display text-xs font-black uppercase tracking-wider text-white shadow-orange-sm hover:shadow-orange-glow transition-all duration-150 hover:scale-105 active:scale-95"
+        class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-mega-orange hover:bg-mega-orange-dark px-4 sm:px-5 py-2 font-display text-sm font-extrabold text-white shadow-orange-sm hover:shadow-orange-glow transition-all duration-150 hover:scale-105 active:scale-95"
       >
-        <!-- En celular chico, versión corta para que quepa junto al logo y el menú -->
-        <span class="sm:hidden">{nav.headerCta.shortLabel}</span>
-        <span class="hidden sm:inline">{nav.headerCta.label}</span>
+        <!-- Versión corta en celular chico y en laptop chica (1024–1279 px, donde el menú completo ocupa casi todo el ancho) -->
+        <span class="sm:hidden lg:inline xl:hidden">{nav.headerCta.shortLabel}</span>
+        <span class="hidden sm:inline lg:hidden xl:inline">{nav.headerCta.label}</span>
         <Icon name="arrow-right" class="h-3.5 w-3.5" />
       </a>
 

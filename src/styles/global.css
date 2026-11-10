@@ -63,12 +63,12 @@
   /* Botón CTA protagonista en Naranja Mega móvil */
   .btn-primary {
     font-family: 'Poppins', system-ui, sans-serif;
-    @apply inline-flex items-center justify-center gap-2 rounded-pill bg-mega-orange hover:bg-mega-orange-dark px-8 py-3.5 text-[19px] font-black uppercase tracking-wider text-white shadow-orange-glow transition-all duration-200 hover:-translate-y-0.5 hover:shadow-orange-glow active:translate-y-0 active:scale-95;
+    @apply inline-flex items-center justify-center gap-2 rounded-pill bg-mega-orange hover:bg-mega-orange-dark px-8 py-3.5 text-[19px] font-black text-white shadow-orange-glow transition-all duration-200 hover:-translate-y-0.5 hover:shadow-orange-glow active:translate-y-0 active:scale-95;
   }
 
   .btn-secondary {
     font-family: 'Poppins', system-ui, sans-serif;
-    @apply inline-flex items-center justify-center gap-2 rounded-pill bg-white px-7 py-3 text-base font-black uppercase tracking-wider text-mega-orange shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-50 hover:shadow-lg active:translate-y-0 active:scale-95;
+    @apply inline-flex items-center justify-center gap-2 rounded-pill bg-white px-7 py-3 text-base font-black text-mega-orange shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-50 hover:shadow-lg active:translate-y-0 active:scale-95;
   }
 
   .section-title {

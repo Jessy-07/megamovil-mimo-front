@@ -83,16 +83,16 @@ const jsonLd = [
       crumb="Planes internacionales"
       titleBefore={data.hero.titleBefore}
       titleHighlight={data.hero.titleHighlight}
-      subtitle={data.hero.subtitle}
       image={mimoViaje}
       imageAlt="Mimo, la mascota de Mega móvil, listo para viajar"
     >
       <Fragment slot="actions">
-        <ul class="flex flex-wrap gap-2">
+        <!-- Beneficios como texto simple (sin chips), igual que en Cámbiate -->
+        <ul class="flex flex-wrap gap-x-6 gap-y-2">
           {
             data.hero.highlights.map((h) => (
-              <li class="inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/15 px-3.5 py-1.5 text-xs sm:text-sm font-bold text-white">
-                <Check className="h-4 w-4 text-mega-orange" aria-hidden="true" />
+              <li class="inline-flex items-center gap-2 text-sm sm:text-base font-semibold text-slate-200">
+                <Check className="h-5 w-5 shrink-0 text-mega-orange" strokeWidth={3} aria-hidden="true" />
                 {h}
               </li>
             ))
@@ -102,14 +102,15 @@ const jsonLd = [
     </PageHero>
 
     <!-- 2. ¿A DÓNDE VIAJAS? + PAQUETES (tarjeta sobrepuesta al hero) -->
-    <div class="relative z-10 mx-auto -mt-12 max-w-[1440px] px-7 sm:px-12 lg:px-16">
-      <section aria-label="Paquetes de roaming internacional" class="mx-auto max-w-5xl rounded-3xl bg-white p-6 sm:p-10 shadow-card-clean">
+    <div class="relative z-10 mx-auto -mt-12 container px-7 sm:px-10 lg:px-12">
+      <!-- Mismo ancho (1152 px) que el Home -->
+      <section aria-label="Paquetes de roaming internacional" class="mx-auto max-w-6xl rounded-3xl bg-white p-5 sm:p-8 lg:p-10 shadow-card-clean">
         <RoamingPlans zones={data.zones} plans={plans} ctaLabel={data.planCta} />
       </section>
 
       <!-- 3. PREGUNTAS FRECUENTES DE ROAMING (fuente única: faq-full.json, categoría "roaming") -->
-      <section id="preguntas" aria-labelledby="roaming-faq-title" class="scroll-mt-36 mx-auto mt-10 max-w-5xl">
-        <h2 id="roaming-faq-title" class="mb-5 text-center font-display text-2xl sm:text-3xl font-black uppercase tracking-tight text-mega-navy">
+      <section id="preguntas" aria-labelledby="roaming-faq-title" class="scroll-mt-36 mx-auto mt-12 max-w-6xl lg:mt-20">
+        <h2 id="roaming-faq-title" class="mb-8 text-center font-display text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight text-mega-navy">
           Preguntas frecuentes
         </h2>
         <FaqAccordion client:visible variant="simple" hideCtas categories={roamingCategory} items={roamingFaq} />

@@ -49,6 +49,16 @@ const { plan, kind, kindLabel, unitLabel, ctaLabel, perMonth, ctaHref = whatsapp
 const dark = plan.featured;
 const isUnlimited = plan.gigas === 'ILIMITADO';
 const gb = kind === 'family' ? plan.totalGb : plan.gigas;
+// Familiares: en lugar de los gigas totales se muestra el reparto, p. ej. "1 línea de 38 GB" y "3 líneas de 7 GB".
+// Se saca de gigasDetail ("1 línea de 38 GB + 3 de 7 GB"); si no se puede leer, se usa el diseño anterior (gigas totales).
+const split =
+  kind === 'family' && plan.gigasDetail
+    ? plan.gigasDetail
+        .split('+')
+        .map((part) => part.trim().match(/^(\d+)\s+(?:l[ií]neas?\s+)?de\s+(\d+)\s*GB$/i))
+        .map((m) => (m ? { lines: Number(m[1]), gb: m[2] } : null))
+    : [];
+const splitRows = split.length > 0 && split.every(Boolean) ? (split as { lines: number; gb: string }[]) : null;
 const askHref = whatsappUrl(`Hola, tengo dudas sobre el plan ${summary}.`);
 
 // Redes del plan (individuales): se muestran solo las que SÍ incluye.
@@ -89,7 +99,20 @@ const socialTitle = 'Redes sociales ilimitadas';
   <!-- GIGAS (lo más grande de la tarjeta) -->
   <div class:list={['relative', kind === 'family' ? 'mt-5' : 'min-h-[5rem]']}>
     {
-      isUnlimited ? (
+      splitRows ? (
+        // Reparto en dos renglones: "1 línea de 38 GB" / "3 líneas de 7 GB". Todo del mismo tamaño; solo cambia el grosor (los gigas en negritas).
+        <div class="space-y-0.5 font-display text-[1.65rem] leading-tight tracking-tight sm:text-3xl">
+          {splitRows.map((r) => (
+            <p class="flex items-baseline gap-2">
+              <span class:list={['min-w-[9.5rem] font-normal sm:min-w-[10.75rem]', dark ? 'text-white' : 'text-mega-navy']}>
+                {r.lines} {r.lines === 1 ? 'línea' : 'líneas'} de
+              </span>
+              <span class="font-extrabold">{r.gb}</span>
+              <span class:list={['-ml-1 font-extrabold', dark ? 'text-[#FF8A4C]' : 'text-mega-orange-dark']}>GB</span>
+            </p>
+          ))}
+        </div>
+      ) : isUnlimited ? (
         <p class="font-display text-[2.6rem] font-extrabold leading-[0.95] tracking-tight">
           Gigas <span class={dark ? 'text-[#FF8A4C]' : 'text-mega-orange-dark'}>ilimitados<sup class="relative -top-[0.3em] ml-px align-baseline text-[0.6em] font-bold">*</sup></span>
         </p>
@@ -103,11 +126,13 @@ const socialTitle = 'Redes sociales ilimitadas';
     }
   </div>
 
-  <!-- Familiares: reparto de gigas y separador. Individuales: el precio va JUNTO a los gigas ("6 GB · por solo $100"). -->
+  <!-- Familiares: reparto de gigas y separador. Individuales: el precio va JUNTO a los gigas ("7 GB · por solo $100"). -->
   {
     kind === 'family' && (
       <>
-        <p class:list={['relative mt-3 text-[15px] font-semibold', dark ? 'text-slate-200' : 'text-slate-600']}>{plan.gigasDetail}</p>
+        {!splitRows && (
+          <p class:list={['relative mt-3 text-[15px] font-semibold', dark ? 'text-slate-200' : 'text-slate-600']}>{plan.gigasDetail}</p>
+        )}
         <hr class:list={['relative my-5 border-t', dark ? 'border-white/10' : 'border-slate-200']} />
       </>
     )

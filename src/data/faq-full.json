@@ -1,6 +1,14 @@
 {
   "title": "Preguntas Frecuentes",
   "subtitle": "Encuentra respuestas claras y rápidas sobre tu servicio, cobertura, recargas, SIM y portabilidad con Mega móvil.",
+  "salesNudge": {
+    "_nota": "Franja de venta entre temas de /preguntas-frecuentes. afterCategory = id de la categoría después de la cual aparece ('' o una categoría vacía = no se muestra). {precio} se reemplaza por el plan más barato de plans.json.",
+    "afterCategory": "planes",
+    "title": "¿Aún no eres Mega móvil?",
+    "text": "Planes desde {precio} conservando tu número.",
+    "cta": "Ver planes",
+    "href": "/planes"
+  },
   "categories": [
     {
       "id": "todas",

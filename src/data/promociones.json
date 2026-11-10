@@ -9,49 +9,44 @@
     "titleAfter": "",
     "subtitle": "Aprovéchalas antes de que se terminen."
   },
-  "_comoAgregar": "Cada promoción es un objeto en 'promos'. Se muestra si active=true y hoy está entre startsAt y endsAt (opcionales, formato AAAA-MM-DD). Si trae 'image' (arte cargado en el CMS), se muestra la imagen con su 'alt' y el botón debajo; si no, se arma la tarjeta con los textos. theme: orange | blue | navy.",
+  "_comoAgregar": "Cada promoción es un objeto en 'promos' y se muestra como IMAGEN cuadrada (arte del equipo de diseño) con su botón debajo. Arte: 1080×1080 px (mínimo 800×800), JPG o WebP de menos de 200 KB, en /public/img/promos/. 'image.alt' es lo que leen Google y los lectores de pantalla: escribe ahí todo lo que dice el arte. 'title' es el texto corto que va debajo de la imagen. Se muestra si active=true y hoy está entre startsAt y endsAt (opcionales, formato AAAA-MM-DD).",
   "promos": [
     {
-      "id": "portabilidad-30gb",
+      "id": "portabilidad-38gb",
       "active": true,
       "startsAt": null,
       "endsAt": null,
-      "theme": "orange",
-      "condition": "Conservando tu número",
-      "lead": "con plan de $200 te damos",
-      "before": "14GB",
-      "value": "30GB",
-      "duration": "x 12 meses",
+      "image": {
+        "src": "/img/promos/portabilidad-38gb.jpg",
+        "alt": "Conservando tu número, con plan de $200 te damos 38 GB (antes 14 GB) por 12 meses. Incluye WhatsApp, redes sociales, minutos y SMS ilimitados. Aplican restricciones."
+      },
+      "title": "38 GB por 12 meses con plan de $200",
+      "text": "Conservando tu número",
       "price": 200,
-      "includesTitle": "Incluye",
-      "includes": ["WhatsApp", "Redes sociales", "Minutos y SMS"],
-      "includesSuffix": "ilimitados",
       "legal": "Aplican restricciones.",
-      "image": null,
-      "whatsappText": "Hola, quiero la promoción de 30GB por 12 meses conservando mi número (plan de $200)."
+      "whatsappText": "Hola, quiero la promoción de 38GB por 12 meses conservando mi número (plan de $200)."
     },
     {
-      "id": "portabilidad-6gb",
+      "id": "portabilidad-7gb",
       "active": true,
       "startsAt": null,
       "endsAt": null,
-      "theme": "blue",
-      "condition": "Conservando tu número",
-      "lead": "con plan de $100 te damos",
-      "before": "3GB",
-      "value": "6GB",
-      "duration": "x 12 meses",
+      "image": {
+        "src": "/img/promos/portabilidad-7gb.jpg",
+        "alt": "Conservando tu número, con plan de $100 te damos 7 GB (antes 3 GB) por 12 meses. Incluye WhatsApp, redes sociales, minutos y SMS ilimitados."
+      },
+      "title": "7 GB por 12 meses con plan de $100",
+      "text": "Conservando tu número",
       "price": 100,
-      "includesTitle": "Incluye",
-      "includes": ["WhatsApp", "Redes sociales", "Minutos y SMS"],
-      "includesSuffix": "ilimitados",
       "legal": "Aplican restricciones.",
-      "image": null,
-      "whatsappText": "Hola, quiero la promoción de 6GB por 12 meses conservando mi número (plan de $100)."
+      "whatsappText": "Hola, quiero la promoción de 7GB por 12 meses conservando mi número (plan de $100)."
     }
   ],
   "ctaLabel": "¡La quiero!",
-  "howTo": { "label": "¿Cómo conservo mi número?", "href": "/cambiate-a-megamovil" },
+  "howTo": {
+    "label": "¿Cómo conservo mi número?",
+    "href": "/cambiate-a-megamovil"
+  },
   "empty": {
     "title": "Por ahora no hay promociones activas",
     "text": "Nuestros planes ya incluyen WhatsApp, redes sociales, minutos y SMS ilimitados. Te avisamos cuando llegue la próxima promoción.",

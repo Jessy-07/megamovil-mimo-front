@@ -28,8 +28,8 @@ const { title = "¿Cuántas líneas necesitas?", ctaLabel = plans.ctaLabel, ctaH
 const maxSavings = "$" + String(Math.max(...groups.family.plans.map((p) => Number((p.savings ?? "").replace(/[^0-9]/g, "")) || 0)));
 
 const panels = [
-  { key: "family" as const, id: "panel-family", tab: "btn-tab-family", group: groups.family },
   { key: "individual" as const, id: "panel-individual", tab: "btn-tab-individual", group: groups.individual },
+  { key: "family" as const, id: "panel-family", tab: "btn-tab-family", group: groups.family },
 ];
 
 const track =
@@ -47,7 +47,7 @@ const tabIcon = "hidden h-5 w-5 shrink-0 text-slate-400 group-aria-selected:text
 <section
   id="planes"
   aria-label="Planes Mega móvil"
-  class="px-4 py-9 sm:px-6 lg:px-8 lg:py-14"
+  class="px-4 pb-7 pt-5 sm:px-6 sm:pt-12 lg:px-8 lg:pb-10 lg:pt-20"
 >
   <div class="mx-auto max-w-6xl">
     <!-- Título + switch -->
@@ -55,7 +55,17 @@ const tabIcon = "hidden h-5 w-5 shrink-0 text-slate-400 group-aria-selected:text
       <h2 class="mb-5 font-display text-2xl font-black uppercase tracking-tight text-mega-navy sm:mb-6 sm:text-3xl md:text-4xl">{title}</h2>
 
       <div class="inline-flex w-full max-w-[640px] rounded-full border border-slate-200 bg-slate-200/50 p-1.5" role="tablist" aria-label="Tipo de plan">
-        <button type="button" id="btn-tab-family" role="tab" aria-selected="true" aria-controls="panel-family" class={tabBase}>
+        <button type="button" id="btn-tab-individual" role="tab" aria-selected="true" aria-controls="panel-individual" class={tabBase}>
+          <svg class={tabIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <span class="flex flex-col text-center leading-tight sm:text-left">
+            <span class="whitespace-nowrap font-display text-[13px] font-extrabold uppercase tracking-wide sm:text-base sm:tracking-wider">Plan individual</span>
+            <span class="text-xs font-bold">1 línea</span>
+          </span>
+        </button>
+        <button type="button" id="btn-tab-family" role="tab" aria-selected="false" aria-controls="panel-family" class={tabBase}>
           <svg class={tabIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
             <circle cx="9" cy="7" r="4"></circle>
@@ -66,22 +76,12 @@ const tabIcon = "hidden h-5 w-5 shrink-0 text-slate-400 group-aria-selected:text
             <span class="text-xs font-bold">Planes familiares</span>
           </span>
         </button>
-        <button type="button" id="btn-tab-individual" role="tab" aria-selected="false" aria-controls="panel-individual" class={tabBase}>
-          <svg class={tabIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
-            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
-          <span class="flex flex-col text-center leading-tight sm:text-left">
-            <span class="whitespace-nowrap font-display text-[13px] font-extrabold uppercase tracking-wide sm:text-base sm:tracking-wider">1 línea</span>
-            <span class="text-xs font-bold">Plan individual</span>
-          </span>
-        </button>
       </div>
     </div>
 
     {
       panels.map(({ key, id, tab, group }) => (
-        <div id={id} role="tabpanel" aria-labelledby={tab} hidden={key !== "family"}>
+        <div id={id} role="tabpanel" aria-labelledby={tab} hidden={key !== "individual"}>
           {/* Mensaje de venta, justo debajo del switch: una línea ligera, sin caja */}
           <p class="mb-7 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-sm sm:text-base">
             <span class="grid h-7 w-7 place-items-center rounded-full bg-emerald-50 text-emerald-700" aria-hidden="true">
@@ -192,11 +192,11 @@ const tabIcon = "hidden h-5 w-5 shrink-0 text-slate-400 group-aria-selected:text
 
   document.querySelectorAll<HTMLElement>("[data-show-plan-tab]").forEach((el) =>
     el.addEventListener("click", () => {
-      show(el.dataset.showPlanTab === "individual" ? "individual" : "family");
-      tabs.family.btn?.scrollIntoView({ behavior: "smooth", block: "center" });
+      show(el.dataset.showPlanTab === "family" ? "family" : "individual");
+      tabs.individual.btn?.scrollIntoView({ behavior: "smooth", block: "center" });
     }),
   );
 
   // Cambio de pestaña desde otros componentes (p. ej. el header)
-  window.addEventListener("select-plan-tab", (e) => show((e as CustomEvent).detail === "individual" ? "individual" : "family"));
+  window.addEventListener("select-plan-tab", (e) => show((e as CustomEvent).detail === "family" ? "family" : "individual"));
 </script>

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ComponentType } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState, type ComponentType } from 'react';
 import {
   ArrowRight,
   CardSim,
@@ -100,7 +100,16 @@ interface Props {
   variant?: 'completo' | 'simple';
   /** Oculta los CTA cuando la página ya ofrece esas acciones en otra sección (evita botones redundantes). */
   hideCtas?: boolean;
+  /**
+   * Franja de venta entre temas (solo con "Todas" y sin búsqueda). Aparece después de la categoría `afterCategory`;
+   * si esa categoría no existe o no tiene preguntas, no se muestra. Se administra en faq-full.json → salesNudge.
+   */
+  salesNudge?: { afterCategory: string; title: string; text: string; cta: string; href: string };
 }
+
+/** Texto de ejemplo del buscador: el largo no cabe en celular. */
+const PLACEHOLDER_LONG = '¿Qué necesitas? Ej. saldo, recargas, eSIM, portabilidad';
+const PLACEHOLDER_SHORT = 'Busca: saldo, eSIM, recargas…';
 
 const CATEGORY_ICONS: Record<string, IconType> = {
   todas: LayoutGrid,
@@ -238,7 +247,7 @@ function DeviceFinder({ devices, note }: { devices: DeviceBrand[]; note?: string
         {visible.length === 0 && (
           <div className="rounded-xl bg-white p-4 text-center">
             <p className="text-sm font-bold text-mega-navy">No encontramos “{text.trim()}” en la lista.</p>
-            <a href="tel:*%2306%23" className="mt-3 inline-flex items-center gap-2 rounded-full bg-mega-navy px-5 py-2.5 font-display text-xs font-black uppercase tracking-wider text-white hover:bg-mega-orange">
+            <a href="tel:*%2306%23" className="mt-3 inline-flex items-center gap-2 rounded-full bg-mega-navy px-5 py-2.5 font-display text-xs font-black text-white hover:bg-mega-orange">
               <Phone className="h-4 w-4" aria-hidden="true" /> Marcar *#06# y buscar el EID
             </a>
           </div>
@@ -344,11 +353,54 @@ function ComparisonTable({ data }: { data: Comparison }) {
   );
 }
 
-export default function FaqAccordion({ categories, items, variant = 'completo', hideCtas = false }: Props) {
+export default function FaqAccordion({ categories, items, variant = 'completo', hideCtas = false, salesNudge }: Props) {
   const simple = variant === 'simple';
   const [activeCategory, setActiveCategory] = useState('todas');
   const [query, setQuery] = useState('');
   const [openIds, setOpenIds] = useState<Set<string>>(new Set());
+  const [placeholder, setPlaceholder] = useState(PLACEHOLDER_LONG);
+
+  /* Temas fijos al hacer scroll: se pegan justo debajo del header sticky (su alto cambia entre celular y escritorio). */
+  const [stickyTop, setStickyTop] = useState(0);
+  const [stuck, setStuck] = useState(false);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 639px)');
+    const update = () => setPlaceholder(mq.matches ? PLACEHOLDER_SHORT : PLACEHOLDER_LONG);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+
+  useEffect(() => {
+    if (simple) return;
+    const header = document.getElementById('sticky-header-container');
+    if (!header) return;
+    const measure = () => setStickyTop(header.getBoundingClientRect().height);
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(header);
+    return () => ro.disconnect();
+  }, [simple]);
+
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (simple || !el) return;
+    const io = new IntersectionObserver(([e]) => setStuck(!e.isIntersecting && e.boundingClientRect.top < stickyTop + 1), {
+      rootMargin: `-${Math.round(stickyTop)}px 0px 0px 0px`,
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [simple, stickyTop]);
+
+  /* Al cambiar de tema con la barra pegada, regresa al inicio de la lista (si no, el usuario queda a media página). */
+  const backToListTop = () => {
+    const el = sentinelRef.current;
+    if (!el) return;
+    const y = el.getBoundingClientRect().top + window.scrollY - stickyTop;
+    if (window.scrollY > y) window.scrollTo({ top: y });
+  };
 
   /* Enlace directo a una pregunta (/preguntas-frecuentes#faq-9): la abre y la muestra. */
   useEffect(() => {
@@ -408,8 +460,8 @@ export default function FaqAccordion({ categories, items, variant = 'completo', 
 
   return (
     <div className="w-full">
-      {/* ===================== BUSCADOR + CATEGORÍAS ===================== */}
-      <div hidden={simple} className="rounded-3xl bg-white p-4 sm:p-6 shadow-card-clean">
+      {/* ============================== BUSCADOR ============================== */}
+      <div hidden={simple} className="rounded-3xl bg-white p-3 sm:p-4 shadow-card-clean">
         <label htmlFor="faq-search" className="sr-only">
           Buscar en preguntas frecuentes
         </label>
@@ -420,7 +472,7 @@ export default function FaqAccordion({ categories, items, variant = 'completo', 
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="¿Qué necesitas? Ej. saldo, recargas, eSIM, portabilidad"
+            placeholder={placeholder}
             autoComplete="off"
             className="h-14 w-full rounded-full border-2 border-slate-200 bg-slate-50 pl-14 pr-12 text-base font-semibold text-mega-navy placeholder:font-medium placeholder:text-slate-400 focus:border-mega-orange focus:bg-white focus:outline-none [&::-webkit-search-cancel-button]:hidden"
           />
@@ -436,35 +488,45 @@ export default function FaqAccordion({ categories, items, variant = 'completo', 
           )}
         </div>
 
-        {/* Categorías: en móvil se deslizan horizontalmente */}
-        <div
-          role="radiogroup"
-          aria-label="Filtrar por tema"
-          className={`no-scrollbar -mx-4 mt-4 flex gap-1.5 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:justify-center sm:px-0 ${searching ? 'opacity-50' : ''}`}
-        >
-          {categories.map((c) => {
-            const Icon = CATEGORY_ICONS[c.id] ?? LayoutGrid;
-            const active = !searching && activeCategory === c.id;
-            return (
-              <button
-                key={c.id}
-                type="button"
-                role="radio"
-                aria-checked={active}
-                onClick={() => {
-                  setQuery('');
-                  setActiveCategory(c.id);
-                }}
-                className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border-2 px-3.5 py-2 font-display text-xs sm:text-sm font-black cursor-pointer select-none ${
-                  active ? 'border-mega-orange bg-orange-50 text-mega-orange' : 'border-slate-200 bg-white text-slate-600 hover:border-mega-orange/40 hover:text-mega-navy'
-                }`}
-              >
-                <Icon className="h-4 w-4" />
-                <span>{c.label}</span>
-              </button>
-            );
-          })}
-        </div>
+      </div>
+
+      {/* ===================== TEMAS (fijos debajo del menú al hacer scroll) ===================== */}
+      <div ref={sentinelRef} hidden={simple} aria-hidden="true" />
+      <div
+        hidden={simple}
+        style={{ top: stickyTop }}
+        className={`sticky z-30 -mx-3 mt-3 px-3 py-2.5 sm:-mx-4 sm:px-4 ${stuck ? 'border-b border-slate-200 bg-white/95 backdrop-blur-md' : ''}`}
+      >
+          {/* Categorías: en móvil se deslizan horizontalmente, con desvanecido a la derecha para indicar que hay más */}
+          <div
+            role="radiogroup"
+            aria-label="Filtrar por tema"
+            className={`no-scrollbar flex gap-1.5 overflow-x-auto pr-8 [mask-image:linear-gradient(to_right,#000_85%,transparent)] sm:flex-wrap sm:justify-center sm:overflow-visible sm:pr-0 sm:[mask-image:none] ${searching ? 'opacity-50' : ''}`}
+          >
+            {categories.map((c) => {
+              const Icon = CATEGORY_ICONS[c.id] ?? LayoutGrid;
+              const active = !searching && activeCategory === c.id;
+              return (
+                <button
+                  key={c.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={active}
+                  onClick={() => {
+                    setQuery('');
+                    setActiveCategory(c.id);
+                    if (stuck) backToListTop();
+                  }}
+                  className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border-2 px-3.5 py-2 font-display text-xs sm:text-sm font-black cursor-pointer select-none ${
+                    active ? 'border-mega-orange bg-orange-50 text-mega-orange' : 'border-slate-200 bg-white text-slate-600 hover:border-mega-orange/40 hover:text-mega-navy'
+                  }`}
+                >
+                  <Icon className="h-4 w-4" />
+                  <span>{c.label}</span>
+                </button>
+              );
+            })}
+          </div>
       </div>
 
       {/* Resumen de la búsqueda */}
@@ -481,7 +543,7 @@ export default function FaqAccordion({ categories, items, variant = 'completo', 
 
       {/* ============================ SIN RESULTADOS ============================ */}
       {searching && visibleCount === 0 && (
-        <div className="mt-2 rounded-3xl bg-white p-8 sm:p-10 text-center shadow-card-clean">
+        <div className="mt-2 rounded-3xl border border-slate-200 bg-white p-8 sm:p-10 text-center">
           <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-orange-50 text-mega-orange">
             <LifeBuoy className="h-7 w-7" aria-hidden="true" />
           </span>
@@ -492,7 +554,7 @@ export default function FaqAccordion({ categories, items, variant = 'completo', 
             <button
               type="button"
               onClick={() => setQuery('')}
-              className="inline-flex items-center justify-center rounded-full border-2 border-slate-200 px-6 py-3 font-display text-sm font-black uppercase tracking-wider text-mega-navy hover:border-mega-orange hover:text-mega-orange cursor-pointer"
+              className="inline-flex items-center justify-center rounded-full border-2 border-slate-200 px-6 py-3 font-display text-sm font-extrabold text-mega-navy hover:border-mega-orange hover:text-mega-orange cursor-pointer"
             >
               Ver todas
             </button>
@@ -502,12 +564,14 @@ export default function FaqAccordion({ categories, items, variant = 'completo', 
 
       {/* ====================== PREGUNTAS AGRUPADAS POR TEMA ======================
           Todas las respuestas se generan en el HTML (SEO); las cerradas usan `hidden`. */}
-      <div className="space-y-8">
+      <div className="space-y-10">
         {groups.map((g) => {
           const groupVisible = g.items.some(isVisible);
           const Icon = CATEGORY_ICONS[g.id] ?? LayoutGrid;
+          const showNudge = !!salesNudge && !simple && !searching && activeCategory === 'todas' && g.id === salesNudge.afterCategory;
           return (
-            <section key={g.id} hidden={!groupVisible} aria-labelledby={simple ? undefined : `grupo-${g.id}`}>
+            <Fragment key={g.id}>
+            <section hidden={!groupVisible} aria-labelledby={simple ? undefined : `grupo-${g.id}`}>
               {!simple && (
                 <h2 id={`grupo-${g.id}`} className="mb-3 flex items-center gap-2.5 px-1 font-display text-lg sm:text-xl font-black uppercase tracking-tight text-mega-navy">
                   <span className="grid h-8 w-8 place-items-center rounded-lg bg-mega-navy text-white">
@@ -518,7 +582,8 @@ export default function FaqAccordion({ categories, items, variant = 'completo', 
                 </h2>
               )}
 
-              <ul className="space-y-3">
+              {/* Lista plana con divisores: mismo estilo que las preguntas del Home (Faq.tsx). */}
+              <ul className="divide-y divide-slate-200 border-y border-slate-200">
                 {g.items.map((item) => {
                   const open = openIds.has(item.id);
                   return (
@@ -526,7 +591,7 @@ export default function FaqAccordion({ categories, items, variant = 'completo', 
                       key={item.id}
                       id={item.id}
                       hidden={!isVisible(item)}
-                      className={`scroll-mt-36 rounded-2xl border-2 bg-white shadow-card-clean ${open ? 'border-mega-orange' : 'border-transparent'}`}
+                      className={simple ? 'scroll-mt-36' : 'scroll-mt-48'}
                     >
                       <h3>
                         <button
@@ -535,26 +600,23 @@ export default function FaqAccordion({ categories, items, variant = 'completo', 
                           aria-expanded={open}
                           aria-controls={`${item.id}-a`}
                           onClick={() => toggle(item.id)}
-                          className="group flex w-full items-center justify-between gap-4 px-5 py-4 sm:px-6 sm:py-5 text-left cursor-pointer"
+                          className="group flex w-full items-center justify-between gap-4 py-4 sm:py-5 text-left cursor-pointer"
                         >
-                          <span className="font-display text-base sm:text-lg font-black leading-snug text-mega-navy group-hover:text-mega-orange">
+                          <span className={`font-display text-base sm:text-lg font-black leading-snug group-hover:text-mega-orange ${open ? 'text-mega-orange' : 'text-mega-navy'}`}>
                             {cleanQuestion(item.question)}
                           </span>
                           <span
-                            className={`grid h-8 w-8 shrink-0 place-items-center rounded-full ${
-                              open ? 'rotate-180 bg-mega-orange text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-orange-50 group-hover:text-mega-orange'
-                            }`}
+                            className={`grid h-8 w-8 shrink-0 place-items-center ${open ? 'rotate-180 text-mega-orange' : 'text-slate-400 group-hover:text-mega-orange'}`}
                             aria-hidden="true"
                           >
-                            <ChevronDown className="h-4 w-4" />
+                            <ChevronDown className="h-5 w-5" />
                           </span>
                         </button>
                       </h3>
 
-                      <div id={`${item.id}-a`} role="region" aria-labelledby={`${item.id}-q`} hidden={!open} className="px-5 pb-6 sm:px-6">
-                        <div className="border-t border-slate-100" />
+                      <div id={`${item.id}-a`} role="region" aria-labelledby={`${item.id}-q`} hidden={!open} className="max-w-4xl pb-6">
                         {item.answer && !item.countries && (
-                          <div className="pt-4 text-sm sm:text-base font-medium leading-relaxed text-slate-600" dangerouslySetInnerHTML={{ __html: item.answer }} />
+                          <div className="text-sm sm:text-base font-medium leading-relaxed text-slate-600" dangerouslySetInnerHTML={{ __html: item.answer }} />
                         )}
 
                         {/* Equipos compatibles con buscador (eSIM) */}
@@ -644,9 +706,9 @@ export default function FaqAccordion({ categories, items, variant = 'completo', 
                         {item.cta && !hideCtas && (
                           <a
                             href={item.cta.href}
-                            className={`mt-5 inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-display text-xs sm:text-sm font-black uppercase tracking-wider ${
+                            className={`mt-5 inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-display text-sm font-extrabold ${
                               item.cta.type === 'venta'
-                                ? 'bg-mega-orange hover:bg-mega-orange-dark text-white shadow-orange-sm'
+                                ? 'bg-mega-orange hover:bg-mega-orange-dark text-white'
                                 : 'bg-mega-navy text-white hover:bg-mega-orange'
                             }`}
                           >
@@ -660,6 +722,24 @@ export default function FaqAccordion({ categories, items, variant = 'completo', 
                 })}
               </ul>
             </section>
+
+            {/* Venta a media página: la lista es larga y el banner comercial queda hasta el final. */}
+            {showNudge && salesNudge && (
+              <aside aria-label="Planes Mega móvil" className="flex flex-col gap-3 rounded-2xl bg-orange-50 px-5 py-4 sm:flex-row sm:items-center sm:gap-4">
+                <p className="flex-1">
+                  <span className="block font-display text-base font-black text-mega-navy">{salesNudge.title}</span>
+                  <span className="block text-sm font-medium text-slate-600">{salesNudge.text}</span>
+                </p>
+                <a
+                  href={salesNudge.href}
+                  className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-mega-orange px-6 py-3 font-display text-sm font-extrabold text-white hover:bg-mega-orange-dark"
+                >
+                  {salesNudge.cta}
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </a>
+              </aside>
+            )}
+            </Fragment>
           );
         })}
       </div>

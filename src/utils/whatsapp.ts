@@ -16,7 +16,7 @@ interface PlanLike {
   price: number;
 }
 
-/** Descripción corta del plan para el mensaje: "Mega móvil Conectado (30 GB) de $200/mes". */
+/** Descripción corta del plan para el mensaje: "Mega móvil Conectado (38 GB) de $200/mes". */
 export function planSummary(plan: PlanLike): string {
   const detail =
     plan.lines && plan.lines > 1

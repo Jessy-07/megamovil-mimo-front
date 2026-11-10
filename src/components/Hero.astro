@@ -23,13 +23,41 @@ const slides = [
     tabLabel: "Vincula tu línea",
   },
 ];
+
+/*
+ * Proporción del banner de escritorio: se lee de la imagen real al compilar
+ * (public/img/<slug>-desktop.jpg del primer banner). Así el contenedor siempre
+ * coincide con el arte y nunca lo recorta: hoy 1920×550, y al subir los nuevos
+ * de 1920×400 se ajusta solo. Todos los banners deben tener la misma medida.
+ */
+import sharp from "sharp";
+import { join } from "node:path";
+
+let desktop = { width: 1920, height: 400 };
+try {
+  const meta = await sharp(join(process.cwd(), "public", "img", `${slides[0].slug}-desktop.jpg`)).metadata();
+  if (meta.width && meta.height) desktop = { width: meta.width, height: meta.height };
+} catch {
+  /* si no se puede leer, se usa 1920×400 */
+}
 ---
 
-<section id="promos" aria-label="Promociones exclusivas Mega móvil" class="px-3 pt-3 sm:px-6 lg:px-8 xl:px-10">
-  <div class="mx-auto w-full max-w-[1440px] overflow-hidden rounded-hero shadow-[0_12px_30px_-14px_rgba(6,22,48,0.28)] relative bg-black/5 aspect-[4/5] max-h-[560px] sm:aspect-[1920/550] sm:max-h-[550px]">
-    
+<!-- Mismo contenedor que el Header (container + px-4 sm:px-6): el banner queda alineado con el logo y el botón "Cámbiate". -->
+<section id="promos" aria-label="Promociones exclusivas Mega móvil" class="container mx-auto px-4 pt-3 sm:px-6">
+  <!--
+    Alto:
+    · Móvil: 4:5 (arte propio).
+    · Tablet y laptop chica (640–1279 px): proporción exacta del arte de escritorio, sin recortes.
+    · Desde 1280 px: 400 px fijos. El arte de 1920×400 se centra y se recortan solo las orillas
+      (se ven entre 1232 y 1488 px del centro), así que lo importante va en los ~1200 px centrales.
+  -->
+  <div
+    class="w-full overflow-hidden rounded-hero shadow-[0_12px_30px_-14px_rgba(6,22,48,0.28)] relative bg-black/5 aspect-[4/5] max-h-[560px] sm:max-h-none sm:[aspect-ratio:var(--hero-ratio)] xl:[aspect-ratio:auto] xl:h-[400px]"
+    style={`--hero-ratio: ${desktop.width} / ${desktop.height}`}
+  >
+
     <div class="relative w-full h-full" role="region" aria-roledescription="carrusel" aria-label="Banners promocionales Mega móvil">
-      <!-- Track de slides con scroll-snap nativo y proporción exacta 1920x550 para tablet, laptop y desktop -->
+      <!-- Track de slides con scroll-snap nativo -->
       <div
         id="promo-track"
         class="no-scrollbar flex snap-x snap-mandatory overflow-x-auto scroll-smooth w-full h-full items-stretch"
@@ -64,25 +92,25 @@ const slides = [
                     srcset={`/img/${slide.slug}-mobile.jpg`}
                   />
 
-                  <!-- Tablet, Laptops y Pantallas Grandes (>= 640px): Banner estándar 1920x550 completo sin recortes -->
+                  <!-- Tablet, laptops y pantallas grandes (>= 640px): banner de escritorio (1920 de ancho y su versión 4K), completo sin recortes -->
                   <source
                     media="(min-width: 640px)"
                     type="image/webp"
                     srcset={`/img/${slide.slug}-desktop.webp 1920w, /img/${slide.slug}-4k.webp 3840w`}
-                    sizes="(max-width: 1920px) 100vw, 1920px"
+                    sizes="(min-width: 1536px) 1488px, 100vw"
                   />
                   <source
                     media="(min-width: 640px)"
                     type="image/jpeg"
                     srcset={`/img/${slide.slug}-desktop.jpg 1920w, /img/${slide.slug}-4k.jpg 3840w`}
-                    sizes="(max-width: 1920px) 100vw, 1920px"
+                    sizes="(min-width: 1536px) 1488px, 100vw"
                   />
 
                   <img
                     src={`/img/${slide.slug}-desktop.jpg`}
                     alt={slide.alt}
-                    width="1920"
-                    height="550"
+                    width={desktop.width}
+                    height={desktop.height}
                     loading={i === 0 ? "eager" : "lazy"}
                     fetchpriority={i === 0 ? "high" : "auto"}
                     decoding="async"

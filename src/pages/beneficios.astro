@@ -64,13 +64,12 @@ const cardWidth = "w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.84rem)]
       crumb="Beneficios"
       titleBefore={hero.titleBefore}
       titleHighlight={hero.titleHighlight}
-      subtitle={hero.subtitle}
       image={mimoBeneficios}
       imageAlt="Mimo, la mascota de Mega móvil, te muestra los beneficios"
     />
 
     <!-- 2. BENEFICIOS (tarjeta sobrepuesta al hero). Todo el texto visible, sin "Ver más". -->
-    <div class="relative z-10 mx-auto -mt-12 max-w-[1440px] px-7 sm:px-12 lg:px-16">
+    <div class="relative z-10 mx-auto -mt-12 container px-7 sm:px-10 lg:px-12">
       <section aria-label="Beneficios Mega móvil" class="mx-auto max-w-6xl rounded-3xl bg-white p-5 sm:p-8 lg:p-10 shadow-card-clean">
         <ul class="flex flex-wrap justify-center gap-5">
           {
@@ -78,15 +77,16 @@ const cardWidth = "w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.84rem)]
               const BenefitIcon = icons[b.icon as keyof typeof icons];
               return (
                 <li id={b.id} class:list={["scroll-mt-36", cardWidth]}>
-                  <article class="flex h-full flex-col rounded-3xl border-2 border-slate-100 bg-slate-50/70 p-5 sm:p-6">
+                  <!-- Tarjeta como las del Home: fondo blanco, borde fino, sin sombra -->
+                  <article class="flex h-full flex-col rounded-3xl border border-slate-200 bg-white p-5 sm:p-6">
                     <div class="flex items-center gap-4">
-                      <span class="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-mega-orange to-mega-orange-dark text-white shadow-orange-sm">
+                      <span class="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-orange-50 text-mega-orange">
                         <BenefitIcon className="h-7 w-7" aria-hidden="true" />
                       </span>
                       <h2 class="font-display text-xl font-black leading-tight text-mega-navy">{b.title}</h2>
                     </div>
 
-                    <p class="mt-4 font-display text-base font-black text-mega-orange">{b.headline}</p>
+                    <p class="mt-4 font-display text-base font-black text-mega-orange text-balance">{b.headline}</p>
                     <p class="mt-1 text-sm sm:text-base font-medium leading-relaxed text-slate-600">{b.text}</p>
 
                     <div class="mt-auto flex flex-wrap gap-2.5 pt-5">
@@ -114,9 +114,9 @@ const cardWidth = "w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.84rem)]
                               href={whatsappUrl(a.text ?? "")}
                               target="_blank"
                               rel="noopener noreferrer"
-                              class="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-2.5 font-display text-xs sm:text-sm font-black uppercase tracking-wider text-white hover:bg-[#20ba5a]"
+                              class="inline-flex h-11 items-center gap-2 whitespace-nowrap rounded-full bg-[#25D366] px-5 font-display text-sm sm:text-base font-extrabold text-white hover:bg-[#20ba5a]"
                             >
-                              <svg viewBox="0 0 448 512" fill="currentColor" class="h-4 w-4" aria-hidden="true"><path d={whatsappPath} /></svg>
+                              <svg viewBox="0 0 448 512" fill="currentColor" class="h-5 w-5 shrink-0" aria-hidden="true"><path d={whatsappPath} /></svg>
                               {a.label}
                             </a>
                           );
@@ -126,11 +126,11 @@ const cardWidth = "w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.84rem)]
                             <a
                               href={a.href}
                               class:list={[
-                                "inline-flex items-center gap-2 rounded-full bg-mega-navy px-4 py-2.5 font-display text-xs sm:text-sm font-black uppercase tracking-wider text-white hover:bg-mega-orange",
-                                a.mobileOnly && "md:hidden",
+                                "h-11 items-center gap-2 whitespace-nowrap rounded-full bg-mega-navy px-5 font-display text-sm sm:text-base font-extrabold text-white hover:bg-mega-navy/90",
+                                a.mobileOnly ? "hidden [@media(pointer:coarse)]:inline-flex" : "inline-flex",
                               ]}
                             >
-                              <Phone className="h-4 w-4" aria-hidden="true" />
+                              <Phone className="h-5 w-5 shrink-0" aria-hidden="true" />
                               {a.label}
                             </a>
                           );
@@ -141,7 +141,7 @@ const cardWidth = "w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.84rem)]
                             href={a.href}
                             target={external ? "_blank" : undefined}
                             rel={external ? "noopener noreferrer" : undefined}
-                            class="inline-flex items-center gap-1.5 font-display text-sm font-black text-mega-orange hover:underline underline-offset-4"
+                            class="inline-flex items-center gap-1.5 font-display text-base font-extrabold text-mega-orange hover:underline underline-offset-4"
                           >
                             {a.label}
                             <Icon name={external ? "external-link" : "arrow-right"} class="h-4 w-4" />
@@ -156,7 +156,7 @@ const cardWidth = "w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.84rem)]
           }
         </ul>
 
-        <p class="mt-6 text-center text-xs font-semibold text-slate-400">{footnote}</p>
+        <p class="mt-6 text-center text-xs font-semibold text-slate-500">{footnote}</p>
       </section>
     </div>
 

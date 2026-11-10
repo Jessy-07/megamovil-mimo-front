@@ -14,7 +14,7 @@
     {
       "title": "Pide tu NIP",
       "text": "Desde tu línea actual, envía un SMS con la palabra NIP al 051.",
-      "action": { "type": "sms", "label": "Enviar SMS al 051", "href": "sms:051?body=NIP" }
+      "action": { "type": "sms", "label": "Enviar SMS al 051", "desktopLabel": "Envía NIP al 051 desde tu celular", "href": "sms:051?body=NIP" }
     },
     {
       "title": "Mándanos tu NIP",
@@ -31,6 +31,13 @@
       "action": { "type": "link", "label": "¿Tienes eSIM? Actívala aquí", "href": "/esim#activacion" }
     }
   ],
+  "callback": {
+    "text": "¿Prefieres que te ayudemos?",
+    "label": "Te llamamos",
+    "modalLabel": "Cambiarme a Mega móvil conservando mi número",
+    "interest": "Cámbiate - Te llamamos (portabilidad)",
+    "whatsappText": "Hola, quiero cambiarme a Mega móvil conservando mi número. ¿Me ayudan?"
+  },
   "compatibility": { "text": "¿No sabes si tu celular es compatible?", "label": "Valídalo aquí", "href": "/compatibilidad" },
   "plans": {
     "title": "¿Ya sabes qué plan quieres?",

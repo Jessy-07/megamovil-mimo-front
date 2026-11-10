@@ -53,9 +53,9 @@ export default function ImeiChecker({ label, placeholder, button, checking, inva
             setImei(e.target.value.replace(/\D/g, '').slice(0, 17));
             if (status !== 'idle') setStatus('idle');
           }}
-          className="h-14 w-full min-w-0 sm:w-auto sm:flex-1 rounded-pill border-2 border-mega-blue/20 bg-white px-6 text-lg font-bold tracking-widest text-mega-navy placeholder:font-semibold placeholder:tracking-normal placeholder:text-mega-gray-dark/70 focus:border-mega-blue focus:outline-none"
+          className="h-14 w-full min-w-0 sm:w-auto sm:flex-1 rounded-pill border-2 border-slate-200 bg-white px-6 text-lg font-bold tracking-widest text-mega-navy placeholder:font-semibold placeholder:tracking-normal placeholder:text-mega-gray-dark/70 focus:border-mega-blue focus:outline-none"
         />
-        <button type="submit" className={`btn-primary h-14 shrink-0 ${dark ? "!shadow-none" : ""}`} disabled={status === 'checking'}>
+        <button type="submit" className="btn-primary h-14 shrink-0 !shadow-none" disabled={status === 'checking'}>
           {status === 'checking' ? (
             <>
               <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" /> {checking}
@@ -78,7 +78,7 @@ export default function ImeiChecker({ label, placeholder, button, checking, inva
           </p>
         )}
         {status === 'ok' && successCtaLabel && successCtaHref && (
-          <a href={successCtaHref} className="btn-primary mt-4">
+          <a href={successCtaHref} className="btn-primary mt-4 !shadow-none">
             {successCtaLabel}
             <ArrowRight className="h-5 w-5" aria-hidden="true" />
           </a>

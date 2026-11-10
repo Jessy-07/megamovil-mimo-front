@@ -71,14 +71,14 @@ const jsonLd = [
       titleBefore="¿En qué te "
       titleHighlight="ayudamos"
       titleAfter="?"
-      subtitle="Elige un tema y resuélvelo en minutos."
       image={mimoWhatsapp}
       imageAlt="Mimo, la mascota de Mega móvil, te saluda"
     />
 
     <!-- SELECTOR DE TEMAS + PANELES (se sobrepone al hero) -->
-    <div class="relative z-10 mx-auto -mt-12 max-w-[1440px] px-7 sm:px-12 lg:px-16">
-      <div class="mx-auto max-w-5xl">
+    <div class="relative z-10 mx-auto -mt-12 container px-7 sm:px-10 lg:px-12">
+      <!-- Mismo ancho de contenido que las secciones del Home (1152 px). -->
+      <div class="mx-auto max-w-6xl">
         <SupportCenter client:load mimoSrc={mimoCard.src} />
       </div>
     </div>

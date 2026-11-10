@@ -7,6 +7,7 @@ import {
   ChevronRight,
   Clock3,
   Globe2,
+  Info,
   Headphones,
   Mail,
   MapPin,
@@ -15,9 +16,9 @@ import {
   QrCode,
   Radio,
   Send,
+  Settings,
   Smartphone,
   Unlock,
-  Voicemail,
   Wallet,
   Wifi,
 } from 'lucide-react';
@@ -35,14 +36,16 @@ const CONTACT = {
 };
 
 /* ------------------------------------------------------------------ */
-/* Videos de tutoriales de desbloqueo (migrar desde el sitio actual). */
-/* Pon el archivo en /public/assets/video/ y la ruta aquí.            */
+/* Videos de tutoriales de desbloqueo (del sitio actual).             */
+/* Versión web en /public/assets/video/ (720p, ~1.5 MB, con portada).  */
+/* Los originales 1080p están en src/assets/video/desbloqueo_*.mp4.    */
+/* Si `src` queda vacío se muestra "Video disponible próximamente".    */
 /* ------------------------------------------------------------------ */
 type CarrierKey = 'telcel' | 'movistar' | 'att';
-const TUTORIAL_VIDEOS: Record<CarrierKey, string> = {
-  telcel: '',
-  movistar: '',
-  att: '',
+const TUTORIAL_VIDEOS: Record<CarrierKey, { src: string; poster: string }> = {
+  telcel: { src: '/assets/video/desbloqueo-telcel.mp4', poster: '/assets/video/desbloqueo-telcel-poster.jpg' },
+  movistar: { src: '/assets/video/desbloqueo-movistar.mp4', poster: '/assets/video/desbloqueo-movistar-poster.jpg' },
+  att: { src: '/assets/video/desbloqueo-att.mp4', poster: '/assets/video/desbloqueo-att-poster.jpg' },
 };
 const CARRIERS: { key: CarrierKey; name: string }[] = [
   { key: 'telcel', name: 'Telcel' },
@@ -59,18 +62,131 @@ const WhatsAppIcon = ({ className = 'h-4 w-4' }: { className?: string }) => (
 /* ------------------------------------------------------------------ */
 /* Temas. El `key` también es el ancla de la URL (/soporte#saldo).    */
 /* ------------------------------------------------------------------ */
-type TabKey = 'atencion' | 'activacion' | 'saldo' | 'buzon-de-voz' | 'desbloqueo';
+type TabKey = 'activacion' | 'configuracion' | 'atencion' | 'saldo' | 'desbloqueo';
 
+/* Mismo orden que el sitio actual (megamovil.mx/soporte). "Buzón de voz" se quitó del sitio actual y de aquí. */
 const TABS: { key: TabKey; label: string; icon: IconType }[] = [
-  { key: 'atencion', label: 'Atención a clientes', icon: Headphones },
   { key: 'activacion', label: 'Activa tu línea', icon: Radio },
+  { key: 'configuracion', label: 'Configura tu equipo', icon: Settings },
+  { key: 'atencion', label: 'Atención a clientes', icon: Headphones },
   { key: 'saldo', label: 'Consulta tu saldo', icon: Wallet },
-  { key: 'buzon-de-voz', label: 'Buzón de voz', icon: Voicemail },
   { key: 'desbloqueo', label: 'Desbloquea tu celular', icon: Unlock },
 ];
 
 /* Anclas cortas → oficiales, por si alguien comparte un enlace abreviado */
-const HASH_ALIASES: Record<string, TabKey> = { buzon: 'buzon-de-voz', desbloquea: 'desbloqueo', activa: 'activacion' };
+const HASH_ALIASES: Record<string, TabKey> = { desbloquea: 'desbloqueo', activa: 'activacion', configura: 'configuracion' };
+
+/* ------------------------------------------------------------------ */
+/* Configura tu equipo (contenido del sitio actual)                    */
+/* ------------------------------------------------------------------ */
+type OsKey = 'android' | 'iphone';
+type ConfigStep = { title: string; note?: string; items: ReactNode[] };
+
+/** Nombre de un menú del celular, como etiqueta. */
+const Menu = ({ children }: { children: ReactNode }) => (
+  <span className="whitespace-nowrap rounded-md border border-slate-200 bg-slate-50 px-1.5 font-bold text-mega-navy">{children}</span>
+);
+
+/** Datos que el usuario debe capturar: dato arriba, valor abajo. */
+const DataGrid = ({ rows }: { rows: [string, string][] }) => (
+  <dl className="mt-2 grid grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-2">
+    {rows.map(([k, v]) => (
+      <div key={k} className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
+        <dt className="text-[11px] font-bold uppercase leading-tight tracking-wide text-slate-500">{k}</dt>
+        <dd className="mt-0.5 break-words font-mono text-sm font-bold text-mega-navy">{v}</dd>
+      </div>
+    ))}
+  </dl>
+);
+
+const CONFIG_STEPS: Record<OsKey, ConfigStep[]> = {
+  android: [
+    {
+      title: 'Activa VoLTE',
+      items: [
+        <>Ingresa a <Menu>Configuración</Menu> o <Menu>Ajustes</Menu>.</>,
+        <>Selecciona <Menu>Redes móviles</Menu> o <Menu>Conexiones</Menu>.</>,
+        <>Ingresa a <Menu>Datos móviles</Menu> o <Menu>Redes móviles</Menu>.</>,
+        <>Localiza la opción <Menu>VoLTE</Menu> o <Menu>Llamadas 4G</Menu>.</>,
+        <strong className="text-mega-navy">Activa la función.</strong>,
+      ],
+    },
+    {
+      title: 'Configura el APN',
+      items: [
+        <>En <Menu>Datos móviles</Menu> o <Menu>Redes móviles</Menu>.</>,
+        <>Selecciona <Menu>Nombres de punto de acceso</Menu> o <Menu>APN</Menu>.</>,
+        <>Selecciona <Menu>Agregar APN</Menu> o crea uno nuevo.</>,
+        <>
+          Captura la siguiente información:
+          <DataGrid rows={[['Nombre', 'Internet Mega móvil'], ['APN', 'mega45g']]} />
+        </>,
+        <strong className="text-mega-navy">Guarda la configuración.</strong>,
+        <><strong className="text-mega-navy">Selecciona el APN</strong> que acabas de crear.</>,
+      ],
+    },
+    {
+      title: 'Valida el IMS',
+      note: 'En la mayoría de los equipos esta configuración ya se encuentra registrada.',
+      items: [
+        <>En <Menu>Datos móviles</Menu> o <Menu>Redes móviles</Menu>.</>,
+        <>Selecciona <Menu>Nombres de punto de acceso</Menu> o <Menu>APN</Menu>.</>,
+        <>Selecciona <Menu>Agregar APN</Menu> o crea uno nuevo.</>,
+        <>
+          Captura la siguiente información:
+          <DataGrid
+            rows={[
+              ['Nombre', 'IMS'],
+              ['APN', 'ims'],
+              ['MCC', '334'],
+              ['MNC', '140'],
+              ['Tipo de autenticación', 'PAP'],
+              ['Tipo de APN', 'ims'],
+              ['Protocolo APN', 'IPv4/IPv6'],
+              ['Protocolo de roaming o itinerancia APN', 'IPv4/IPv6'],
+            ]}
+          />
+        </>,
+        <strong className="text-mega-navy">Guarda la configuración.</strong>,
+        <strong className="text-mega-navy">Reinicia el equipo.</strong>,
+      ],
+    },
+  ],
+  iphone: [
+    {
+      title: 'Selección de red',
+      items: [
+        <>Ingresa a <Menu>Configuración</Menu>.</>,
+        <>Selecciona <Menu>Red de datos celulares</Menu>.</>,
+        <><strong className="text-mega-navy">Desactiva Automática</strong> y/o <strong className="text-mega-navy">Deshabilita opción del operador</strong>.</>,
+        <>Selecciona la red <Menu>mega45g</Menu>.</>,
+      ],
+    },
+    {
+      title: 'Configura VoLTE',
+      items: [
+        <>En <Menu>Red celular</Menu>.</>,
+        <>Selecciona <Menu>Opciones</Menu>.</>,
+        <>Activa <Menu>Voz y datos en 4G</Menu>.</>,
+        <>La opción <strong className="text-mega-navy">VoLTE debe estar activa</strong>.</>,
+      ],
+    },
+    {
+      title: 'Configura el APN',
+      items: [
+        <>En <Menu>Red celular</Menu>.</>,
+        <>Ingresa a <Menu>Red de datos celulares</Menu>.</>,
+        <strong className="text-mega-navy">Localiza los campos de APN.</strong>,
+        <>
+          <strong className="text-mega-navy">Captura</strong>:
+          <DataGrid rows={[['APN', 'mega45g.com']]} />
+        </>,
+        <>Verifica la información.</>,
+        <><strong className="text-mega-navy">Reinicia el equipo</strong> para aplicar los cambios.</>,
+      ],
+    },
+  ],
+};
 
 /* ------------------------------------------------------------------ */
 /* Piezas reutilizables                                               */
@@ -83,6 +199,8 @@ function PanelTitle({ title, text }: { title: string; text: string }) {
     </div>
   );
 }
+
+const KEEP_CASE = ['eSIM', 'iPhone'];
 
 /** Interruptor segmentado (mismo estilo que el switch de planes del Home). */
 function Segmented<T extends string>({ value, onChange, options, label }: {
@@ -108,7 +226,8 @@ function Segmented<T extends string>({ value, onChange, options, label }: {
             }`}
           >
             {Icon && <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />}
-            <span>{o.label}</span>
+            {/* "eSIM" e "iPhone" conservan su forma dentro del switch en mayúsculas */}
+            <span className={KEEP_CASE.includes(o.label) ? 'normal-case' : undefined}>{o.label}</span>
           </button>
         );
       })}
@@ -140,11 +259,11 @@ function ActionButton({ href, icon: Icon, children, external = false, tone = 'na
     <a
       href={href}
       {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-      className={`inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-full px-8 py-3.5 font-display text-sm font-black uppercase tracking-wider text-white ${
-        tone === 'whatsapp' ? 'bg-[#25D366] hover:bg-[#20ba5a] shadow-[0_10px_25px_-6px_rgba(37,211,102,0.55)]' : 'bg-mega-navy hover:bg-mega-orange shadow-md'
+      className={`inline-flex w-full sm:w-auto items-center justify-center gap-2.5 whitespace-nowrap rounded-full px-6 sm:px-8 py-3.5 font-display text-base font-extrabold text-white ${
+        tone === 'whatsapp' ? 'bg-[#25D366] hover:bg-[#20ba5a]' : 'bg-mega-navy hover:bg-mega-orange'
       }`}
     >
-      <Icon className="h-4 w-4" aria-hidden="true" />
+      <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
       <span>{children}</span>
     </a>
   );
@@ -158,7 +277,7 @@ function SalesNudge({ icon: Icon, title, cta, href = '/planes' }: { icon: IconTy
         <Icon className="h-5 w-5" aria-hidden="true" />
       </span>
       <p className="flex-1 font-display text-base font-black text-mega-navy">{title}</p>
-      <a href={href} className="inline-flex shrink-0 items-center gap-1.5 font-display text-sm font-black uppercase tracking-wider text-mega-orange hover:underline underline-offset-4">
+      <a href={href} className="inline-flex shrink-0 items-center gap-1.5 font-display text-base font-extrabold text-mega-orange hover:underline underline-offset-4">
         {cta} <ArrowRight className="h-4 w-4" aria-hidden="true" />
       </a>
     </div>
@@ -175,8 +294,9 @@ interface Props {
 
 export default function SupportCenter({ mimoSrc }: Props) {
   const baseId = useId();
-  const [activeTab, setActiveTab] = useState<TabKey>('atencion');
+  const [activeTab, setActiveTab] = useState<TabKey>('activacion');
   const [simType, setSimType] = useState<'sim' | 'esim'>('sim');
+  const [os, setOs] = useState<OsKey>('android');
   const [carrier, setCarrier] = useState<CarrierKey>('telcel');
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const panelTopRef = useRef<HTMLDivElement>(null);
@@ -199,6 +319,13 @@ export default function SupportCenter({ mimoSrc }: Props) {
     // En móvil el panel queda debajo del selector: lo acercamos (sin animación).
     if (window.matchMedia('(max-width: 767px)').matches) panelTopRef.current?.scrollIntoView({ block: 'start' });
   };
+
+  /* Al cambiar de compañía o de tema, pausa el video que quedó oculto (si no, se sigue oyendo). */
+  useEffect(() => {
+    panelTopRef.current?.querySelectorAll<HTMLVideoElement>('video[data-carrier]').forEach((v) => {
+      if (activeTab !== 'desbloqueo' || v.dataset.carrier !== carrier) v.pause();
+    });
+  }, [carrier, activeTab]);
 
   /* Navegación con flechas entre pestañas (patrón WAI-ARIA Tabs). */
   const onTabKeyDown = (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
@@ -272,70 +399,8 @@ export default function SupportCenter({ mimoSrc }: Props) {
       </div>
 
       {/* ============================ PANELES ============================= */}
-      <div ref={panelTopRef} className="mt-5 sm:mt-6 scroll-mt-32 rounded-3xl bg-white p-6 sm:p-10 lg:p-12 shadow-card-clean">
-        {/* ---------------- 1. ATENCIÓN A CLIENTES ---------------- */}
-        <section {...panelProps('atencion')}>
-          <PanelTitle title="Atención a clientes" text="Te atendemos en México y en el extranjero." />
-
-          <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:items-stretch">
-            {/* Canal principal: WhatsApp */}
-            <div className="relative flex items-center gap-5 overflow-hidden rounded-3xl bg-gradient-to-br from-mega-navy via-[#0A1E3D] to-[#0D2854] p-6 sm:p-8 text-white">
-              <div className="flex-1">
-                <p className="text-xs font-black uppercase tracking-wider text-[#4ADE80]">Nacional e internacional</p>
-                <h3 className="mt-1 font-display text-2xl font-black">WhatsApp</h3>
-                <p className="mt-1 font-display text-lg font-black text-slate-300">{CONTACT.whatsapp.label}</p>
-                <div className="mt-5">
-                  <ActionButton href={CONTACT.whatsapp.href} icon={WhatsAppIcon} external tone="whatsapp">
-                    Abrir chat
-                  </ActionButton>
-                </div>
-              </div>
-              {mimoSrc && (
-                <img
-                  src={mimoSrc}
-                  alt="Mimo, la mascota de Mega móvil, saludando"
-                  width={140}
-                  height={140}
-                  loading="lazy"
-                  decoding="async"
-                  className="h-24 w-24 sm:h-32 sm:w-32 shrink-0 object-contain md:hidden"
-                />
-              )}
-            </div>
-
-            {/* Otros canales: lista simple */}
-            <ul className="divide-y divide-slate-100 rounded-3xl border border-slate-200/80 px-5">
-              {[
-                { icon: Smartphone, label: 'Desde tu línea Mega móvil', value: CONTACT.short.label, href: CONTACT.short.href },
-                { icon: Phone, label: 'Llamada nacional (México)', value: CONTACT.phone.label, href: CONTACT.phone.href },
-                { icon: MapPin, label: 'Lunes a sábado', value: 'En tu CIS más cercano', href: CONTACT.cis.href, external: true },
-                { icon: Mail, label: 'Correo electrónico', value: CONTACT.email.label, href: CONTACT.email.href },
-              ].map((c) => {
-                const Icon = c.icon;
-                return (
-                  <li key={c.label}>
-                    <a
-                      href={c.href}
-                      {...(c.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                      className="group flex items-center gap-4 py-4"
-                    >
-                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-orange-50 text-mega-orange">
-                        <Icon className="h-5 w-5" aria-hidden="true" />
-                      </span>
-                      <span className="min-w-0 flex-1">
-                        <span className="block text-xs font-bold text-slate-500">{c.label}</span>
-                        <span className="block truncate font-display text-base font-black text-mega-navy group-hover:text-mega-orange">{c.value}</span>
-                      </span>
-                      <ChevronRight className="h-4 w-4 shrink-0 text-slate-300 group-hover:text-mega-orange" aria-hidden="true" />
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </section>
-
-        {/* ---------------- 2. ACTIVA TU LÍNEA ---------------- */}
+      <div ref={panelTopRef} className="mt-5 sm:mt-6 scroll-mt-32 rounded-3xl border border-slate-200 bg-white p-6 sm:p-10 lg:p-12">
+        {/* ---------------- 1. ACTIVA TU LÍNEA ---------------- */}
         <section {...panelProps('activacion')}>
           <PanelTitle title="Activa tu línea" text="Conéctate a la Red Mega móvil 4.5G en 3 pasos." />
 
@@ -406,12 +471,64 @@ export default function SupportCenter({ mimoSrc }: Props) {
             ))}
           </ol>
 
-          {/* Roaming en una sola línea de ruta */}
-          <div className="mx-auto mt-8 max-w-2xl rounded-2xl bg-slate-50 p-4 sm:p-5">
-            <p className="flex items-center gap-2 font-display text-sm font-black text-mega-navy">
-              <Globe2 className="h-4 w-4 text-mega-blue" aria-hidden="true" /> ¿Sin datos fuera de tu ciudad o de viaje? Activa el roaming:
+          <SalesNudge icon={CardSim} title="¿Aún no tienes tu chip? Cámbiate y conserva tu número." cta="Ver planes" />
+        </section>
+
+        {/* ---------------- 2. CONFIGURA TU EQUIPO ---------------- */}
+        <section {...panelProps('configuracion')}>
+          <PanelTitle title="Configura tu equipo" text="Elige el sistema de tu celular y sigue los pasos." />
+
+          <div className="mb-8">
+            <Segmented
+              label="Sistema del celular"
+              value={os}
+              onChange={setOs}
+              options={[
+                { value: 'android', label: 'Android', icon: Smartphone },
+                { value: 'iphone', label: 'iPhone', icon: Smartphone },
+              ]}
+            />
+          </div>
+
+          {/* Los dos sistemas se generan en el HTML (SEO); solo se muestra el elegido. */}
+          {(['android', 'iphone'] as OsKey[]).map((k) => (
+            <ol key={k} hidden={os !== k} className="mx-auto max-w-2xl space-y-8">
+              {CONFIG_STEPS[k].map((step, i) => (
+                <li key={step.title} className="flex gap-4">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-mega-orange font-display text-sm font-black text-white">
+                    {i + 1}
+                  </span>
+                  <div className="min-w-0 flex-1 pt-1">
+                    <h3 className="font-display text-base sm:text-lg font-black text-mega-navy">{step.title}</h3>
+                    {step.note && (
+                      <p className="mt-2 flex items-start gap-2 rounded-xl bg-orange-50 px-3 py-2 text-sm font-medium text-slate-600">
+                        <Info className="mt-0.5 h-4 w-4 shrink-0 text-mega-orange" aria-hidden="true" />
+                        <span>{step.note}</span>
+                      </p>
+                    )}
+                    <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm font-medium leading-relaxed text-slate-600 marker:font-bold marker:text-slate-400">
+                      {step.items.map((item, j) => (
+                        <li key={j} className="pl-1">
+                          {item}
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          ))}
+
+          {/* Roaming de datos: aplica a Android y iPhone (se movió aquí desde "Activa tu línea", igual que en el sitio actual) */}
+          <div className="mx-auto mt-10 max-w-2xl rounded-2xl bg-slate-50 p-4 sm:p-5">
+            <h3 className="flex items-center gap-2 font-display text-base font-black text-mega-navy">
+              <Globe2 className="h-5 w-5 text-mega-orange" aria-hidden="true" /> Activa Roaming de Datos
+            </h3>
+            <p className="mt-1 text-sm font-medium text-slate-600">
+              Del menú de tu celular selecciona <strong className="text-mega-navy">Ajustes</strong> o{' '}
+              <strong className="text-mega-navy">Configuración</strong>, después Redes móviles y Datos móviles, y habilita la opción Roaming de Datos.
             </p>
-            <p className="mt-2 flex flex-wrap items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-600">
+            <p className="mt-3 flex flex-wrap items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-600">
               {['Ajustes', 'Redes móviles', 'Datos móviles', 'Roaming de datos'].map((step, i, arr) => (
                 <span key={step} className="inline-flex items-center gap-1.5">
                   <span className={`rounded-full px-3 py-1 ${i === arr.length - 1 ? 'bg-mega-orange text-white' : 'bg-white border border-slate-200'}`}>{step}</span>
@@ -421,10 +538,90 @@ export default function SupportCenter({ mimoSrc }: Props) {
             </p>
           </div>
 
-          <SalesNudge icon={CardSim} title="¿Aún no tienes tu chip? Cámbiate y conserva tu número." cta="Ver planes" />
+          {/* Ayuda */}
+          <p className="mx-auto mt-6 max-w-2xl text-center text-sm font-medium text-slate-600">
+            ¿Necesitas ayuda con la configuración?{' '}
+            <a href={CONTACT.whatsapp.href} target="_blank" rel="noopener noreferrer" className="font-bold text-mega-orange hover:underline underline-offset-4">
+              Escríbenos por WhatsApp al {CONTACT.whatsapp.label}
+            </a>
+          </p>
+
+          <SalesNudge icon={Phone} title="Minutos y SMS incluidos a México, EE.UU. y Canadá en todos los planes." cta="Ver planes" />
         </section>
 
-        {/* ---------------- 3. CONSULTA TU SALDO ---------------- */}
+        {/* ---------------- 3. ATENCIÓN A CLIENTES ---------------- */}
+        <section {...panelProps('atencion')}>
+          <PanelTitle title="Atención a clientes" text="Te atendemos en México y en el extranjero." />
+
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:items-stretch">
+            {/* Canal principal: WhatsApp */}
+            <div className="relative flex items-center gap-5 overflow-hidden rounded-3xl bg-gradient-to-br from-mega-navy via-[#0A1E3D] to-[#0D2854] p-6 sm:p-8 text-white">
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-black uppercase tracking-wider text-[#4ADE80]">Nacional e internacional</p>
+                <h3 className="mt-1 font-display text-2xl font-black">WhatsApp</h3>
+                <p className="mt-1 font-display text-lg font-black text-slate-300">{CONTACT.whatsapp.label}</p>
+                <div className="mt-5">
+                  <ActionButton href={CONTACT.whatsapp.href} icon={WhatsAppIcon} external tone="whatsapp">
+                    Abrir chat
+                  </ActionButton>
+                </div>
+              </div>
+              {mimoSrc && (
+                <img
+                  src={mimoSrc}
+                  alt="Mimo, la mascota de Mega móvil, saludando"
+                  width={140}
+                  height={140}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-20 w-20 sm:h-32 sm:w-32 shrink-0 object-contain md:hidden"
+                />
+              )}
+            </div>
+
+            {/* Otros canales: lista simple */}
+            <ul className="divide-y divide-slate-100 rounded-3xl border border-slate-200/80 px-5">
+              {[
+                { icon: Smartphone, label: 'Desde tu línea Mega móvil', value: CONTACT.short.label, href: CONTACT.short.href },
+                { icon: Phone, label: 'Llamada nacional (México)', value: CONTACT.phone.label, href: CONTACT.phone.href },
+                { icon: MapPin, label: 'Lunes a sábado', value: 'En tu CIS más cercano', href: CONTACT.cis.href, external: true },
+                { icon: Mail, label: 'Correo electrónico', value: CONTACT.email.label, href: CONTACT.email.href },
+              ].map((c) => {
+                const Icon = c.icon;
+                return (
+                  <li key={c.label}>
+                    <a
+                      href={c.href}
+                      {...(c.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      className="group flex items-center gap-4 py-4"
+                    >
+                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-orange-50 text-mega-orange">
+                        <Icon className="h-5 w-5" aria-hidden="true" />
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-xs font-bold text-slate-500">{c.label}</span>
+                        {/* El correo se puede partir solo antes de la @ (en celular no cabe en un renglón); en pantallas grandes se corta con "…". */}
+                        <span className="block font-display text-base font-black text-mega-navy group-hover:text-mega-orange sm:truncate">
+                          {c.value.includes('@') ? (
+                            <>
+                              {c.value.split('@')[0]}
+                              <wbr />@{c.value.split('@')[1]}
+                            </>
+                          ) : (
+                            c.value
+                          )}
+                        </span>
+                      </span>
+                      <ChevronRight className="h-4 w-4 shrink-0 text-slate-300 group-hover:text-mega-orange" aria-hidden="true" />
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </section>
+
+        {/* ---------------- 4. CONSULTA TU SALDO ---------------- */}
         <section {...panelProps('saldo')}>
           <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-2">
             <PhoneMock>
@@ -456,54 +653,6 @@ export default function SupportCenter({ mimoSrc }: Props) {
           <SalesNudge icon={Wifi} title="¿Te quedas sin gigas? Mejora tu plan con redes sociales ilimitadas." cta="Mejorar plan" />
         </section>
 
-        {/* ---------------- 4. BUZÓN DE VOZ ---------------- */}
-        <section {...panelProps('buzon-de-voz')}>
-          <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-2">
-            <PhoneMock>
-              <p className="mt-10 text-center font-display text-5xl font-black tracking-wider text-white">*86</p>
-              <div className="mt-6 grid w-full grid-cols-3 gap-2.5 px-6">
-                {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((k) => (
-                  <span key={k} className="grid h-10 place-items-center rounded-full bg-white/15 font-display text-sm font-black text-white">
-                    {k}
-                  </span>
-                ))}
-              </div>
-              <span className="mx-auto mb-5 mt-auto grid h-12 w-12 place-items-center rounded-full bg-[#25D366] text-white">
-                <Phone className="h-5 w-5" />
-              </span>
-            </PhoneMock>
-
-            <div className="text-center md:text-left">
-              <h2 className="font-display text-2xl sm:text-3xl font-black uppercase tracking-tight text-mega-navy">Buzón de voz</h2>
-              <ol className="mt-4 space-y-3 text-left">
-                {[
-                  <>
-                    Marca <strong className="font-black text-mega-navy">*86</strong> desde tu línea.
-                  </>,
-                  <>
-                    Ingresa los <strong className="font-black text-mega-navy">últimos 4 dígitos</strong> de tu número.
-                  </>,
-                  <>
-                    Presiona <strong className="font-black text-mega-navy">#</strong> y escucha tus mensajes.
-                  </>,
-                ].map((text, i) => (
-                  <li key={i} className="flex items-center gap-3 text-base font-medium text-slate-600">
-                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-mega-orange font-display text-sm font-black text-white">{i + 1}</span>
-                    <span>{text}</span>
-                  </li>
-                ))}
-              </ol>
-              <div className="mt-6">
-                <ActionButton href="tel:*86" icon={Phone}>
-                  Marcar *86
-                </ActionButton>
-              </div>
-            </div>
-          </div>
-
-          <SalesNudge icon={Phone} title="Minutos y SMS incluidos a México, EE.UU. y Canadá en todos los planes." cta="Ver planes" />
-        </section>
-
         {/* ---------------- 5. DESBLOQUEA TU CELULAR ---------------- */}
         <section {...panelProps('desbloqueo')}>
           <PanelTitle title="Desbloquea tu celular" text="Usa tu chip Mega móvil en el celular que ya tienes. ¿De qué compañía vienes?" />
@@ -519,11 +668,15 @@ export default function SupportCenter({ mimoSrc }: Props) {
 
           <div className="mx-auto max-w-2xl">
             {CARRIERS.map((c) => (
-              <div key={c.key} hidden={carrier !== c.key} className="overflow-hidden rounded-3xl bg-mega-navy text-white shadow-xl">
-                {TUTORIAL_VIDEOS[c.key] ? (
+              <div key={c.key} hidden={carrier !== c.key} className="overflow-hidden rounded-3xl bg-mega-navy text-white">
+                {TUTORIAL_VIDEOS[c.key].src ? (
+                  // preload="none": no descarga nada hasta que el usuario da play; la portada sí se ve desde el inicio.
                   <video
-                    src={TUTORIAL_VIDEOS[c.key]}
+                    data-carrier={c.key}
+                    src={TUTORIAL_VIDEOS[c.key].src}
+                    poster={TUTORIAL_VIDEOS[c.key].poster}
                     controls
+                    playsInline
                     preload="none"
                     className="aspect-video w-full bg-black"
                     aria-label={`Tutorial para desbloquear un celular de ${c.name}`}

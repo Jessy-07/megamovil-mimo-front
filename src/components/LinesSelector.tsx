@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const targets: Record<number, string> = {
-  1: 'plan-conectado-30gb',
+  1: 'plan-conectado-38gb',
   2: 'plan-familiar-2-lineas',
   3: 'plan-familiar-3-lineas',
   4: 'plan-familiar-4-lineas',

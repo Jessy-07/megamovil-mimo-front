@@ -17,7 +17,8 @@ interface Props {
   titleBefore: string;
   titleHighlight: string;
   titleAfter?: string;
-  subtitle: string;
+  /** Opcional: si no se pasa, el encabezado va solo con el título. */
+  subtitle?: string;
   /** Mimo u otra ilustración (solo se muestra en escritorio). */
   image?: ImageMetadata;
   imageAlt?: string;
@@ -26,11 +27,12 @@ interface Props {
 const { id, crumb, titleBefore, titleHighlight, titleAfter = "", subtitle, image, imageAlt = "" } = Astro.props;
 ---
 
-<section aria-labelledby={id} class="px-3 pt-3 sm:px-6 lg:px-8">
-  <div class="relative mx-auto max-w-[1440px] overflow-hidden rounded-hero bg-gradient-to-br from-mega-navy via-[#0A1E3D] to-[#0D2854] text-white">
+<!-- Mismo contenedor que el Header y el banner del Home: los bordes coinciden con el logo y el botón "Cámbiate". -->
+<section aria-labelledby={id} class="container mx-auto px-4 pt-3 sm:px-6">
+  <div class="relative overflow-hidden rounded-hero bg-gradient-to-br from-mega-navy via-[#0A1E3D] to-[#0D2854] text-white">
     <div class="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-mega-orange/20 blur-3xl pointer-events-none" aria-hidden="true"></div>
 
-    <div class="container relative z-10 mx-auto flex items-center justify-between gap-6 px-5 pb-20 pt-8 sm:px-8 sm:pt-10 md:pb-24">
+    <div class="relative z-10 flex items-center justify-between gap-6 px-5 pb-20 pt-8 sm:px-10 sm:pt-10 md:pb-24 lg:px-14">
       <div>
         <nav aria-label="Ruta de navegación" class="mb-3">
           <ol class="flex items-center gap-1.5 text-xs font-bold text-slate-400">
@@ -42,7 +44,7 @@ const { id, crumb, titleBefore, titleHighlight, titleAfter = "", subtitle, image
         <h1 id={id} class="font-display text-3xl sm:text-4xl lg:text-5xl font-black uppercase leading-[1.05] tracking-tight">
           <Fragment set:html={brandHtml(titleBefore)} /><span class="text-mega-orange" set:html={brandHtml(titleHighlight)} /><Fragment set:html={brandHtml(titleAfter)} />
         </h1>
-        <p class="mt-2 max-w-xl text-sm sm:text-base font-semibold text-slate-300">{subtitle}</p>
+        {subtitle && <p class="mt-2 max-w-xl text-sm sm:text-base font-semibold text-slate-300">{subtitle}</p>}
         {/* Botones opcionales (páginas de producto como eSIM). Las páginas de ayuda no los usan. */}
         {Astro.slots.has("actions") && (
           <div class="mt-6 flex flex-col sm:flex-row gap-3">

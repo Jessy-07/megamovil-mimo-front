@@ -380,15 +380,15 @@ export default function CoverageMap({ coverageTilesUrl, searchPlaceholder, legen
           )}
         </div>
         <div className="flex gap-2.5">
-          <button type="submit" className="btn-primary h-14 flex-1 sm:flex-none" disabled={status.kind === 'loading'}>
+          <button type="submit" className="btn-primary h-14 flex-1 !shadow-none sm:flex-none" disabled={status.kind === 'loading'}>
             Buscar
           </button>
           <button
             type="button"
             onClick={onLocate}
-            className="inline-flex h-14 flex-1 items-center justify-center gap-2 rounded-full border-2 border-mega-navy px-5 font-display text-sm font-black uppercase tracking-wider text-mega-navy hover:bg-mega-navy hover:text-white sm:flex-none cursor-pointer"
+            className="inline-flex h-14 flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-full border-2 border-mega-navy px-4 font-display text-sm font-extrabold text-mega-navy hover:bg-mega-navy hover:text-white sm:flex-none sm:px-5 sm:text-base cursor-pointer"
           >
-            <LocateFixed className="h-5 w-5" aria-hidden="true" />
+            <LocateFixed className="h-5 w-5 shrink-0" aria-hidden="true" />
             Mi ubicación
           </button>
         </div>
@@ -407,7 +407,7 @@ export default function CoverageMap({ coverageTilesUrl, searchPlaceholder, legen
             <p className="font-semibold text-mega-navy">
               <strong className="font-black">{status.place}</strong> · {foundMessage}
             </p>
-            <a href={ctaHref} className="btn-primary shrink-0 !px-6 !py-3 !text-sm">
+            <a href={ctaHref} className="btn-primary shrink-0 !px-6 !py-3 !text-sm !shadow-none">
               {ctaLabel}
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </a>

@@ -1,4 +1,4 @@
-import { ArrowRight, Globe2 } from 'lucide-react';
+import { Globe2 } from 'lucide-react';
 
 /** Paquetes de roaming internacional (adicionales al plan base). Los botones abren WhatsApp con el paquete ya escrito. */
 
@@ -26,35 +26,44 @@ export default function RoamingPlans({ zones, plans, ctaLabel }: Props) {
     <ul className="grid grid-cols-1 gap-5 md:grid-cols-3">
       {plans.map((p) => {
         const z = zoneById(p.zone);
+        // "500 MB" → 500 + MB (la unidad va en naranja, como "GB" en los planes del Home)
+        const [, amount = p.data, unit = ''] = p.data.match(/^([\d.,]+)\s*(\S+)$/) ?? [];
         return (
           <li key={`${p.zone}-${p.data}`}>
-            <article className="relative flex h-full flex-col rounded-3xl border-2 border-slate-200/90 bg-white p-6 text-center shadow-card-clean">
-              <p className="flex items-center justify-center gap-2 font-display text-lg font-black uppercase tracking-wider text-mega-navy">
-                <Globe2 className="h-5 w-5 text-mega-orange" aria-hidden="true" />
+            {/* Misma estructura que las tarjetas de planes del Home (PlanCard): borde fino sin sombra, datos grandes con
+                la unidad en naranja, "Por solo" + precio y el botón naranja abajo. */}
+            <article className="flex h-full flex-col rounded-3xl border border-slate-200 bg-white p-6 text-mega-navy sm:p-7">
+              <p className="flex items-center gap-2 font-display text-base font-extrabold uppercase tracking-wide">
+                <Globe2 className="h-5 w-5 shrink-0 text-mega-orange" aria-hidden="true" />
                 {z.name}
               </p>
-              <p className="mt-1 text-xs font-semibold text-slate-500">{z.summary}</p>
+              <p className="mt-1 text-sm font-medium text-slate-500">{z.summary}</p>
 
-              <div className="my-5 rounded-2xl bg-gradient-to-b from-slate-50/90 to-orange-50/20 py-5">
-                <p className="font-display text-5xl font-black leading-none tracking-tight text-mega-navy">{p.data}</p>
-                <p className="mt-1 text-sm font-bold text-slate-500">por {p.days} días</p>
-              </div>
-
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Por solo</p>
-              <p className="flex items-baseline justify-center gap-0.5 text-mega-navy">
-                <span className="font-display text-2xl font-black text-slate-700">$</span>
-                <span className="font-display text-5xl font-black leading-none tracking-tight">{p.price.toLocaleString('es-MX')}</span>
+              <p className="mt-5 flex flex-wrap items-baseline gap-x-1.5">
+                <span className="font-display text-6xl font-extrabold leading-none tracking-tight">{amount}</span>
+                <span className="font-display text-3xl font-extrabold text-mega-orange-dark">{unit}</span>
+                <span className="whitespace-nowrap text-sm font-semibold text-slate-500">por {p.days} días</span>
               </p>
 
-              <a
-                href={p.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-mega-orange hover:bg-mega-orange-dark px-4 py-3.5 font-display text-base font-black uppercase tracking-wider text-white shadow-orange-glow"
-              >
-                {ctaLabel}
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </a>
+              <hr className="my-5 border-t border-slate-200" />
+
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-slate-500">Por solo</p>
+              <p className="mt-0.5 flex items-start gap-0.5">
+                <span className="mt-1.5 font-display text-2xl font-extrabold">$</span>
+                <span className="font-display text-5xl font-extrabold leading-none tracking-tight">{p.price.toLocaleString('es-MX')}</span>
+              </p>
+
+              <div className="mt-auto pt-6">
+                <a
+                  href={p.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${ctaLabel} Paquete ${z.name} de ${p.data} por ${p.days} días`}
+                  className="inline-flex h-12 w-full items-center justify-center whitespace-nowrap rounded-full bg-mega-orange px-5 font-display text-[19px] font-extrabold text-white hover:bg-mega-orange-dark"
+                >
+                  {ctaLabel}
+                </a>
+              </div>
             </article>
           </li>
         );

@@ -3,6 +3,9 @@
  * Cámbiate a Mega móvil (portabilidad). Misma URL que el sitio anterior.
  * Regla de esta página: UN solo camino y lo primero que se ve es CÓMO cambiarse (3 pasos).
  * Cada paso tiene su acción (SMS al 051, WhatsApp prellenado). Los planes van después, como opción.
+ * - "Enviar SMS al 051" solo es botón en pantallas táctiles (celular/tablet): en computadora un enlace sms: no hace nada
+ *   o abre un diálogo raro, así que ahí se muestra la instrucción ("Envía NIP al 051") como etiqueta.
+ * - Respaldo para quien no quiere hacerlo solo: "Te llamamos" abre el modal "¡Llámame!" del callcenter.
  */
 import Layout from "../layouts/Layout.astro";
 import TopBar from "../components/TopBar.astro";
@@ -12,7 +15,7 @@ import FloatingActions from "../components/FloatingActions.astro";
 import PageHero from "../components/PageHero.astro";
 import Plans from "../components/Plans.astro";
 import Icon from "../components/Icon.astro";
-import { Check, MessageSquareText, Smartphone } from "lucide-react";
+import { Check, MessageSquareText, Phone, Smartphone } from "lucide-react";
 import data from "../data/cambiate.json";
 import { planSummary, whatsappUrl } from "../utils/whatsapp";
 import { brandHtml } from "../utils/brand";
@@ -22,9 +25,9 @@ import mimoCambiate from "../assets/img/general/mimo-cambiate.png";
 const origin = Astro.site ? Astro.site.href : "https://megamovil.megacable.com.mx";
 const pageUrl = new URL("/cambiate-a-megamovil", origin).href;
 
-const { hero, steps, compatibility, plans: plansCopy } = data;
+const { hero, steps, compatibility, callback, plans: plansCopy } = data;
 
-type StepAction = { type: string; label: string; href?: string; text?: string };
+type StepAction = { type: string; label: string; desktopLabel?: string; href?: string; text?: string };
 const stepHref = (a: StepAction) => (a.text ? whatsappUrl(a.text) : (a.href ?? "#"));
 const planWhatsapp = (plan: Parameters<typeof planSummary>[0]) => whatsappUrl(plansCopy.whatsappText.replace("{plan}", planSummary(plan)));
 
@@ -65,16 +68,16 @@ const whatsappPath =
       titleBefore={hero.titleBefore}
       titleHighlight={hero.titleHighlight}
       titleAfter={hero.titleAfter}
-      subtitle={hero.subtitle}
       image={mimoCambiate}
       imageAlt="Mimo, la mascota de Mega móvil, te invita a cambiarte"
     >
       <Fragment slot="actions">
-        <ul class="flex flex-wrap gap-2">
+        <!-- Beneficios como texto simple (sin chips): palomita naranja + texto -->
+        <ul class="flex flex-wrap gap-x-6 gap-y-2">
           {
             hero.highlights.map((h) => (
-              <li class="inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/15 px-3.5 py-1.5 text-xs sm:text-sm font-bold text-white">
-                <Check className="h-4 w-4 text-mega-orange" aria-hidden="true" />
+              <li class="inline-flex items-center gap-2 text-sm sm:text-base font-semibold text-slate-200">
+                <Check className="h-5 w-5 shrink-0 text-mega-orange" strokeWidth={3} aria-hidden="true" />
                 {h}
               </li>
             ))
@@ -84,8 +87,9 @@ const whatsappPath =
     </PageHero>
 
     <!-- 2. LOS 3 PASOS (tarjeta sobrepuesta al hero: es lo primero que se ve) -->
-    <div class="relative z-10 mx-auto -mt-12 max-w-[1440px] px-7 sm:px-12 lg:px-16">
-      <section aria-label="Pasos para cambiarte a Mega móvil" class="mx-auto max-w-5xl rounded-3xl bg-white p-6 sm:p-10 shadow-card-clean">
+    <div class="relative z-10 mx-auto -mt-12 container px-7 sm:px-10 lg:px-12">
+      <!-- Mismo ancho (1152 px) que los planes de abajo y que el Home -->
+      <section aria-label="Pasos para cambiarte a Mega móvil" class="mx-auto max-w-6xl rounded-3xl bg-white p-6 sm:p-10 shadow-card-clean">
         <ol class="relative grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-6">
           <!-- Línea que une los pasos (escritorio) -->
           <span class="absolute left-[16%] right-[16%] top-7 hidden h-0.5 bg-slate-200 md:block" aria-hidden="true"></span>
@@ -95,54 +99,81 @@ const whatsappPath =
               const a = s.action as StepAction;
               const href = stepHref(a);
               return (
-                <li class="relative flex gap-4 md:flex-col md:items-center md:text-center">
+                // Celular: número + texto en una fila y el botón a todo el ancho debajo (no se sale de la tarjeta y es fácil de tocar).
+                // Escritorio: columna centrada; los botones quedan alineados abajo aunque los textos midan distinto.
+                <li class="relative grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 md:flex md:flex-col md:items-center md:gap-4 md:text-center">
                   <span
                     class:list={[
-                      "relative z-10 grid h-14 w-14 shrink-0 place-items-center rounded-full font-display text-2xl font-black ring-4 ring-white",
-                      last ? "bg-gradient-to-br from-mega-orange to-mega-orange-dark text-white shadow-orange-sm" : "bg-mega-navy text-white",
+                      "relative z-10 grid h-12 w-12 shrink-0 place-items-center rounded-full font-display text-xl font-black ring-4 ring-white md:h-14 md:w-14 md:text-2xl",
+                      last ? "bg-mega-orange text-white" : "bg-orange-50 text-mega-orange",
                     ]}
                   >
-                    {last ? <Check className="h-7 w-7" aria-hidden="true" /> : i + 1}
+                    {last ? <Check className="h-6 w-6 md:h-7 md:w-7" aria-hidden="true" /> : i + 1}
                   </span>
-                  <div class="min-w-0 flex-1 md:flex md:flex-col md:items-center">
+                  <div class="min-w-0 md:flex md:flex-1 md:flex-col md:items-center">
                     <h2 class="font-display text-xl font-black text-mega-navy">{s.title}</h2>
-                    <p class="mt-1 text-sm sm:text-base font-medium leading-relaxed text-slate-600">{s.text}</p>
-
-                    {a.type === "sms" && (
-                      <a href={href} class="mt-4 inline-flex items-center gap-2 rounded-full bg-mega-navy px-5 py-3 font-display text-sm font-black uppercase tracking-wider text-white hover:bg-mega-orange">
-                        <MessageSquareText className="h-4 w-4" aria-hidden="true" />
-                        {a.label}
+                    <p class="mt-1 text-sm sm:text-base font-medium leading-relaxed text-slate-600 md:text-balance">{s.text}</p>
+                    {a.type === "link" && (
+                      <a href={href} class="mt-3 inline-block font-display text-base font-extrabold text-mega-orange hover:underline underline-offset-4 md:mt-4">
+                        <span set:html={brandHtml(a.label)} />
+                        <Icon name="arrow-right" class="ml-1 inline-block h-4 w-4 align-[-2px]" />
                       </a>
                     )}
-                    {a.type === "whatsapp" && (
+                  </div>
+
+                  {a.type === "sms" && (
+                    <div class="col-span-2 mt-4 md:mt-0">
+                      <a href={href} class="hidden h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-mega-navy px-6 font-display text-base font-extrabold text-white hover:bg-mega-navy/90 md:w-auto [@media(pointer:coarse)]:inline-flex">
+                        <MessageSquareText className="h-5 w-5 shrink-0" aria-hidden="true" />
+                        {a.label}
+                      </a>
+                      <p class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-bold text-mega-navy md:my-1.5 [@media(pointer:coarse)]:hidden">
+                        <MessageSquareText className="h-4 w-4 text-mega-orange" aria-hidden="true" />
+                        {a.desktopLabel ?? a.label}
+                      </p>
+                    </div>
+                  )}
+                  {a.type === "whatsapp" && (
+                    <div class="col-span-2 mt-4 md:mt-0">
                       <a
                         href={href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="mt-4 inline-flex items-center gap-2.5 rounded-full bg-[#25D366] px-5 py-3 font-display text-sm font-black uppercase tracking-wider text-white shadow-[0_10px_25px_-6px_rgba(37,211,102,0.55)] hover:bg-[#20ba5a]"
+                        class="inline-flex h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#25D366] px-6 font-display text-base font-extrabold text-white hover:bg-[#20ba5a] md:w-auto"
                       >
-                        <svg viewBox="0 0 448 512" fill="currentColor" class="h-4 w-4" aria-hidden="true"><path d={whatsappPath} /></svg>
+                        <svg viewBox="0 0 448 512" fill="currentColor" class="h-5 w-5 shrink-0" aria-hidden="true"><path d={whatsappPath} /></svg>
                         {a.label}
                       </a>
-                    )}
-                    {a.type === "link" && (
-                      <a href={href} class="mt-4 inline-flex items-center gap-1.5 font-display text-sm font-black text-mega-orange hover:underline underline-offset-4">
-                        <span set:html={brandHtml(a.label)} />
-                        <Icon name="arrow-right" class="h-4 w-4" />
-                      </a>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </li>
               );
             })
           }
         </ol>
 
-        <p class="mt-8 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 border-t border-slate-100 pt-5 text-sm font-semibold text-slate-500">
-          <Smartphone className="h-4 w-4 text-mega-orange" aria-hidden="true" />
-          {compatibility.text}
-          <a href={compatibility.href} class="font-black text-mega-orange hover:underline underline-offset-4">{compatibility.label}</a>
-        </p>
+        <!-- Antes de empezar: compatibilidad + respaldo con asesor (abre "¡Llámame!"; sin JS, WhatsApp) -->
+        <div class="mt-8 flex flex-col items-center justify-center gap-3 border-t border-slate-200 pt-5 text-sm font-semibold text-slate-600 sm:flex-row sm:gap-8">
+          <p class="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center">
+            <Smartphone className="h-4 w-4 text-mega-orange" aria-hidden="true" />
+            {compatibility.text}
+            <a href={compatibility.href} class="font-extrabold text-mega-orange hover:underline underline-offset-4">{compatibility.label}</a>
+          </p>
+          <span class="hidden h-5 w-px bg-slate-200 sm:block" aria-hidden="true"></span>
+          <p class="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center">
+            <Phone className="h-4 w-4 text-mega-orange" aria-hidden="true" />
+            {callback.text}
+            <a
+              href={whatsappUrl(callback.whatsappText)}
+              data-callme
+              data-callme-label={callback.modalLabel}
+              data-callme-interest={callback.interest}
+              class="font-extrabold text-mega-orange hover:underline underline-offset-4"
+            >
+              {callback.label}
+            </a>
+          </p>
+        </div>
       </section>
     </div>
 

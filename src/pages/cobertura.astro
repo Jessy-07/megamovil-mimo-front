@@ -55,14 +55,14 @@ const jsonLd = [
       titleBefore={hero.titleBefore}
       titleHighlight={hero.titleHighlight}
       titleAfter={hero.titleAfter}
-      subtitle={hero.subtitle}
       image={mimoCobertura}
       imageAlt="Mimo, la mascota de Mega móvil, te muestra la cobertura"
     />
 
     <!-- 2. TARJETA SOBREPUESTA: primero la acción (abrir el mapa), después los 3 puntos -->
-    <div class="relative z-10 mx-auto -mt-12 max-w-[1440px] px-7 sm:px-12 lg:px-16">
-      <section aria-labelledby="map-title" class="mx-auto max-w-5xl rounded-3xl bg-white p-5 sm:p-8 lg:p-10 shadow-card-clean">
+    <div class="relative z-10 mx-auto -mt-12 container px-7 sm:px-10 lg:px-12">
+      <!-- Mismo ancho (1152 px) que el Home -->
+      <section aria-labelledby="map-title" class="mx-auto max-w-6xl rounded-3xl bg-white p-5 sm:p-8 lg:p-10 shadow-card-clean">
         <!-- Mapa de cobertura: capa oficial de Megacable en un mapa propio (el mapa oficial no se puede incrustar) -->
         <div class="text-center">
           <h2 id="map-title" class="font-display text-2xl sm:text-3xl font-black uppercase tracking-tight text-mega-navy">{map.title}</h2>
@@ -82,26 +82,26 @@ const jsonLd = [
         </div>
         <p class="mt-3 text-center text-xs sm:text-sm font-semibold text-slate-500">
           {map.officialText}
-          <a href={map.href} target="_blank" rel="noopener noreferrer" class="ml-1 inline-flex items-center gap-1 font-black text-mega-orange hover:underline underline-offset-4">
+          <a href={map.href} target="_blank" rel="noopener noreferrer" class="ml-1 inline-flex items-center gap-1 font-extrabold text-mega-orange hover:underline underline-offset-4">
             {map.officialLabel}
             <Icon name="external-link" class="h-3.5 w-3.5" />
           </a>
         </p>
 
         <!-- Los 3 puntos del sitio anterior -->
-        <ul class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <ul class="mt-8 grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-3">
           {
             items.map((item) => {
               const ItemIcon = icons[item.icon as keyof typeof icons];
               return (
-                <li class="flex flex-col items-center rounded-3xl border-2 border-slate-100 bg-slate-50/70 p-5 text-center">
-                  <span class="grid h-14 w-14 place-items-center rounded-full bg-mega-navy text-white">
-                    <ItemIcon className="h-7 w-7" aria-hidden="true" />
+                <li class="flex items-center gap-4 rounded-3xl border border-slate-200 bg-white p-4 sm:p-5">
+                  <span class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-orange-50 text-mega-orange">
+                    <ItemIcon className="h-6 w-6" aria-hidden="true" />
                   </span>
-                  <h3 class="mt-3 font-display text-lg font-black leading-tight text-mega-navy">{item.title}</h3>
-                  {item.badge && (
-                    <span class="mt-2 rounded-full bg-orange-50 px-3 py-1 font-display text-sm font-black text-mega-orange">{item.badge}</span>
-                  )}
+                  <span class="min-w-0">
+                    <h3 class="font-display text-base sm:text-lg font-extrabold leading-tight text-mega-navy text-balance">{item.title}</h3>
+                    {item.badge && <p class="mt-0.5 text-sm font-bold text-mega-orange">{item.badge}</p>}
+                  </span>
                 </li>
               );
             })
@@ -109,10 +109,10 @@ const jsonLd = [
         </ul>
 
         <!-- Venta cruzada: para el resto del mundo, paquetes de roaming -->
-        <p class="mt-8 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 border-t border-slate-100 pt-5 text-sm font-semibold text-slate-500">
+        <p class="mt-8 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 border-t border-slate-200 pt-5 text-sm font-semibold text-slate-600">
           <PlaneTakeoff className="h-4 w-4 text-mega-orange" aria-hidden="true" />
           {roaming.text}
-          <a href={roaming.href} class="inline-flex items-center gap-1 font-black text-mega-orange hover:underline underline-offset-4">
+          <a href={roaming.href} class="inline-flex items-center gap-1 font-extrabold text-mega-orange hover:underline underline-offset-4">
             {roaming.label}
             <Icon name="arrow-right" class="h-4 w-4" />
           </a>

@@ -69,7 +69,7 @@
           "slug": "familiar-2-lineas",
           "name": "Mega móvil Familiar",
           "lines": 2,
-          "gigasDetail": "1 línea de 30 GB + 1 de 6 GB",
+          "gigasDetail": "1 línea de 38 GB + 1 de 7 GB",
           "highlight": {
             "value": "2",
             "unit": "LÍNEAS"
@@ -92,7 +92,7 @@
             "snapchat"
           ],
           "legal": "*Con portabilidad en todas las líneas. Vigencia a mes calendario.",
-          "totalGb": "36",
+          "totalGb": "45",
           "shortName": "2 líneas",
           "pricePerLineLabel": "$135 por línea"
         },
@@ -100,7 +100,7 @@
           "slug": "familiar-3-lineas",
           "name": "Mega móvil Familiar",
           "lines": 3,
-          "gigasDetail": "1 línea de 30 GB + 2 de 6 GB",
+          "gigasDetail": "1 línea de 38 GB + 2 de 7 GB",
           "highlight": {
             "value": "3",
             "unit": "LÍNEAS"
@@ -123,7 +123,7 @@
             "snapchat"
           ],
           "legal": "*Con portabilidad en todas las líneas. Vigencia a mes calendario.",
-          "totalGb": "42",
+          "totalGb": "52",
           "shortName": "3 líneas",
           "pricePerLineLabel": "$120 por línea"
         },
@@ -131,7 +131,7 @@
           "slug": "familiar-4-lineas",
           "name": "Mega móvil Familiar",
           "lines": 4,
-          "gigasDetail": "1 línea de 30 GB + 3 de 6 GB",
+          "gigasDetail": "1 línea de 38 GB + 3 de 7 GB",
           "highlight": {
             "value": "4",
             "unit": "LÍNEAS"
@@ -154,7 +154,7 @@
             "snapchat"
           ],
           "legal": "*Con portabilidad en todas las líneas. Vigencia a mes calendario.",
-          "totalGb": "48",
+          "totalGb": "59",
           "shortName": "4 líneas",
           "pricePerLineLabel": "$112.50 por línea"
         }
@@ -188,13 +188,13 @@
       "subtitle": "",
       "plans": [
         {
-          "slug": "esencial-6gb",
+          "slug": "esencial-7gb",
           "name": "Mega móvil Esencial",
           "lines": 1,
-          "gigas": "6",
+          "gigas": "7",
           "gigasUnit": "GB",
           "highlight": {
-            "value": "6",
+            "value": "7",
             "unit": "GB"
           },
           "detail": "Lo básico para tu día a día",
@@ -215,13 +215,13 @@
           "shortName": "Esencial"
         },
         {
-          "slug": "conectado-30gb",
+          "slug": "conectado-38gb",
           "name": "Mega móvil Conectado",
           "lines": 1,
-          "gigas": "30",
+          "gigas": "38",
           "gigasUnit": "GB",
           "highlight": {
-            "value": "30",
+            "value": "38",
             "unit": "GB"
           },
           "detail": "Para streaming, redes y música",
