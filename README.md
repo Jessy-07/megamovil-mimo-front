@@ -1,7 +1,5 @@
 # Mega móvil – Home (campaña "Mimo")
 
-> Contexto completo del proyecto (sitio anterior, secciones, decisiones y pendientes): [docs/contexto-rediseno.md](docs/contexto-rediseno.md).
-
 Home corto y enfocado en vender planes. Astro (estático) + React (4 islas) + Tailwind + TypeScript. Solo front-end: todo el contenido sale de `src/data/*.json`.
 
 ## Correr el proyecto

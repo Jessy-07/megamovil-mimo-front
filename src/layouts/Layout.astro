@@ -1,4 +1,5 @@
 ---
+import { safeJson } from "../utils/safeJson";
 import '../styles/global.css';
 import site from '../data/site.json';
 import CallMeModal from '../components/CallMeModal.astro';
@@ -53,7 +54,7 @@ const googleFonts = 'https://fonts.googleapis.com/css2?family=Figtree:wght@300..
     <link rel="stylesheet" href={googleFonts} media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href={googleFonts} /></noscript>
 
-    {jsonLd.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}
+    {jsonLd.map((data) => <script type="application/ld+json" set:html={safeJson(data)} />)}
   </head>
   <body>
     <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[60] focus:rounded-pill focus:bg-mega-orange focus:px-4 focus:py-2 focus:font-black focus:text-white">

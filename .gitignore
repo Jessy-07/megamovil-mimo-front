@@ -22,3 +22,35 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+.env.*
+!.env.example
+
+# credenciales y llaves (nunca al repositorio)
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+id_rsa*
+.npmrc
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# ---------------------------------------------------------------------------
+# Solo en la computadora de cada quien (NO se publican: el repositorio es público)
+# ---------------------------------------------------------------------------
+# Herramientas e instrucciones de asistentes de código
+.claude/
+CLAUDE.md
+AGENTS.md
+instruciones.md
+# Documentación interna del proyecto (bitácora, decisiones, capturas de referencia)
+docs/
+# Videos originales en alta (el sitio usa las versiones ligeras de public/assets/video/)
+src/assets/video/desbloqueo_*.mp4
+# Respaldos y archivos temporales
+*.bundle
+*.bak
+*.tmp

@@ -1,4 +1,5 @@
 ---
+import { safeJson } from "../utils/safeJson";
 /**
  * Selector de SUCURSAL (ciudad/zona con servicio; las promociones cambian por sucursal). Son +500: NUNCA se muestra la lista
  * completa de entrada. Patrón "buscar en vez de recorrer":
@@ -70,7 +71,7 @@ const payload = {
 <!-- Aviso breve al elegir sucursal -->
 <p id="branch-toast" role="status" hidden class="fixed inset-x-0 top-24 z-[60] mx-auto w-max max-w-[calc(100%-2rem)] rounded-full bg-mega-navy px-5 py-2.5 text-center text-sm font-semibold text-white shadow-xl"></p>
 
-<script is:inline type="application/json" id="branch-data" set:html={JSON.stringify(payload)}></script>
+<script is:inline type="application/json" id="branch-data" set:html={safeJson(payload)}></script>
 
 <script>
   type Sucursal = { nombre: string; municipios?: string[]; cp?: string[] };

@@ -156,12 +156,16 @@
     "hours": "Te llamaremos del 33 9690 1500 · Lunes a viernes de 8 am a 10 pm.",
     "whatsappLabel": "¿Prefieres WhatsApp? Escríbenos",
     "termsHref": "https://megamovil.mx/terminos-y-condiciones",
+    "_privacyNota": "Los formularios de teléfono recaban un dato personal: el Aviso de Privacidad va junto al campo (mismo PDF que el footer, nav.json → Legales).",
+    "privacyLabel": "Aviso de privacidad",
+    "privacyHref": "https://megamovil.mx/pdf/Aviso_privacidad.pdf",
     "fallbackTitle": "Terminemos por WhatsApp",
     "fallbackText": "En este momento no pudimos registrar tu llamada. Escríbenos por WhatsApp y un asesor te atiende al instante: ya va tu plan y tu número en el mensaje.",
     "fallbackButton": "Enviar por WhatsApp",
+    "_libsNota": "integrity (SRI) solo en archivos con versión fija de un CDN público. Si se cambia la versión de jQuery, hay que actualizar el hash (lo da code.jquery.com).",
     "libs": [
-      "https://code.jquery.com/jquery-3.7.1.min.js",
-      "https://megacable.convertia.com/static/libs/bootstrap.min.js"
+      { "src": "https://code.jquery.com/jquery-3.7.1.min.js", "integrity": "sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" },
+      { "src": "https://megacable.convertia.com/static/libs/bootstrap.min.js" }
     ]
   },
   "callStrip": {

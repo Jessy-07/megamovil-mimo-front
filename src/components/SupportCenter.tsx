@@ -304,7 +304,12 @@ export default function SupportCenter({ mimoSrc }: Props) {
   /* Abre la pestaña indicada en el ancla (#saldo, #activacion…) para enlaces directos. */
   useEffect(() => {
     const fromHash = () => {
-      const raw = decodeURIComponent(window.location.hash.replace('#', ''));
+      let raw = '';
+      try {
+        raw = decodeURIComponent(window.location.hash.replace('#', ''));
+      } catch {
+        return; // ancla mal formada: se queda la pestaña por defecto
+      }
       const key = (HASH_ALIASES[raw] ?? raw) as TabKey;
       if (TABS.some((t) => t.key === key)) setActiveTab(key);
     };

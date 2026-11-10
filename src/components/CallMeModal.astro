@@ -77,6 +77,8 @@ const { callcenter } = site;
       <p id="callme-hours" class="mt-3 text-balance text-xs font-medium text-slate-500">
         {callcenter.hours}
         <a href={callcenter.termsHref} target="_blank" rel="noopener noreferrer" class="whitespace-nowrap underline underline-offset-2 hover:text-mega-navy">Aplican términos</a>
+        ·
+        <a href={callcenter.privacyHref} target="_blank" rel="noopener noreferrer" class="whitespace-nowrap underline underline-offset-2 hover:text-mega-navy">{callcenter.privacyLabel}</a>
       </p>
 
       <!-- ¿Prefieres escribir? Igual que la franja del Home: divisor "o" + botón aparte con contorno y texto ("Escríbenos"),
@@ -126,8 +128,13 @@ const { callcenter } = site;
   callcenter.enabled && (
     <script is:inline define:vars={{ libs: callcenter.libs, main: callcenter.scriptUrl }}>
       (function () {
-        var load = function (src, cb) {
+        var load = function (lib, cb) {
           var s = document.createElement("script");
+          var src = typeof lib === "string" ? lib : lib.src;
+          if (lib.integrity) {
+            s.integrity = lib.integrity;
+            s.crossOrigin = "anonymous";
+          }
           s.src = src;
           s.onload = cb;
           s.onerror = cb;
