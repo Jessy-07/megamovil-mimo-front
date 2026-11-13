@@ -21,7 +21,7 @@ import SocialIcon from "../components/SocialIcon.astro";
 import data from "../data/promociones.json";
 import { planSummary, whatsappUrl } from "../utils/whatsapp";
 // REFERENCIA: reemplazar por Mimo sosteniendo una etiqueta de "oferta" / con confeti. PNG transparente, ~500×500.
-import mimoPromociones from "../assets/img/general/mimo-promociones.png";
+import mimoPromo from "../assets/img/general/mimo-promo.png";
 
 const origin = Astro.site ? Astro.site.href : "https://megamovil.megacable.com.mx";
 const pageUrl = new URL("/promociones", origin).href;
@@ -91,7 +91,7 @@ const jsonLd = [
       titleBefore={data.hero.titleBefore}
       titleHighlight={data.hero.titleHighlight}
       titleAfter={data.hero.titleAfter}
-      image={mimoPromociones}
+      image={mimoPromo}
       imageAlt="Mimo, la mascota de Mega móvil, con las promociones"
     />
 

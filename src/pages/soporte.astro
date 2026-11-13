@@ -8,14 +8,14 @@ import FloatingActions from "../components/FloatingActions.astro";
 import SupportCenter from "../components/SupportCenter";
 import PageHero from "../components/PageHero.astro";
 import SalesBanner from "../components/SalesBanner.astro";
-import mimoWhatsapp from "../assets/img/general/mimo-whatssap.png";
+import mimoSoporte from "../assets/img/general/mimo-soporte.png";
 import site from "../data/site.json";
 
 const origin = Astro.site ? Astro.site.href : "https://megamovil.megacable.com.mx";
 const pageUrl = new URL("/soporte", origin).href;
 
 // Mimo optimizado (webp) para la tarjeta de WhatsApp de la isla React.
-const mimoCard = await getImage({ src: mimoWhatsapp, width: 288, format: "webp" });
+const mimoCard = await getImage({ src: mimoSoporte, width: 288, format: "webp" });
 
 const description =
   "Soporte Mega móvil: atención por WhatsApp y teléfono, activa tu línea o eSIM, consulta tu saldo, escucha tu buzón de voz y desbloquea tu celular.";
@@ -71,7 +71,7 @@ const jsonLd = [
       titleBefore="¿En qué te "
       titleHighlight="ayudamos"
       titleAfter="?"
-      image={mimoWhatsapp}
+      image={mimoSoporte}
       imageAlt="Mimo, la mascota de Mega móvil, te saluda"
     />
 
